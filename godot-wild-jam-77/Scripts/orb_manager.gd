@@ -25,10 +25,9 @@ func add_spawned(orb: Orb) -> void:
 	spawned_orbs[orb.id] = orb
 	orb.combo_made_with.connect(handle_combo)
 
-func handle_combo(orb: Orb):
+func handle_combo(ids: Array[String]):
 	print("got combo")
-	var combo_orb_ids: Array[String] = orb.get_combo_orb_ids()
 	var combo_orbs: Array[Orb]
-	for id in combo_orb_ids:
+	for id in ids:
 		combo_orbs.append(spawned_orbs[id])
 	print(combo_orbs)

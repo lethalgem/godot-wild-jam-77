@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ck27qvjw8pj75"]
 
-[ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="1_bk8qg"]
+[ext_resource type="PackedScene" path="res://scenes/scale.tscn" id="1_bk8qg"]
 [ext_resource type="PackedScene" uid="uid://bppkaa3q3dejx" path="res://scenes/combo_test.tscn" id="2_7gvx7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b37um"]

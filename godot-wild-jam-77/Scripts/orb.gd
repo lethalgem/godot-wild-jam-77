@@ -1,7 +1,6 @@
 class_name Orb extends Node2D
 
-signal combo_made_with(orb: Orb)
-var combo_ids: Array
+signal combo_made_with(ids: Array[String])
 
 @export var weight_factor: float = 1.0
 @export var body: OrbBody
@@ -79,8 +78,10 @@ func check_next_orb(
 				for next_orb in orb.colliding_orbs:
 					check_next_orb(id_chains, type_chains, next_orb)
 			CHAIN_STATUS.COMBO:
-				combo_ids = id_chains[index]
-				combo_made_with.emit(self)
+				var combo_ids: Array[String]
+				for uuid in id_chains[index]:
+					combo_ids.append(str(uuid))
+				combo_made_with.emit(combo_ids)
 				return
 	
 func is_still_valid_combo(chain) -> CHAIN_STATUS:
@@ -113,8 +114,3 @@ func _on_orb_body_exited(colliding_body: Node) -> void:
 		var index = colliding_orbs.find(colliding_body.get_orb())
 		if index != -1:
 			colliding_orbs.remove_at(index)
-
-func get_combo_orb_ids() -> Array:
-	var ids = combo_ids
-	combo_ids = []
-	return ids
