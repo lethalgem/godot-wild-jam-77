@@ -6,12 +6,23 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Bowl" type="StaticBody2D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_eweis")
 script = ExtResource("1_3yq2i")
 
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
-position = Vector2(-20, 139)
-polygon = PackedVector2Array(281, 37, 197, 93, 176, 93, 155, 93, 84, 37, 87, 114, 281, 114)
+[node name="Polygon2D" type="Polygon2D" parent="Bowl"]
+position = Vector2(212, 408)
+scale = Vector2(2.045, 2.045)
+color = Color(0.345356, 0.596623, 0.556993, 1)
+polygon = PackedVector2Array(281, 37, 235.955, 110.112, 137.079, 110.861, 112.828, 77.1161, 84, 37, 84, 114, 281, 114)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="BowlCollisionPolygon2D" type="CollisionPolygon2D" parent="Bowl"]
+visible = false
+position = Vector2(-40, 28)
+polygon = PackedVector2Array(393, 514, 395, 610, 655, 614, 660, 519)
+
+[node name="InsideArea2D" type="Area2D" parent="Bowl"]
+
+[node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="Bowl/InsideArea2D"]
+position = Vector2(51, 63)
+polygon = PackedVector2Array(335, 427, 335, 582, 738, 582, 738, 429)
