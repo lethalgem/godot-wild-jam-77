@@ -19,12 +19,11 @@ func _process(delta:float) -> void:
 	pass
 
 func calculate_weight(type_count):
-	if type_count:
-		for type in type_count.keys():
-			total_weight = type_count[type] * type_weights[type]
-			print(total_weight)
-			if total_weight >= goal_weight:
-				print("Winner")
+	for type in type_count.keys():
+		total_weight = type_count[type] * type_weights[type]
+		print(total_weight)
+		if total_weight >= goal_weight:
+			print("Winner")
 
 func _on_inside_area_2d_body_entered(body: Node2D):
 	if body is OrbBody:

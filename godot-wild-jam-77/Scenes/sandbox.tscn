@@ -1,14 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck27qvjw8pj75"]
+[gd_scene load_steps=5 format=3 uid="uid://ck27qvjw8pj75"]
 
 [ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="1_bk8qg"]
 [ext_resource type="PackedScene" uid="uid://bppkaa3q3dejx" path="res://scenes/combo_test.tscn" id="2_7gvx7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b37um"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t5mpy"]
 size = Vector2(1920, 42)
 
 [node name="Node2D" type="StaticBody2D"]
+metadata/_edit_vertical_guides_ = [-257.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_b37um")
 offset_top = 975.0
 offset_right = 1919.0
 offset_bottom = 1015.0
