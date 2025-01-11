@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://8ntxma51n5sr"]
+
+[ext_resource type="Script" path="res://Scripts/orb.gd" id="1_x1tu6"]
+[ext_resource type="Script" path="res://Scenes/orb_background.gd" id="2_ihpi7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kb1ls"]
+
+[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape")]
+script = ExtResource("1_x1tu6")
+body = NodePath("Body")
+background = NodePath("Body/OrbBackground")
+collision_shape = NodePath("Body/CollisionShape2D")
+
+[node name="Body" type="RigidBody2D" parent="."]
+
+[node name="OrbBackground" type="Node2D" parent="Body"]
+script = ExtResource("2_ihpi7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+shape = SubResource("CircleShape2D_kb1ls")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bppkaa3q3dejx"]
+
+[ext_resource type="Script" path="res://Scripts/combo_test.gd" id="1_mf56y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qm7km"]
+size = Vector2(1920, 10)
+
+[node name="ComboTest" type="Node2D"]
+script = ExtResource("1_mf56y")
+spawn_after_time = 0.01
+
+[node name="TestFloor" type="StaticBody2D" parent="."]
+position = Vector2(960, 1009)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestFloor"]
+shape = SubResource("RectangleShape2D_qm7km")
+
+[node name="ColorRect" type="ColorRect" parent="TestFloor"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -5.0
+offset_right = 960.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 1, 1)
