@@ -1,7 +1,8 @@
 class_name Orb extends Node2D
 
-@export var background_color: Color = Color.WHITE
-@export var radius: float = 10.0
+var color: Color = Color.WHITE
+var radius: float = 10.0
+var weight: float = 10.0
 
 @export var body: RigidBody2D
 @export var background: OrbBackground
@@ -9,7 +10,7 @@ class_name Orb extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	background.background_color = background_color
+	background.background_color = color
 	background.radius = radius
 	collision_shape.shape.radius = radius
 

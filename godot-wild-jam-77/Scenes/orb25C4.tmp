@@ -1,7 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://Scripts/orb.gd" id="1_x1tu6"]
-[ext_resource type="Script" path="res://Scripts/orb_background.gd" id="2_hea3c"]
+
+[sub_resource type="GDScript" id="GDScript_qfpvl"]
+script/source = "class_name OrbBackground extends Node2D
+
+var background_color = Color.WHITE
+var radius = 10.0
+
+func _draw() -> void:
+	draw_circle(Vector2(0.0, 0.0), radius, background_color)
+"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kb1ls"]
 
@@ -14,7 +23,7 @@ collision_shape = NodePath("Body/CollisionShape2D")
 [node name="Body" type="RigidBody2D" parent="."]
 
 [node name="OrbBackground" type="Node2D" parent="Body"]
-script = ExtResource("2_hea3c")
+script = SubResource("GDScript_qfpvl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 shape = SubResource("CircleShape2D_kb1ls")
