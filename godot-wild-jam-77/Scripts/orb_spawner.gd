@@ -1,10 +1,9 @@
 class_name OrbSpawner extends Node2D
 
-# TODO: Make this an orb manager within the test scene. The test shouldn't have this logic
 @export var spawn_delay: float = 1.0
 @export var orb_manager: OrbManager
 
-var orb_scene = preload("res://Scenes/orb.tscn")
+const orb_scene = preload("res://scenes/orb.tscn")
 var holding_orb: Orb
 var should_drop_orb: bool = false
 
@@ -18,7 +17,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		await get_tree().create_timer(spawn_delay).timeout
 		spawn_orb_at_mouse()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if holding_orb != null:
 		# TODO: Add a smooth interpolation lag so it feels nice
 		holding_orb.position = get_global_mouse_position()
@@ -32,6 +31,8 @@ func spawn_orb_at_mouse():
 	orb_instance.radius = orb_type.properties.radius
 	orb_instance.weight = orb_type.properties.weight
 	orb_instance.color = orb_type.properties.color
+	orb_instance.allowed_combos = orb_type.properties.allowed_combos
+	orb_instance.type = orb_type.properties.type
 	
 	add_child(orb_instance)
 	holding_orb = orb_instance

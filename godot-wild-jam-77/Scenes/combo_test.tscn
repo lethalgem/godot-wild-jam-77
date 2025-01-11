@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bppkaa3q3dejx"]
 
-[ext_resource type="Script" path="res://Scripts/orb_manager.gd" id="1_mf56y"]
-[ext_resource type="Script" path="res://Scripts/orb_spawner.gd" id="2_u7bve"]
+[ext_resource type="Script" path="res://scripts/orb_manager.gd" id="1_6u1i8"]
+[ext_resource type="Script" path="res://scripts/orb_spawner.gd" id="2_2k85j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qm7km"]
-size = Vector2(1920, 10)
+size = Vector2(1920, 50)
 
 [node name="ComboTest" type="Node2D"]
 
@@ -21,18 +21,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -960.0
-offset_top = -5.0
+offset_top = -25.0
 offset_right = 960.0
-offset_bottom = 5.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 1, 1)
 
 [node name="OrbManager" type="Node2D" parent="." node_paths=PackedStringArray("orb_spawner")]
-script = ExtResource("1_mf56y")
+script = ExtResource("1_6u1i8")
 orb_spawner = NodePath("OrbSpawner")
 
 [node name="OrbSpawner" type="Node2D" parent="OrbManager" node_paths=PackedStringArray("orb_manager")]
-script = ExtResource("2_u7bve")
+script = ExtResource("2_2k85j")
 spawn_delay = 0.01
 orb_manager = NodePath("..")

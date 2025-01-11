@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cq6aoqlr6hf7"]
 
-[ext_resource type="Script" path="res://Scripts/static_body_2d.gd" id="1_3yq2i"]
+[ext_resource type="Script" path="res://scripts/static_body_2d.gd" id="1_3yq2i"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eweis"]
 
