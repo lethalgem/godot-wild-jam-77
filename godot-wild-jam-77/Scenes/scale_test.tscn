@@ -1,3 +1,17 @@
-[gd_scene format=3 uid="uid://cq6aoqlr6hf7"]
+[gd_scene load_steps=3 format=3 uid="uid://cq6aoqlr6hf7"]
 
-[node name="ScaleTest" type="Node2D"]
+[ext_resource type="Script" path="res://Scripts/static_body_2d.gd" id="1_3yq2i"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eweis"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_eweis")
+script = ExtResource("1_3yq2i")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
+position = Vector2(-20, 139)
+polygon = PackedVector2Array(281, 37, 197, 93, 176, 93, 155, 93, 84, 37, 87, 114, 281, 114)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
