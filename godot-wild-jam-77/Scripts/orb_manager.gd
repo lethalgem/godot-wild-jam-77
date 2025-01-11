@@ -1,5 +1,8 @@
 class_name OrbManager extends Node2D
 
+@export var is_debug_mode: bool = false
+@export var debug_marker: Marker2D
+
 @export var spawn_limit: int = 50
 @export var orb_spawner: OrbSpawner
 
@@ -22,12 +25,20 @@ func get_next_orb_type() -> OrbType:
 	return orb_type_queue.pop_back()
 
 func add_spawned(orb: Orb) -> void:
-	spawned_orbs[orb.id] = orb
+	spawned_orbs[str(orb.id)] = orb
 	orb.combo_made_with.connect(handle_combo)
 
 func handle_combo(ids: Array[String]):
 	print("got combo")
 	var combo_orbs: Array[Orb]
-	for id in ids:
-		combo_orbs.append(spawned_orbs[id])
+	var merge_position: Vector2
+	for index in range(ids.size()):
+		var combo_orb: Orb = spawned_orbs[ids[index]]
+		combo_orb.body.freeze = true
+		combo_orbs.append(combo_orb)
+		
+		if index == (ids.size() / 2):
+			merge_position = combo_orb.global_position
+	# TODO: Animation showing the orbs merge
+		
 	print(combo_orbs)

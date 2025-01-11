@@ -38,10 +38,10 @@ func spawn_orb_at_mouse():
 	add_child(orb_instance)
 	holding_orb = orb_instance
 	holding_orb.body.freeze = true
+	orb_manager.add_spawned(holding_orb)
 
 func drop_orb():
 	# TODO: When smooth following is in, keep track of velocity and add it when dropped
 	# This will have the ball move left and right, not just down and the player can shoot diagonally
-	orb_manager.add_spawned(holding_orb)
 	holding_orb.body.freeze = false
 	holding_orb = null

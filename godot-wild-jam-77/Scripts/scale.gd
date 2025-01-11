@@ -18,7 +18,7 @@ func _ready():
 func _process(_delta:float) -> void:
 	pass
 
-func calculate_weight(type_count):
+func calculate_weight():
 	for type in type_count.keys():
 		total_weight = type_count[type] * type_weights[type]
 		print(total_weight)
@@ -32,11 +32,11 @@ func _on_inside_area_2d_body_entered(body: Node2D):
 			var count = type_count[orb.type]
 			count += 1
 			type_count[orb.type] = count
-			calculate_weight(type_count)
+			calculate_weight()
 		else:
 			type_count[orb.type] = 1
 			type_weights[orb.type] = orb.weight
-			calculate_weight(type_count)
+			calculate_weight()
 
 func _on_inside_area_2d_body_exited(body: Node2D):
 	if body is OrbBody:
@@ -45,4 +45,4 @@ func _on_inside_area_2d_body_exited(body: Node2D):
 			var count = type_count[orb.type]
 			count -= 1
 			type_count[orb.type] = count
-			calculate_weight(type_count)
+			calculate_weight()

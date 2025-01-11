@@ -28,11 +28,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 1, 1)
 
-[node name="OrbManager" type="Node2D" parent="." node_paths=PackedStringArray("orb_spawner")]
+[node name="OrbManager" type="Node2D" parent="." node_paths=PackedStringArray("debug_marker", "orb_spawner")]
 script = ExtResource("1_6u1i8")
+is_debug_mode = true
+debug_marker = NodePath("DEBUG_MARKER_2D")
 orb_spawner = NodePath("OrbSpawner")
 
 [node name="OrbSpawner" type="Node2D" parent="OrbManager" node_paths=PackedStringArray("orb_manager")]
 script = ExtResource("2_2k85j")
 spawn_delay = 0.4
 orb_manager = NodePath("..")
+
+[node name="DEBUG_MARKER_2D" type="Marker2D" parent="OrbManager"]
