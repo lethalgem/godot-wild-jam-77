@@ -11,6 +11,7 @@ script = ExtResource("1_h6akx")
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
+is_debug = true
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
 script = ExtResource("2_hk7ix")
@@ -21,6 +22,23 @@ script = ExtResource("3_31lrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody"]
 shape = SubResource("CircleShape2D_kb1ls")
+
+[node name="DEBUG_WEIGHT_LABEL" type="Label" parent="OrbBody"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "XX"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="OrbBody" to="." method="_on_orb_body_entered"]
 [connection signal="body_exited" from="OrbBody" to="." method="_on_orb_body_exited"]
