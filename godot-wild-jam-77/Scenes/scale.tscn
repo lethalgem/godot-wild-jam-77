@@ -7,15 +7,15 @@
 script = ExtResource("1_3yq2i")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-380.6, -164.6)
+position = Vector2(-326, 3.8147e-06)
 scale = Vector2(2.045, 2.045)
 color = Color(0.345356, 0.596623, 0.556993, 1)
-polygon = PackedVector2Array(200.293, -107.775, 234.034, 78.044, 150.416, 128.411, 75.11, 67.2861, 128.9, -108.753, 6.16138, 151.394, 145.526, 153.839, 292.225, 151.394)
+polygon = PackedVector2Array(524.988, -128.313, 484.108, -119.804, 457.702, -91.9315, 457.702, -45.9658, 442.543, 7.82396, 441.076, 46.4548, 417.604, 69.9267, 381.418, 93.3985, 314.914, 108.557, 208.802, 108.557, 137.897, 107.579, 50.8557, 99.2665, -34.7188, 94.8655, -80.1956, 74.3276, -97.3105, 34.2298, -111.002, -5.86797, -113.936, -52.8117, -113.936, -86.0636, -135.941, -111.002, -167.726, -124.694, -200.685, -128.313, -200.685, 149.927, 145.526, 153.839, 530.856, 148.46)
 
 [node name="BowlCollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 visible = false
 position = Vector2(-598.6, -595.6)
-polygon = PackedVector2Array(459.6, 320.6, 230.6, 739.6, 814.6, 741.6, 593.6, 316.6)
+polygon = PackedVector2Array(-137.4, 340.6, -137.4, 899.6, 1362.6, 910.6, 1333.6, 354.6)
 
 [node name="InsideArea2D" type="Area2D" parent="."]
 visible = false
@@ -23,7 +23,7 @@ script = ExtResource("2_txny6")
 
 [node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="InsideArea2D"]
 position = Vector2(-543.6, -513.6)
-polygon = PackedVector2Array(406.6, 237.6, 175.6, 661.6, 759.6, 658.6, 537.6, 234.6)
+polygon = PackedVector2Array(-189.4, 261.6, -46.4, 293.6, -25.4, 518.6, 45.6, 710.6, 541.6, 771.6, 869.6, 760.6, 1075.6, 699.6, 1132.6, 617.6, 1157.6, 496.6, 1164.6, 336.6, 1286.6, 261.6)
 
 [connection signal="body_entered" from="InsideArea2D" to="." method="_on_inside_area_2d_body_entered"]
 [connection signal="body_exited" from="InsideArea2D" to="." method="_on_inside_area_2d_body_exited"]
