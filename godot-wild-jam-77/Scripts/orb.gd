@@ -54,20 +54,20 @@ enum CHAIN_STATUS {
 func check_next_orb(chains, next_orb: Orb) -> void:
 	# Each new orb could have multiple collisions, so we need to check all of those and see if we continue
 	for chain in chains:
-		print("checking chain:")
+		#print("checking chain:")
 		var current_type_count = chain.get_or_add(next_orb.type, 0)
 		chain[next_orb.type] = current_type_count + 1 # not sure if this is by reference or not and needs to be updated
 		match is_still_valid_combo(chain):
 			CHAIN_STATUS.DEAD:
-				print("Dead")
+				#print("Dead")
 				return
 			CHAIN_STATUS.VALID:
-				print("Valid, checking the next")
+				#print("Valid, checking the next")
 				var next_orb_colliding_orbs: Array[Orb] = next_orb.colliding_orbs
 				for next_orb_colliding_orb in next_orb_colliding_orbs:
 					check_next_orb(chains, next_orb)
 			CHAIN_STATUS.COMBO:
-				print("Combo!")
+				#print("Combo!")
 				return
 	
 func is_still_valid_combo(chain) -> CHAIN_STATUS:
@@ -75,8 +75,8 @@ func is_still_valid_combo(chain) -> CHAIN_STATUS:
 	for allowed_combo in allowed_combos: # [{Water, 3}]
 		var is_full_combo = true
 		var is_chain_valid = true
-		print("allowed_combo: " + str(allowed_combo))
-		print("chain: " + str(chain))
+		#print("allowed_combo: " + str(allowed_combo))
+		#print("chain: " + str(chain))
 		for type in chain.keys(): # Water in [{Water, 1}]
 			var value_required_for_combo = allowed_combo.get(type) # 3
 			if value_required_for_combo == null:

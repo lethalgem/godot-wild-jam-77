@@ -11,7 +11,7 @@ enum ORB_TYPE {
 class OrbProperties:
 	var type: ORB_TYPE
 	# Defaults
-	var radius: float = 40.0
+	var radius: float = 20.0
 	var weight: float = 10.0
 	var color: Color = Color.RED
 	var allowed_combos ## Array[Array[OrbType]], default is none

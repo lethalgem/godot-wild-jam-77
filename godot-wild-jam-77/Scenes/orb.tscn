@@ -1,23 +1,23 @@
 [gd_scene load_steps=5 format=3 uid="uid://8ntxma51n5sr"]
 
-[ext_resource type="Script" path="res://scripts/orb.gd" id="1_xvjaj"]
-[ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_0sqbs"]
-[ext_resource type="Script" path="res://scripts/orb_background.gd" id="3_fegcc"]
+[ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
+[ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_hk7ix"]
+[ext_resource type="Script" path="res://scripts/orb_background.gd" id="3_31lrd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kb1ls"]
 
 [node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape")]
-script = ExtResource("1_xvjaj")
+script = ExtResource("1_h6akx")
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
-script = ExtResource("2_0sqbs")
+script = ExtResource("2_hk7ix")
 orb = NodePath("..")
 
 [node name="OrbBackground" type="Node2D" parent="OrbBody"]
-script = ExtResource("3_fegcc")
+script = ExtResource("3_31lrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody"]
 shape = SubResource("CircleShape2D_kb1ls")

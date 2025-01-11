@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godot-wild-jam-77"
-run/main_scene="res://scenes/combo_test.tscn"
+run/main_scene="res://scenes/sandbox.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/image="res://assets/branding/splash_screen.png"
 config/icon="res://icon.svg"
@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
 [input]

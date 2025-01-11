@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq6aoqlr6hf7"]
+
+[ext_resource type="Script" path="res://scripts/static_body_2d.gd" id="1_3yq2i"]
+[ext_resource type="Script" path="res://scenes/scale_area.gd" id="2_txny6"]
+
+[node name="Scale" type="StaticBody2D"]
+script = ExtResource("1_3yq2i")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-380.6, -164.6)
+scale = Vector2(2.045, 2.045)
+color = Color(0.345356, 0.596623, 0.556993, 1)
+polygon = PackedVector2Array(294.67, -42.2494, 278.533, 89.291, 146.504, 104.939, 26.2103, 90.7579, 6.16138, -40.2934, 6.16138, 151.394, 145.526, 153.839, 292.225, 151.394)
+
+[node name="BowlCollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-598.6, -595.6)
+polygon = PackedVector2Array(232.6, 360.6, 230.6, 739.6, 814.6, 741.6, 820.6, 349.6)
+
+[node name="InsideArea2D" type="Area2D" parent="."]
+script = ExtResource("2_txny6")
+
+[node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="InsideArea2D"]
+position = Vector2(-543.6, -513.6)
+polygon = PackedVector2Array(173.6, 278.6, 175.6, 661.6, 759.6, 658.6, 767.6, 267.6)
+
+[connection signal="body_entered" from="InsideArea2D" to="." method="_on_inside_area_2d_body_entered"]
+[connection signal="body_exited" from="InsideArea2D" to="." method="_on_inside_area_2d_body_exited"]
