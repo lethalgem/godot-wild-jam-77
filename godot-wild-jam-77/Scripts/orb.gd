@@ -1,6 +1,7 @@
 class_name Orb extends Node2D
 
-signal combo_made_with(ids: Array[String])
+signal combo_made_with(orb: Orb)
+var combo_ids: Array
 
 @export var weight_factor: float = 1.0
 @export var body: OrbBody
@@ -60,6 +61,7 @@ enum CHAIN_STATUS {
 	COMBO,
 }
 
+# TODO: We currently combo when only one of the requirements in the combo dictionary is met, it needs to be all of them
 func check_next_orb(
 				id_chains, # Array[Array[String]]
 				type_chains, # Array[{type: count}
@@ -71,18 +73,14 @@ func check_next_orb(
 		chain[orb.type] = current_type_count + 1
 		match is_still_valid_combo(chain):
 			CHAIN_STATUS.DEAD:
-				#print("Dead")
 				return
 			CHAIN_STATUS.VALID:
 				id_chains[index].append(orb.id)
-				print("Valid, checking the next")
 				for next_orb in orb.colliding_orbs:
 					check_next_orb(id_chains, type_chains, next_orb)
 			CHAIN_STATUS.COMBO:
-				print("Combo!")
-				print(id_chains[index])
-				combo_made_with.emit(id_chains[index])
-				# TODO: Tell the manager the ids of the orbs and make them go bye bye!
+				combo_ids = id_chains[index]
+				combo_made_with.emit(self)
 				return
 	
 func is_still_valid_combo(chain) -> CHAIN_STATUS:
@@ -90,15 +88,13 @@ func is_still_valid_combo(chain) -> CHAIN_STATUS:
 	for allowed_combo in allowed_combos: # [{Water, 3}]
 		var is_full_combo = true
 		var is_chain_valid = true
-		#print("allowed_combo: " + str(allowed_combo))
-		#print("chain: " + str(chain))
-		for type in chain.keys(): # Water in [{Water, 1}]
-			var value_required_for_combo = allowed_combo.get(type) # 3
+		for chained_orb_type in chain.keys(): # Water in [{Water, 1}]
+			var value_required_for_combo = allowed_combo.get(chained_orb_type) # 3
 			if value_required_for_combo == null:
 				is_full_combo = false
 				is_chain_valid = false
 				break; # quit searching for this particular combo
-			elif value_required_for_combo > chain.get(type):
+			elif value_required_for_combo > chain.get(chained_orb_type):
 				is_full_combo = false
 		
 		if is_full_combo:
@@ -117,3 +113,8 @@ func _on_orb_body_exited(colliding_body: Node) -> void:
 		var index = colliding_orbs.find(colliding_body.get_orb())
 		if index != -1:
 			colliding_orbs.remove_at(index)
+
+func get_combo_orb_ids() -> Array:
+	var ids = combo_ids
+	combo_ids = []
+	return ids
