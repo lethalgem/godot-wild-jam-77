@@ -20,7 +20,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if holding_orb != null:
 		# TODO: Add a smooth interpolation lag so it feels nice
-		holding_orb.position = get_global_mouse_position()
+		var mouse_position = get_global_mouse_position()
+		holding_orb.position = Vector2(mouse_position.x, clamp(mouse_position.y, 0, 300))
 
 func spawn_orb_at_mouse():
 	var orb_instance: Orb = orb_scene.instantiate()
