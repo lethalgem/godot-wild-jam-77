@@ -31,3 +31,4 @@ class Water extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.WATER
 		properties.color = Color.BLUE
+		properties.allowed_combos = [{ORB_TYPE.WATER: 1, ORB_TYPE.FIRE: 1}] # TODO: Avoid having to put the inverse combo, currently we only look from the origin of the combo down, and don't consider combining branches

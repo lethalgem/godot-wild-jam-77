@@ -15,7 +15,7 @@ func _ready():
 	bowl_collision_polygon_2d.scale = polygon_2d.scale
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta:float) -> void:
+func _process(_delta:float) -> void:
 	pass
 
 func calculate_weight(type_count):
