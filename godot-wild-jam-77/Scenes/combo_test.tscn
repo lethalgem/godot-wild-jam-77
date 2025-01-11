@@ -34,5 +34,5 @@ orb_spawner = NodePath("OrbSpawner")
 
 [node name="OrbSpawner" type="Node2D" parent="OrbManager" node_paths=PackedStringArray("orb_manager")]
 script = ExtResource("2_2k85j")
-spawn_delay = 0.01
+spawn_delay = 0.4
 orb_manager = NodePath("..")

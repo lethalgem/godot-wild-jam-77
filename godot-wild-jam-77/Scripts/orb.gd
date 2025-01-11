@@ -1,5 +1,7 @@
 class_name Orb extends Node2D
 
+signal combo_made_with(ids: Array[String])
+
 @export var weight_factor: float = 1.0
 @export var body: OrbBody
 @export var background: OrbBackground
@@ -50,7 +52,7 @@ func check_for_combo() -> void:
 	# check every body we're colliding with because that is the start of a chain
 	for starting_orb in colliding_orbs:
 		# travel the chain
-		check_next_orb([{starting_orb.type: 0}], starting_orb)
+		check_next_orb([[id, starting_orb.id]], [{starting_orb.type: 0}], starting_orb)
 
 enum CHAIN_STATUS {
 	DEAD,
@@ -58,24 +60,28 @@ enum CHAIN_STATUS {
 	COMBO,
 }
 
-func check_next_orb(chains, next_orb: Orb) -> void:
+func check_next_orb(
+				id_chains, # Array[Array[String]]
+				type_chains, # Array[{type: count}
+				orb: Orb) -> void:
 	# Each new orb could have multiple collisions, so we need to check all of those and see if we continue
-	for chain in chains:
-		print("checking chain:")
-		var current_type_count = chain.get_or_add(next_orb.type, 0)
-		chain[next_orb.type] = current_type_count + 1 # not sure if this is by reference or not and needs to be updated
+	for index in range(type_chains.size()):
+		var chain = type_chains[index]
+		var current_type_count = chain.get_or_add(orb.type, 0)
+		chain[orb.type] = current_type_count + 1
 		match is_still_valid_combo(chain):
 			CHAIN_STATUS.DEAD:
 				print("Dead")
 				return
 			CHAIN_STATUS.VALID:
+				id_chains[index].append(orb.id)
 				print("Valid, checking the next")
-				var next_orb_colliding_orbs: Array[Orb] = next_orb.colliding_orbs
-				for next_orb_colliding_orb in next_orb_colliding_orbs:
-					print("next")
-					check_next_orb(chains, next_orb)
+				for next_orb in orb.colliding_orbs:
+					check_next_orb(id_chains, type_chains, next_orb)
 			CHAIN_STATUS.COMBO:
 				print("Combo!")
+				print(id_chains[index])
+				combo_made_with.emit(id_chains[index])
 				# TODO: Tell the manager the ids of the orbs and make them go bye bye!
 				return
 	
@@ -105,8 +111,6 @@ func is_still_valid_combo(chain) -> CHAIN_STATUS:
 		return CHAIN_STATUS.VALID
 	else:
 		return CHAIN_STATUS.DEAD
-	
-	
 
 func _on_orb_body_exited(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:
