@@ -30,7 +30,6 @@ func add_spawned(orb: Orb) -> void:
 
 # TODO: Animation showing the orbs merge
 func handle_combo(ids: Array[String], result: OrbType):
-	print("got combo")
 	var merge_position: Vector2
 	for index in range(ids.size()):
 		var combo_orb: Orb = spawned_orbs[ids[index]]

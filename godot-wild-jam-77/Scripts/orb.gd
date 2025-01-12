@@ -84,6 +84,9 @@ class ComboChain:
 	var orb_ids : Array[String] = []
 	var type_counts : Dictionary = {}
 	
+	func _init(starting_orb_id):
+		orb_ids.append(starting_orb_id)
+	
 	func add_orb(orb:Orb)-> void:
 		orb_ids.append(str(orb.id))
 		type_counts[orb.type] = type_counts.get(orb.type,0) + 1
@@ -98,7 +101,7 @@ class ComboChain:
 
 func check_next_orb(starting_orb: Orb) -> void:
 	var visited = {}
-	var chain = ComboChain.new()
+	var chain = ComboChain.new(self.id)
 	var remaining_orbs: Array[Orb] = [starting_orb]
 	
 	if is_debug:
