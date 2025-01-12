@@ -114,8 +114,8 @@ func check_next_orb(starting_orb: Orb) -> void:
 		visited[curr_orb.id] = true
 		chain.add_orb(curr_orb)
 		
-		var is_still_valid_combo = is_still_valid_combo(chain.type_counts)
-		match is_still_valid_combo[0]:
+		var is_still_valid_combo_result = is_still_valid_combo(chain.type_counts)
+		match is_still_valid_combo_result[0]:
 			CHAIN_STATUS.DEAD:
 				debug_print(chain, "❌ Dead chain found, removing orb: " + str(curr_orb.id))
 				chain.remove_orb(curr_orb)
@@ -127,7 +127,7 @@ func check_next_orb(starting_orb: Orb) -> void:
 						remaining_orbs.push_back(next_orb)
 			CHAIN_STATUS.COMBO:
 				debug_print(chain, "🎯 COMBO FOUND!")
-				combo_made_with.emit(chain.orb_ids, is_still_valid_combo[1])
+				combo_made_with.emit(chain.orb_ids, is_still_valid_combo_result[1])
 				return
 
 func is_still_valid_combo(chain): # -> [CHAIN_STATUS, OrbType]
