@@ -152,9 +152,7 @@ func is_still_valid_combo(chain) -> Array: # [CHAIN_STATUS, OrbType]
 			
 			if current_count == 0:
 				# Missing a required type entirely
-				could_match = false
 				is_perfect_match = false
-				break
 			elif current_count < required_count:
 				# Don't have enough of this type yet
 				is_perfect_match = false
@@ -162,7 +160,6 @@ func is_still_valid_combo(chain) -> Array: # [CHAIN_STATUS, OrbType]
 				# Have too many of this type
 				could_match = false
 				is_perfect_match = false
-				break
 		
 		# Now check if chain has any extra types not in recipe
 		for chain_type in chain:

@@ -6,7 +6,7 @@ class_name OrbManager extends Node2D
 @export var spawn_limit: int = 50
 @export var orb_spawner: OrbSpawner
 
-var orb_type_queue: Array[OrbType] = [OrbType.Fire.new()]
+var orb_type_queue: Array[OrbType] = [OrbType.Water.new(), OrbType.Water.new(), OrbType.Fire.new()]
 var total_spawned: int = 0
 var spawned_orbs = {} # {id, orb} for easy lookup 
 
