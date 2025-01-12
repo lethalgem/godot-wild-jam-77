@@ -5,7 +5,7 @@ class_name Scale extends StaticBody2D
 @onready var area_2d = $InsideArea2D
 @onready var weight_label = $WeightLabel
 
-var goal_weight: float = 100
+var goal_weight: float = 100 * Globals.weight_score_multipliers
 var type_count = {}
 var type_weights = {}
 
@@ -15,14 +15,10 @@ func _ready():
 	bowl_collision_polygon_2d.position = polygon_2d.position
 	bowl_collision_polygon_2d.scale = polygon_2d.scale
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta:float) -> void:
-	pass
-
 func calculate_weight():
 	var total_weight: int = 0
 	for type in type_count.keys():
-		total_weight += type_count[type] * type_weights[type]
+		total_weight += type_count[type] * type_weights[type] * Globals.weight_score_multiplier
 	weight_label.text = str(total_weight)
 	if total_weight >= goal_weight:
 		print("Winner")
