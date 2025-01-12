@@ -1,11 +1,11 @@
 class_name Scale extends StaticBody2D
 
 signal goal_weight_achieved
+signal updated_weight(weight: float)
 
 @onready var polygon_2d = $Polygon2D
 @onready var bowl_collision_polygon_2d = $BowlCollisionPolygon2D
 @onready var area_2d = $InsideArea2D
-@onready var weight_label = $WeightLabel
 @onready var path_2d = $Path2D
 
 @export var goal_weight: float = 100
@@ -28,7 +28,7 @@ func calculate_weight():
 	var total_weight: int = 0
 	for type in type_count.keys():
 		total_weight += type_count[type] * type_weights[type] * Globals.weight_score_multiplier
-	weight_label.text = str(total_weight)
+	updated_weight.emit(total_weight)
 	if total_weight >= goal_weight:
 		goal_weight_achieved.emit()
 

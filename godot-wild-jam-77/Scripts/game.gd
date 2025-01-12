@@ -11,6 +11,7 @@ class_name Game extends Node
 @export var scale: Scale
 @export var turn_limit_label: Label
 @export var weight_threshold_label: Label
+@export var weight_label: Label
 
 var turn_limit: int:
 	get:
@@ -24,15 +25,23 @@ var weight_threshold: float:
 	get:
 		return weight_threshold
 	set(new_val):
-		weight_threshold_label.text = "Needed weight: " + str(int(scale.goal_weight))
+		weight_threshold_label.text = "/ " + str(int(scale.goal_weight))
 		weight_threshold = new_val
+
+var current_weight: float:
+	get:
+		return current_weight
+	set(new_val):
+		weight_label.text = str(int(new_val))
+		current_weight = new_val
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	scale.goal_weight = initial_goal_weight * Globals.weight_score_multiplier
-	weight_threshold_label.text = str(int(scale.goal_weight))
+	weight_threshold = initial_goal_weight * Globals.weight_score_multiplier
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit
+	current_weight = 0
 
 func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
@@ -44,3 +53,6 @@ func _on_orb_manager_orb_dropped() -> void:
 		print("Game Over")
 	else:
 		turn_limit -= 1
+
+func _on_scale_updated_weight(weight: float) -> void:
+	current_weight = weight
