@@ -70,9 +70,7 @@ func _on_orb_body_entered(colliding_body: Node) -> void:
 # as it happens, is going to be costly. Especially in a browser window
 func check_for_combo() -> void:
 	# check every body we're colliding with because that is the start of a chain
-	for next_orb in colliding_orbs:
-		# travel the chain
-		check_next_orb(next_orb)
+	check_next_orb(self)
 
 enum CHAIN_STATUS {
 	DEAD,
@@ -84,24 +82,19 @@ class ComboChain:
 	var orb_ids : Array[String] = []
 	var type_counts : Dictionary = {}
 	
-	func _init(starting_orb_id):
-		orb_ids.append(starting_orb_id)
-	
 	func add_orb(orb:Orb)-> void:
 		orb_ids.append(str(orb.id))
 		type_counts[orb.type] = type_counts.get(orb.type,0) + 1
 		
 	func remove_orb(orb:Orb)-> void:
-		for i in orb_ids.size():
-			if orb_ids[i] == orb.id:
-				orb_ids.remove_at(i)
+		orb_ids.erase(orb.id)
 		type_counts[orb.type] -= 1
 		if type_counts[orb.type] <= 0:
 			type_counts.erase(orb.type)
 
 func check_next_orb(starting_orb: Orb) -> void:
 	var visited = {}
-	var chain = ComboChain.new(self.id)
+	var chain = ComboChain.new()
 	var remaining_orbs: Array[Orb] = [starting_orb]
 	
 	if is_debug:
@@ -117,7 +110,7 @@ func check_next_orb(starting_orb: Orb) -> void:
 		visited[curr_orb.id] = true
 		chain.add_orb(curr_orb)
 		
-		var valid_combo_result = is_still_valid_combo(chain.type_counts)[0]
+		var valid_combo_result = is_still_valid_combo(chain.type_counts)
 		var chain_status = valid_combo_result[0]
 		var result = valid_combo_result[1]
 		match chain_status:
@@ -135,53 +128,67 @@ func check_next_orb(starting_orb: Orb) -> void:
 				combo_made_with.emit(chain.orb_ids, result)
 				return
 
-func is_still_valid_combo(chain): # -> [CHAIN_STATUS, OrbType]
+func is_still_valid_combo(chain) -> Array: # [CHAIN_STATUS, OrbType]
 	"""
-	If the chain has any valid combo in the list of
-	allowed combos we return VALID.
-
-	If the chain meets all the values in the combo we
-	return COMBO
-
-	If the chain doesn't meet any of the allowed combos
-	return DEAD. We shouldn't keep pursuing that chain at all.
+	Validates if a chain of orbs can form a valid combination.
+	
+	A chain can be in three states:
+	- COMBO: All required orbs are present in exact quantities
+	- VALID: Has the right types and quantities but might need more orbs
+	- DEAD: Has wrong types or too many orbs, can't form a valid combo
 	"""
-	# How many possible valid combinations we could still make
 	var still_valid_combos = 0
 	
-	# Loop through each combo that's allowed
-	# E.g., if we need 3 water orbs for a combo, that would be [{Water, 3}]
-	for index in range(allowed_combos.size()): # [{Water, 3}]
-		var allowed_combo = allowed_combos[index]
-		var is_full_combo = true
-		var is_chain_valid = true
+	# Check each possible recipe (combination pattern)
+	for index in range(allowed_combos.size()):
+		var recipe = allowed_combos[index]
+		var could_match = true  # Could this become a valid combo?
+		var is_perfect_match = true  # Do we have exactly what we need?
 		
-		# Check each type of orb in the current chain
-		for chained_orb_type in chain.keys(): # Water in [{Water, 1}]
+		# First, check if all required recipe types exist in our chain
+		for required_type in recipe:
+			var required_count = recipe[required_type]
+			var current_count = chain.get(required_type, 0)
 			
-			# How many of this type do we need for the combo?
-			var value_required_for_combo = allowed_combo.get(chained_orb_type) # 3
-			
-			# If not allowed in our combo at all, the combo can't work, break
-			if value_required_for_combo == null:
-				is_full_combo = false
-				is_chain_valid = false
-				break; 
-			
-			# If we don't have enough of this type yet...
-			elif value_required_for_combo > chain.get(chained_orb_type):
-				is_full_combo = false
+			if current_count == 0:
+				# Missing a required type entirely
+				could_match = false
+				is_perfect_match = false
+				break
+			elif current_count < required_count:
+				# Don't have enough of this type yet
+				is_perfect_match = false
+			elif current_count > required_count:
+				# Have too many of this type
+				could_match = false
+				is_perfect_match = false
+				break
 		
-		if is_full_combo:
+		# Now check if chain has any extra types not in recipe
+		for chain_type in chain:
+			if not recipe.has(chain_type):
+				# Found an orb type that isn't in our recipe
+				could_match = false
+				is_perfect_match = false
+				break
+		
+		# If everything matches perfectly, we found a combo!
+		if is_perfect_match:
+			if is_debug:
+				print("Perfect match found with recipe: ", recipe)
+				print("Chain contents: ", chain)
 			return [CHAIN_STATUS.COMBO, combo_results[index].new()]
-		
-		if is_chain_valid:
+			
+		# If we could still complete this recipe, count it
+		if could_match:
 			still_valid_combos += 1
-
+	
+	# If we found any valid potential matches, the chain is still valid
 	if still_valid_combos > 0:
 		return [CHAIN_STATUS.VALID, null]
-	else:
-		return [CHAIN_STATUS.DEAD, null]
+		
+	# No valid combinations possible with these orbs
+	return [CHAIN_STATUS.DEAD, null]
 
 func _on_orb_body_exited(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:
