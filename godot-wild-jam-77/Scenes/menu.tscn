@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://fo3xyen1pj7l"]
 
 [ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="1_uqs6n"]
-[ext_resource type="Script" path="res://scenes/audio_menu.gd" id="1_urwrh"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_urwrh"]
 [ext_resource type="LabelSettings" uid="uid://c6oa04g8d21mj" path="res://themes/audio_menu_labels.tres" id="2_dcec0"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_73elo"]
 [ext_resource type="PackedScene" uid="uid://g2p5wijck5q4" path="res://scenes/volume_slider.tscn" id="3_jm2q5"]
@@ -16,7 +16,7 @@ region_rect = Rect2(2, 49.6381, 44, 28.3619)
 
 [sub_resource type="Theme" id="Theme_b27sg"]
 
-[node name="menu" type="Control"]
+[node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
