@@ -20,3 +20,7 @@ func _process(_delta: float) -> void:
 
 func _on_scale_goal_weight_achieved() -> void:
 	pass # Replace with function body.
+
+
+func _on_settings_pressed():
+	get_tree().change_scene_to_file("res://scenes/audio_menu.tscn")

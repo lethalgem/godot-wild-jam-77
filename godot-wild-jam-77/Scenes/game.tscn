@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=7 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
 [ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="3_jl26m"]
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_ipai6"]
+[ext_resource type="PackedScene" uid="uid://fo3xyen1pj7l" path="res://scenes/menu.tscn" id="5_rkbhr"]
+[ext_resource type="AudioStream" uid="uid://kvmn1g6yvl4" path="res://assets/audio/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(735, 780),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
@@ -16,4 +19,23 @@ scale = NodePath("Scale")
 [node name="Scale" parent="." instance=ExtResource("3_jl26m")]
 position = Vector2(735, 780)
 
+[node name="Settings" type="Button" parent="."]
+offset_left = 1737.0
+offset_top = 30.0
+offset_right = 1857.0
+offset_bottom = 74.0
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("4_ipai6")
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+
+[node name="menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_so3c2")
+autoplay = true
+
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]

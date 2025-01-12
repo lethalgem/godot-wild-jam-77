@@ -1,0 +1,117 @@
+[gd_scene load_steps=8 format=3 uid="uid://fo3xyen1pj7l"]
+
+[ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="1_uqs6n"]
+[ext_resource type="Script" path="res://scenes/audio_menu.gd" id="1_urwrh"]
+[ext_resource type="LabelSettings" uid="uid://c6oa04g8d21mj" path="res://themes/audio_menu_labels.tres" id="2_dcec0"]
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_73elo"]
+[ext_resource type="PackedScene" uid="uid://g2p5wijck5q4" path="res://scenes/volume_slider.tscn" id="3_jm2q5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slw4q"]
+texture = ExtResource("1_uqs6n")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+region_rect = Rect2(2, 49.6381, 44, 28.3619)
+
+[sub_resource type="Theme" id="Theme_b27sg"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.984995, 0.996582)
+script = ExtResource("1_urwrh")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_slw4q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -418.5
+offset_top = -178.5
+offset_right = 418.5
+offset_bottom = 178.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme = SubResource("Theme_b27sg")
+theme_override_constants/separation = 12
+
+[node name="MasterLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_73elo")
+text = "Master"
+label_settings = ExtResource("2_dcec0")
+horizontal_alignment = 1
+
+[node name="Master" parent="VBoxContainer" instance=ExtResource("3_jm2q5")]
+layout_mode = 2
+max_value = 1.0
+bus_name = "Master"
+
+[node name="MusicLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_73elo")
+text = "Music"
+label_settings = ExtResource("2_dcec0")
+horizontal_alignment = 1
+
+[node name="Music" parent="VBoxContainer" instance=ExtResource("3_jm2q5")]
+layout_mode = 2
+max_value = 1.0
+bus_name = "music"
+
+[node name="SFXLael" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_73elo")
+text = "SFX"
+label_settings = ExtResource("2_dcec0")
+horizontal_alignment = 1
+
+[node name="SFX" parent="VBoxContainer" instance=ExtResource("3_jm2q5")]
+layout_mode = 2
+max_value = 1.0
+bus_name = "sfx"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 537.0
+offset_top = 759.0
+offset_right = 1424.0
+offset_bottom = 897.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_73elo")
+theme_override_font_sizes/font_size = 30
+text = "Resume"
+
+[node name="Save" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_73elo")
+theme_override_font_sizes/font_size = 30
+text = "Save"
+
+[connection signal="pressed" from="HBoxContainer/Resume" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="HBoxContainer/Save" to="." method="_on_save_pressed"]
