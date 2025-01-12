@@ -2,6 +2,7 @@ class_name AnimatedLabel extends Label
 
 @export var time_to_animate: float = 0.2
 
+var static_text = ""
 var is_animating = false
 var final_text: String = ""
 var time_animating: float = 0
@@ -15,13 +16,16 @@ func _process(delta: float) -> void:
 		
 	if time_animating > time_to_animate:
 		is_animating = false
-		text = final_text
+		text = static_text + final_text
 		time_animating = 0
 	elif is_animating:
-		var animating_text = ""
+		var animating_text = static_text
 		for char in range(number_of_animating_chars):
 			animating_text += digits.pick_random()
 		text = animating_text
+
+func set_static_text(new_text: String):
+	static_text = new_text
 
 func update_text(new_text: String):
 	final_text = new_text

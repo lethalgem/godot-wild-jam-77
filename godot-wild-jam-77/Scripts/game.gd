@@ -10,7 +10,7 @@ class_name Game extends Node
 @export var orb_manager: OrbManager
 @export var scale: Scale
 @export var turn_limit_label: Label
-@export var weight_threshold_label: Label
+@export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
 
 var turn_limit: int:
@@ -25,7 +25,7 @@ var weight_threshold: float:
 	get:
 		return weight_threshold
 	set(new_val):
-		weight_threshold_label.text = "/ " + str(int(scale.goal_weight))
+		weight_threshold_label.update_text(str(int(scale.goal_weight)))
 		weight_threshold = new_val
 
 var current_weight: float:
@@ -42,6 +42,7 @@ func _ready() -> void:
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit
 	current_weight = 0
+	weight_threshold_label.set_static_text("/ ")
 
 func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
