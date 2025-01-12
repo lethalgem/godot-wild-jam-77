@@ -43,7 +43,7 @@ func handle_combo(ids: Array[String], result: OrbType):
 	for index in range(ids.size()):
 		var combo_orb: Orb = spawned_orbs[ids[index]]
 		
-		if index == (ids.size() / 2):
+		if index == int(ids.size() / 2):
 			merge_position = combo_orb.body.global_position
 			if is_debug_mode and debug_marker != null:
 				debug_marker.visible = true
@@ -54,8 +54,8 @@ func handle_combo(ids: Array[String], result: OrbType):
 	
 	# Cleanup the in_progress_combos id list after arbitrary period (combo should be done by then)
 	get_tree().create_timer(1).timeout.connect((
-		func(ids):
-			for id in ids:
+		func(cleanup_id_list):
+			for id in cleanup_id_list:
 				in_progress_combos.erase(id)).bind(ids))
 		
 	orb_spawner.spawn_orb_at(merge_position, result)

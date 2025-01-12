@@ -6,31 +6,14 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 @export var body: OrbBody
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
+@export var can_combo_delay: int = 2 ## Delay after spawning before it can be used in a combo
 
 ## Set to see debug info
 @export var is_debug: bool = false
 @onready var debug_weight_label = %DEBUG_WEIGHT_LABEL
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
-
-# Helper print function
-
-func debug_print(chain: ComboChain, message: String = "") -> void:
-	if not is_debug:
-		return
-		
-	var type_summary = ""
-	for orb_type in chain.type_counts.keys():
-		# Convert the enum value to its name for readability
-		var type_name = OrbType.ORB_TYPE.keys()[orb_type]
-		type_summary += "\n    %s: %d" % [type_name, chain.type_counts[orb_type]]
-	
-	print("\n=== Chain Status ===")
-	if message:
-		print("Event: " + message)
-	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
-	print("Chain IDs: " + str(chain.orb_ids))
-	print("==================\n")
+var can_combo = false
 
 # Properties to be set
 var color
@@ -50,9 +33,10 @@ func _ready() -> void:
 	collision_shape.shape.radius = radius
 	body.mass = weight * weight_factor
 	
+	get_tree().create_timer(can_combo_delay).timeout.connect(func(): can_combo = true)
+	
 	if is_debug:
 		debug_weight_label.text = str(weight)
-
 
 func _on_orb_body_entered(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:
@@ -60,17 +44,9 @@ func _on_orb_body_entered(colliding_body: Node) -> void:
 		if allowed_combos != null:
 			check_for_combo()
 
-# jank solution to combos is to detect a collision, then travel down the path
-# of all collisions to see if achieve a combo is achieved
-# if it is, tell the manager via signal that we made one
-# couple of issues though, 
-# - we will have multiple report (ex, 5 are required for a combo, and all 5 
-# travel their collision chain, so all 5 will report the same combo
-# - there MUST be a more performant way to do this. Checking every collision
-# as it happens, is going to be costly. Especially in a browser window
 func check_for_combo() -> void:
-	# check every body we're colliding with because that is the start of a chain
-	check_next_orb(self)
+	if can_combo:
+		check_next_orb(self)
 
 enum CHAIN_STATUS {
 	DEAD,
@@ -192,3 +168,21 @@ func _on_orb_body_exited(colliding_body: Node) -> void:
 		var index = colliding_orbs.find(colliding_body.get_orb())
 		if index != -1:
 			colliding_orbs.remove_at(index)
+
+# Helper print function
+func debug_print(chain: ComboChain, message: String = "") -> void:
+	if not is_debug:
+		return
+		
+	var type_summary = ""
+	for orb_type in chain.type_counts.keys():
+		# Convert the enum value to its name for readability
+		var type_name = OrbType.ORB_TYPE.keys()[orb_type]
+		type_summary += "\n    %s: %d" % [type_name, chain.type_counts[orb_type]]
+	
+	print("\n=== Chain Status ===")
+	if message:
+		print("Event: " + message)
+	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
+	print("Chain IDs: " + str(chain.orb_ids))
+	print("==================\n")
