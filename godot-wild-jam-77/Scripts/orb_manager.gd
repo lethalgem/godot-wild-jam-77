@@ -31,8 +31,6 @@ func add_spawned(orb: Orb) -> void:
 
 # TODO: Animation showing the orbs merge -- JUICE it up, screen shake, particle effects, big numbers!
 func handle_combo(ids: Array[String], result: OrbType):
-	print("test")
-	
 	for id in ids:
 		if in_progress_combos.has(id):
 			return

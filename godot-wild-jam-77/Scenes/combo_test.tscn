@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bppkaa3q3dejx"]
+[gd_scene load_steps=3 format=3 uid="uid://bppkaa3q3dejx"]
 
-[ext_resource type="Script" path="res://scripts/orb_manager.gd" id="1_6u1i8"]
-[ext_resource type="Script" path="res://scripts/orb_spawner.gd" id="2_2k85j"]
+[ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="1_ndjmo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qm7km"]
 size = Vector2(1920, 50)
@@ -28,28 +27,4 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 1, 1)
 
-[node name="OrbManager" type="Node2D" parent="." node_paths=PackedStringArray("debug_marker", "orb_spawner")]
-script = ExtResource("1_6u1i8")
-debug_marker = NodePath("DEBUG_MARKER_2D")
-orb_spawner = NodePath("OrbSpawner")
-
-[node name="OrbSpawner" type="Node2D" parent="OrbManager" node_paths=PackedStringArray("orb_manager")]
-script = ExtResource("2_2k85j")
-spawn_delay = 0.1
-orb_manager = NodePath("..")
-
-[node name="DEBUG_MARKER_2D" type="Marker2D" parent="OrbManager"]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="OrbManager/DEBUG_MARKER_2D"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="OrbManager" parent="." instance=ExtResource("1_ndjmo")]
