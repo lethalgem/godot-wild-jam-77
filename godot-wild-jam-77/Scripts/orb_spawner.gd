@@ -1,5 +1,7 @@
 class_name OrbSpawner extends Node2D
 
+signal orb_dropped
+
 @export var spawn_delay: float = 1.0
 @export var orb_manager: OrbManager
 
@@ -48,6 +50,7 @@ func drop_orb():
 	# This will have the ball move left and right, not just down and the player can shoot diagonally
 	holding_orb.body.freeze = false
 	holding_orb = null
+	orb_dropped.emit()
 
 func get_desired_position_from_mouse() -> Vector2:
 	var mouse_position = get_global_mouse_position()
