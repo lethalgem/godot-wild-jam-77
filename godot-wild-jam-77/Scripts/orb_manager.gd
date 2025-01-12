@@ -29,7 +29,7 @@ func add_spawned(orb: Orb) -> void:
 	orb.combo_made_with.connect(handle_combo)
 
 func handle_combo(ids: Array[String]):
-	print("got combo")
+	print("Got combo")
 	var combo_orbs: Array[Orb]
 	var merge_position: Vector2
 	for index in range(ids.size()):
