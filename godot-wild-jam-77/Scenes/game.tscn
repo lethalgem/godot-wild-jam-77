@@ -150,7 +150,6 @@ text = "Settings"
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
 [node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
-visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")

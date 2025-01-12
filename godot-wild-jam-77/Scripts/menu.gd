@@ -23,8 +23,3 @@ func _on_settings_pressed():
 
 func toggle_menu():
 	self.visible = true
-
-
-func _unhandled_input(event):
-	if self.visible and event.is_action_pressed("left_click"):
-		event.consume()
