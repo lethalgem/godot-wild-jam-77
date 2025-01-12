@@ -1,12 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=10 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
 [ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="3_jl26m"]
-[ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_ipai6"]
+[ext_resource type="LabelSettings" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="PackedScene" uid="uid://fo3xyen1pj7l" path="res://scenes/menu.tscn" id="5_rkbhr"]
-[ext_resource type="AudioStream" uid="uid://kvmn1g6yvl4" path="res://assets/audio/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kjpm"]
 bg_color = Color(0, 0, 0, 1)
@@ -108,9 +108,6 @@ label_settings = SubResource("LabelSettings_f8l2j")
 [node name="Scale" parent="." instance=ExtResource("3_jl26m")]
 position = Vector2(960, 520)
 
-[connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
-[connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
-[connection signal="updated_weight" from="Scale" to="." method="_on_scale_updated_weight"]
 [node name="Settings" type="Button" parent="."]
 offset_left = 1737.0
 offset_top = 30.0
@@ -122,6 +119,7 @@ theme_override_font_sizes/font_size = 30
 text = "Settings"
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
 
@@ -129,5 +127,7 @@ text = "Settings"
 stream = ExtResource("5_so3c2")
 autoplay = true
 
+[connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
+[connection signal="updated_weight" from="Scale" to="." method="_on_scale_updated_weight"]
 [connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
