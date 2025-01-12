@@ -40,7 +40,7 @@ func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
 	orb_instance.combo_results = type.properties.combo_results
 	orb_instance.type = type.properties.type
 	orb_instance.body.global_position = location
-	add_child(orb_instance)
+	call_deferred("add_child", orb_instance)
 	return orb_instance
 
 func drop_orb():

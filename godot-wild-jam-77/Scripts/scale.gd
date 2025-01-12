@@ -21,7 +21,6 @@ func _process(_delta:float) -> void:
 func calculate_weight():
 	for type in type_count.keys():
 		total_weight = type_count[type] * type_weights[type]
-		print(total_weight)
 		if total_weight >= goal_weight:
 			print("Winner")
 
