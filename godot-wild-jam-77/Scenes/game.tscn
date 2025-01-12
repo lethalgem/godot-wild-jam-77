@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=10 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -17,20 +17,6 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_f8l2j"]
 font_size = 20
-
-[sub_resource type="GDScript" id="GDScript_oeebk"]
-script/source = "extends CanvasLayer
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-"
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 520),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
@@ -137,7 +123,6 @@ theme_override_font_sizes/font_size = 45
 text = "Settings"
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
-script = SubResource("GDScript_oeebk")
 
 [node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
 visible = false
@@ -149,4 +134,3 @@ autoplay = true
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
 [connection signal="updated_weight" from="Scale" to="." method="_on_scale_updated_weight"]
-[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]

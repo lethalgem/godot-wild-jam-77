@@ -44,15 +44,14 @@ func _ready() -> void:
 	current_weight = 0
 
 func _on_scale_goal_weight_achieved() -> void:
-	pass # Replace with function body.
+	scale.goal_weight = scale.goal_weight ** goal_exp_factor
+	weight_threshold = scale.goal_weight
+	turn_limit = turn_limit_increase
 
 
 func _on_settings_pressed():
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
-	scale.goal_weight = scale.goal_weight ** goal_exp_factor
-	weight_threshold = scale.goal_weight
-	turn_limit = turn_limit_increase
-	
+
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
 		print("Game Over")
