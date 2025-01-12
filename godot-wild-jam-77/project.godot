@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/image="res://assets/branding/splash_screen.png"
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://themes/default_bus_layout.tres"
+
 [display]
 
 window/size/viewport_width=1920

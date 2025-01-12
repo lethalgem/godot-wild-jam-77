@@ -13,6 +13,25 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
 
+# Helper print function
+
+func debug_print(chain: ComboChain, message: String = "") -> void:
+	if not is_debug:
+		return
+		
+	var type_summary = ""
+	for orb_type in chain.type_counts.keys():
+		# Convert the enum value to its name for readability
+		var type_name = OrbType.ORB_TYPE.keys()[orb_type]
+		type_summary += "\n    %s: %d" % [type_name, chain.type_counts[orb_type]]
+	
+	print("\n=== Chain Status ===")
+	if message:
+		print("Event: " + message)
+	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
+	print("Chain IDs: " + str(chain.orb_ids))
+	print("==================\n")
+
 # Properties to be set
 var color
 var radius
@@ -21,7 +40,7 @@ var allowed_combos = [{}] ## Array[{OrbType.ORB_TYPE:Count}], default is none
 var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_combo, default is none
 var type: OrbType.ORB_TYPE
 
-var id = uuid_util.v4()
+var id: String = str(uuid_util.v4())
 var colliding_orbs: Array[Orb]
 
 # Called when the node enters the scene tree for the first time.
@@ -51,9 +70,9 @@ func _on_orb_body_entered(colliding_body: Node) -> void:
 # as it happens, is going to be costly. Especially in a browser window
 func check_for_combo() -> void:
 	# check every body we're colliding with because that is the start of a chain
-	for starting_orb in colliding_orbs:
+	for next_orb in colliding_orbs:
 		# travel the chain
-		check_next_orb([[id, starting_orb.id]], [{starting_orb.type: 0}], starting_orb)
+		check_next_orb(next_orb)
 
 enum CHAIN_STATUS {
 	DEAD,
@@ -61,48 +80,95 @@ enum CHAIN_STATUS {
 	COMBO,
 }
 
-# TODO: We currently combo when only one of the requirements in the combo dictionary is met, it needs to be all of them
-func check_next_orb(
-				id_chains, # Array[Array[String]]
-				type_chains, # Array[{type: count}
-				orb: Orb) -> void:
-	# Each new orb could have multiple collisions, so we need to check all of those and see if we continue
-	for index in range(type_chains.size()):
-		var chain = type_chains[index]
-		var current_type_count = chain.get_or_add(orb.type, 0)
-		chain[orb.type] = current_type_count + 1
-		var is_still_valid_combo = is_still_valid_combo(chain)
+class ComboChain:
+	var orb_ids : Array[String] = []
+	var type_counts : Dictionary = {}
+	
+	func add_orb(orb:Orb)-> void:
+		orb_ids.append(str(orb.id))
+		type_counts[orb.type] = type_counts.get(orb.type,0) + 1
+		
+	func remove_orb(orb:Orb)-> void:
+		for i in orb_ids.size():
+			if orb_ids[i] == orb.id:
+				orb_ids.remove_at(i)
+		type_counts[orb.type] -= 1
+		if type_counts[orb.type] <= 0:
+			type_counts.erase(orb.type)
+
+func check_next_orb(starting_orb: Orb) -> void:
+	var visited = {}
+	var chain = ComboChain.new()
+	var remaining_orbs: Array[Orb] = [starting_orb]
+	
+	if is_debug:
+		print("\n🔍 Starting combo check from orb: " + str(starting_orb.id))
+	
+	while not remaining_orbs.is_empty():
+		var curr_orb = remaining_orbs.pop_front()
+		
+		if visited.has(curr_orb.id):
+			debug_print(chain, "Skipping visited orb: " + str(curr_orb.id))
+			continue
+			
+		visited[curr_orb.id] = true
+		chain.add_orb(curr_orb)
+		
+		var is_still_valid_combo = is_still_valid_combo(chain.type_counts)
 		match is_still_valid_combo[0]:
 			CHAIN_STATUS.DEAD:
-				return
+				debug_print(chain, "❌ Dead chain found, removing orb: " + str(curr_orb.id))
+				chain.remove_orb(curr_orb)
+				continue
 			CHAIN_STATUS.VALID:
-				id_chains[index].append(orb.id)
-				for next_orb in orb.colliding_orbs:
-					check_next_orb(id_chains, type_chains, next_orb)
+				debug_print(chain, "✓ Valid chain, checking connected orbs")
+				for next_orb in curr_orb.colliding_orbs:
+					if not visited.has(next_orb.id):
+						remaining_orbs.push_back(next_orb)
 			CHAIN_STATUS.COMBO:
-				var combo_ids: Array[String]
-				for uuid in id_chains[index]:
-					combo_ids.append(str(uuid))
-				combo_made_with.emit(combo_ids, is_still_valid_combo[1].new())
+				debug_print(chain, "🎯 COMBO FOUND!")
+				combo_made_with.emit(chain.orb_ids, is_still_valid_combo[1])
 				return
-	
-func is_still_valid_combo(chain):
+
+func is_still_valid_combo(chain): # -> [CHAIN_STATUS, OrbType]
+	"""
+	If the chain has any valid combo in the list of
+	allowed combos we return VALID.
+
+	If the chain meets all the values in the combo we
+	return COMBO
+
+	If the chain doesn't meet any of the allowed combos
+	return DEAD. We shouldn't keep pursuing that chain at all.
+	"""
+	# How many possible valid combinations we could still make
 	var still_valid_combos = 0
+	
+	# Loop through each combo that's allowed
+	# E.g., if we need 3 water orbs for a combo, that would be [{Water, 3}]
 	for index in range(allowed_combos.size()): # [{Water, 3}]
 		var allowed_combo = allowed_combos[index]
 		var is_full_combo = true
 		var is_chain_valid = true
+		
+		# Check each type of orb in the current chain
 		for chained_orb_type in chain.keys(): # Water in [{Water, 1}]
+			
+			# How many of this type do we need for the combo?
 			var value_required_for_combo = allowed_combo.get(chained_orb_type) # 3
+			
+			# If not allowed in our combo at all, the combo can't work, break
 			if value_required_for_combo == null:
 				is_full_combo = false
 				is_chain_valid = false
-				break; # quit searching for this particular combo
+				break; 
+			
+			# If we don't have enough of this type yet...
 			elif value_required_for_combo > chain.get(chained_orb_type):
 				is_full_combo = false
 		
 		if is_full_combo:
-			return [CHAIN_STATUS.COMBO, combo_results[index]]
+			return [CHAIN_STATUS.COMBO, combo_results[index].new()]
 		
 		if is_chain_valid:
 			still_valid_combos += 1
