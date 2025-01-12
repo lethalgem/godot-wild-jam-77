@@ -39,7 +39,6 @@ func handle_combo(ids: Array[String], result: OrbType):
 		else:
 			in_progress_combos[id] = true
 	
-	print(in_progress_combos)
 	var merge_position: Vector2
 	for index in range(ids.size()):
 		var combo_orb: Orb = spawned_orbs[ids[index]]
