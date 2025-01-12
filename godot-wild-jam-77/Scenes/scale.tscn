@@ -4,10 +4,11 @@
 [ext_resource type="Script" path="res://scripts/scale_area.gd" id="2_txny6"]
 
 [sub_resource type="Curve2D" id="Curve2D_d26ut"]
+bake_interval = 1.0
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1360, -200, 963.52, 0, -963.52, 0, 0, 540, 0, 0, 0, 0, -1360, -200, 0, 0, 0, 0, -1360, 670, -720, 0, 720, 0, 0, 670, 0, 0, 0, 0, 1360, 670, 0, 0, 0, 0, 1360, -200)
+"points": PackedVector2Array(0, 0, 0, 0, 1020, 0, 0, 0, 0, 0, 900, 0, 0, -200, 0, 200, 900, 800, 350, 0, -350, 0, 540, 1020, 350, 0, -350, 0, -540, 1020, 0, 200, 0, -200, -900, 800, 0, 0, 0, 0, -900, 0, 0, 0, 0, 0, -1020, 0, 0, 0, 0, 0, -1020, 1140, 0, 0, 0, 0, 1020, 1140, 0, 0, 0, 0, 1020, 0)
 }
-point_count = 7
+point_count = 11
 
 [node name="Scale" type="StaticBody2D"]
 script = ExtResource("1_3yq2i")
@@ -21,6 +22,7 @@ position = Vector2(-598.6, -595.6)
 polygon = PackedVector2Array(-137.4, 340.6, -137.4, 899.6, 1362.6, 910.6, 1333.6, 354.6)
 
 [node name="InsideArea2D" type="Area2D" parent="."]
+position = Vector2(0, 469)
 script = ExtResource("2_txny6")
 
 [node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="InsideArea2D"]
