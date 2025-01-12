@@ -13,6 +13,25 @@ signal combo_made_with(ids: Array[String])
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
 
+# Helper print function
+
+func debug_print(chain: ComboChain, message: String = "") -> void:
+	if not is_debug:
+		return
+		
+	var type_summary = ""
+	for orb_type in chain.type_counts.keys():
+		# Convert the enum value to its name for readability
+		var type_name = OrbType.ORB_TYPE.keys()[orb_type]
+		type_summary += "\n    %s: %d" % [type_name, chain.type_counts[orb_type]]
+	
+	print("\n=== Chain Status ===")
+	if message:
+		print("Event: " + message)
+	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
+	print("Chain IDs: " + str(chain.orb_ids))
+	print("==================\n")
+
 # Properties to be set
 var color
 var radius
@@ -79,29 +98,33 @@ class ComboChain:
 func check_next_orb(starting_orb: Orb) -> void:
 	var visited = {}
 	var chain = ComboChain.new()
-	var remaining_orbs : Array[Orb] = [starting_orb]
+	var remaining_orbs: Array[Orb] = [starting_orb]
+	
+	if is_debug:
+		print("\n🔍 Starting combo check from orb: " + str(starting_orb.id))
 	
 	while not remaining_orbs.is_empty():
 		var curr_orb = remaining_orbs.pop_front()
 		
-		# We've checked this orb already
 		if visited.has(curr_orb.id):
+			debug_print(chain, "Skipping visited orb: " + str(curr_orb.id))
 			continue
 			
-		# Mark as visited, add to the chain
 		visited[curr_orb.id] = true
 		chain.add_orb(curr_orb)
 		
-		# Check if the orb makes a combo
 		match is_still_valid_combo(chain.type_counts):
 			CHAIN_STATUS.DEAD:
+				debug_print(chain, "❌ Dead chain found, removing orb: " + str(curr_orb.id))
 				chain.remove_orb(curr_orb)
 				continue
 			CHAIN_STATUS.VALID:
+				debug_print(chain, "✓ Valid chain, checking connected orbs")
 				for next_orb in curr_orb.colliding_orbs:
 					if not visited.has(next_orb.id):
 						remaining_orbs.push_back(next_orb)
 			CHAIN_STATUS.COMBO:
+				debug_print(chain, "🎯 COMBO FOUND!")
 				combo_made_with.emit(chain.orb_ids)
 				return
 	

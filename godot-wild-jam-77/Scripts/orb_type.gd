@@ -33,4 +33,4 @@ class Water extends OrbType:
 		properties.type = ORB_TYPE.WATER
 		properties.color = Color.BLUE
 		# Doesn't include its own orb
-		properties.allowed_combos = [{ORB_TYPE.WATER: 1, ORB_TYPE.FIRE: 1}] # TODO: Avoid having to put the inverse combo, currently we only look from the origin of the combo down, and don't consider combining branches
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 2}] # TODO: Avoid having to put the inverse combo, currently we only look from the origin of the combo down, and don't consider combining branches
