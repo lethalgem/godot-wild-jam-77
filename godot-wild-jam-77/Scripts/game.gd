@@ -11,7 +11,7 @@ class_name Game extends Node
 @export var scale: Scale
 @export var turn_limit_label: Label
 @export var weight_threshold_label: Label
-@export var weight_label: Label
+@export var weight_label: AnimatedLabel
 
 var turn_limit: int:
 	get:
@@ -32,7 +32,7 @@ var current_weight: float:
 	get:
 		return current_weight
 	set(new_val):
-		weight_label.text = str(int(new_val))
+		weight_label.update_text(str(int(new_val)))
 		current_weight = new_val
 
 # Called when the node enters the scene tree for the first time.
