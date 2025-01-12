@@ -11,7 +11,6 @@ script = ExtResource("1_h6akx")
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
-is_debug = true
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
 script = ExtResource("2_hk7ix")

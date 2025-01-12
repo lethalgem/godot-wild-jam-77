@@ -26,7 +26,7 @@ class Fire extends OrbType:
 		properties.color = Color.RED
 		properties.weight = 5.0
 		# Doesn't include its own orb
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}]
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:4}]
 		properties.combo_results = [GRASS]
 		
 class Water extends OrbType:
@@ -35,7 +35,7 @@ class Water extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.WATER
 		properties.color = Color.BLUE
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 1}] # TODO: Avoid having to put the inverse combo, currently we only look from the origin of the combo down, and don't consider combining branches
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 4}] # TODO: Avoid having to put the inverse combo, currently we only look from the origin of the combo down, and don't consider combining branches
 		properties.combo_results = [GRASS]
 
 class GRASS extends OrbType:
