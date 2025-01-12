@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq6aoqlr6hf7"]
+[gd_scene load_steps=5 format=3 uid="uid://cq6aoqlr6hf7"]
 
 [ext_resource type="Script" path="res://scripts/scale.gd" id="1_3yq2i"]
 [ext_resource type="Script" path="res://scripts/scale_area.gd" id="2_txny6"]
@@ -6,13 +6,17 @@
 [sub_resource type="LabelSettings" id="LabelSettings_1jdlf"]
 font_size = 42
 
+[sub_resource type="Curve2D" id="Curve2D_d26ut"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1360, -200, 963.52, 0, -963.52, 0, 0, 540, 0, 0, 0, 0, -1360, -200, 0, 0, 0, 0, -1360, 670, -720, 0, 720, 0, 0, 670, 0, 0, 0, 0, 1360, 670, 0, 0, 0, 0, 1360, -200)
+}
+point_count = 7
+
 [node name="Scale" type="StaticBody2D"]
 script = ExtResource("1_3yq2i")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(-326, 3.8147e-06)
-scale = Vector2(2.045, 2.045)
-color = Color(0.345356, 0.596623, 0.556993, 1)
+color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(524.988, -128.313, 486.064, -118.826, 467.971, -89.4865, 457.702, -45.9658, 442.543, 7.82396, 433.252, 45.9658, 417.604, 69.9267, 381.418, 93.3985, 314.914, 100.733, 207.824, 105.134, 133.496, 106.112, 46.9438, 102.689, -34.7188, 94.8655, -80.1956, 74.3276, -97.3105, 34.2298, -111.002, -5.86797, -113.936, -52.8117, -113.936, -86.0636, -135.941, -111.002, -167.726, -124.694, -200.685, -128.313, -200.685, 149.927, 145.526, 153.839, 530.856, 148.46)
 
 [node name="BowlCollisionPolygon2D" type="CollisionPolygon2D" parent="."]
@@ -44,6 +48,9 @@ text = "0"
 label_settings = SubResource("LabelSettings_1jdlf")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_d26ut")
 
 [connection signal="body_entered" from="InsideArea2D" to="." method="_on_inside_area_2d_body_entered"]
 [connection signal="body_exited" from="InsideArea2D" to="." method="_on_inside_area_2d_body_exited"]
