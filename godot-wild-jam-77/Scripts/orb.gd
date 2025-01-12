@@ -1,6 +1,6 @@
 class_name Orb extends Node2D
 
-signal combo_made_with(ids: Array[String])
+signal combo_made_with(ids: Array[String], result: OrbType)
 
 @export var weight_factor: float = 1.0
 @export var body: OrbBody
@@ -18,6 +18,7 @@ var color
 var radius
 var weight
 var allowed_combos = [{}] ## Array[{OrbType.ORB_TYPE:Count}], default is none
+var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_combo, default is none
 var type: OrbType.ORB_TYPE
 
 var id = uuid_util.v4()
@@ -70,7 +71,8 @@ func check_next_orb(
 		var chain = type_chains[index]
 		var current_type_count = chain.get_or_add(orb.type, 0)
 		chain[orb.type] = current_type_count + 1
-		match is_still_valid_combo(chain):
+		var is_still_valid_combo = is_still_valid_combo(chain)
+		match is_still_valid_combo[0]:
 			CHAIN_STATUS.DEAD:
 				return
 			CHAIN_STATUS.VALID:
@@ -81,12 +83,13 @@ func check_next_orb(
 				var combo_ids: Array[String]
 				for uuid in id_chains[index]:
 					combo_ids.append(str(uuid))
-				combo_made_with.emit(combo_ids)
+				combo_made_with.emit(combo_ids, is_still_valid_combo[1].new())
 				return
 	
-func is_still_valid_combo(chain) -> CHAIN_STATUS:
+func is_still_valid_combo(chain):
 	var still_valid_combos = 0
-	for allowed_combo in allowed_combos: # [{Water, 3}]
+	for index in range(allowed_combos.size()): # [{Water, 3}]
+		var allowed_combo = allowed_combos[index]
 		var is_full_combo = true
 		var is_chain_valid = true
 		for chained_orb_type in chain.keys(): # Water in [{Water, 1}]
@@ -99,15 +102,15 @@ func is_still_valid_combo(chain) -> CHAIN_STATUS:
 				is_full_combo = false
 		
 		if is_full_combo:
-			return CHAIN_STATUS.COMBO
+			return [CHAIN_STATUS.COMBO, combo_results[index]]
 		
 		if is_chain_valid:
 			still_valid_combos += 1
 
 	if still_valid_combos > 0:
-		return CHAIN_STATUS.VALID
+		return [CHAIN_STATUS.VALID, null]
 	else:
-		return CHAIN_STATUS.DEAD
+		return [CHAIN_STATUS.DEAD, null]
 
 func _on_orb_body_exited(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:

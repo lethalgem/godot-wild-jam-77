@@ -9,39 +9,46 @@ var should_drop_orb: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	spawn_orb_at_mouse()
+	spawn_next_orb_in_queue()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click") and holding_orb != null:
 		drop_orb()
 		await get_tree().create_timer(spawn_delay).timeout
-		spawn_orb_at_mouse()
+		spawn_next_orb_in_queue()
 
 func _process(_delta: float) -> void:
 	if holding_orb != null:
 		# TODO: Add a smooth interpolation lag so it feels nice
-		var mouse_position = get_global_mouse_position()
-		holding_orb.position = Vector2(mouse_position.x, clamp(mouse_position.y, 0, 300))
+		holding_orb.body.position = get_desired_position_from_mouse()
 
-func spawn_orb_at_mouse():
-	var orb_instance: Orb = orb_scene.instantiate()
+func spawn_next_orb_in_queue():
 	var orb_type: OrbType = orb_manager.get_next_orb_type()
 	if orb_type == null:
 		return
 	
-	orb_instance.radius = orb_type.properties.radius
-	orb_instance.weight = orb_type.properties.weight
-	orb_instance.color = orb_type.properties.color
-	orb_instance.allowed_combos = orb_type.properties.allowed_combos
-	orb_instance.type = orb_type.properties.type
-	
-	add_child(orb_instance)
-	holding_orb = orb_instance
+	holding_orb = spawn_orb_at(get_desired_position_from_mouse(), orb_type)
 	holding_orb.body.freeze = true
 	orb_manager.add_spawned(holding_orb)
+
+func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
+	var orb_instance: Orb = orb_scene.instantiate()
+	orb_instance.radius = type.properties.radius
+	orb_instance.weight = type.properties.weight
+	orb_instance.color = type.properties.color
+	orb_instance.allowed_combos = type.properties.allowed_combos
+	orb_instance.combo_results = type.properties.combo_results
+	orb_instance.type = type.properties.type
+	orb_instance.body.global_position = location
+	add_child(orb_instance)
+	return orb_instance
 
 func drop_orb():
 	# TODO: When smooth following is in, keep track of velocity and add it when dropped
 	# This will have the ball move left and right, not just down and the player can shoot diagonally
 	holding_orb.body.freeze = false
 	holding_orb = null
+
+func get_desired_position_from_mouse() -> Vector2:
+	var mouse_position = get_global_mouse_position()
+	return Vector2(mouse_position.x, clamp(mouse_position.y, 0, 300))

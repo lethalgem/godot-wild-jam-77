@@ -28,17 +28,21 @@ func add_spawned(orb: Orb) -> void:
 	spawned_orbs[str(orb.id)] = orb
 	orb.combo_made_with.connect(handle_combo)
 
-func handle_combo(ids: Array[String]):
+# TODO: Animation showing the orbs merge
+func handle_combo(ids: Array[String], result: OrbType):
 	print("got combo")
-	var combo_orbs: Array[Orb]
 	var merge_position: Vector2
 	for index in range(ids.size()):
 		var combo_orb: Orb = spawned_orbs[ids[index]]
 		combo_orb.body.freeze = true
-		combo_orbs.append(combo_orb)
 		
 		if index == (ids.size() / 2):
-			merge_position = combo_orb.global_position
-	# TODO: Animation showing the orbs merge
+			merge_position = combo_orb.body.global_position
+			if is_debug_mode and debug_marker != null:
+				debug_marker.visible = true
+				debug_marker.global_position = merge_position
+				print(result)
+				orb_spawner.spawn_orb_at(merge_position, result)
 		
-	print(combo_orbs)
+		combo_orb.queue_free()
+		spawned_orbs.erase([ids[index]])
