@@ -48,9 +48,8 @@ func _on_scale_goal_weight_achieved() -> void:
 	weight_threshold = scale.goal_weight
 	turn_limit = turn_limit_increase
 
-
 func _on_settings_pressed():
-	get_tree().change_scene_to_file("res://scenes/menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/audio_menu.tscn")
 
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
