@@ -13,6 +13,7 @@ class_name Game extends Node
 @export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
 @export var shockwave_rect: ShockwaveRect
+@export var game_camera: GameCamera
 
 var turn_limit: int:
 	get:
@@ -61,5 +62,5 @@ func _on_scale_updated_weight(weight: float) -> void:
 
 
 func _on_orb_manager_combo_at(loc: Vector2) -> void:
-	print(loc)
 	shockwave_rect.play_shockwave_at(loc)
+	game_camera.apply_shake()
