@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://d32tgxwtgqb5y"]
+
+[ext_resource type="Script" path="res://scripts/orb_hover.gd" id="1_dylsu"]
+
+[node name="OrbHover" type="Node2D"]
+script = ExtResource("1_dylsu")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 12.0
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect"]
+layout_mode = 0
+offset_right = 116.0
+offset_bottom = 77.0
+
+[node name="Label 1" type="Label" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "2x Red + 1x Green = Blue"
+
+[node name="Label 2" type="Label" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "2x Red + 1x Green = Blue"
+
+[node name="Label 3" type="Label" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "2x Red + 1x Green = Blue"

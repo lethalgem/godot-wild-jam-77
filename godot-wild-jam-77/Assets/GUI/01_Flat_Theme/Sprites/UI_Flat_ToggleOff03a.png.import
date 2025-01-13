@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfi32sy8jo14v"
-path="res://.godot/imported/UI_Flat_ToggleOff03a.png-670a366b9703be98743bb2e5dfd09433.ctex"
+path="res://.godot/imported/UI_Flat_ToggleOff03a.png-e6b6d5374f96bce888a7b0c142be17b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/01_Flat_Theme/Sprites/UI_Flat_ToggleOff03a.png"
-dest_files=["res://.godot/imported/UI_Flat_ToggleOff03a.png-670a366b9703be98743bb2e5dfd09433.ctex"]
+source_file="res://assets/GUI/01_Flat_Theme/Sprites/UI_Flat_ToggleOff03a.png"
+dest_files=["res://.godot/imported/UI_Flat_ToggleOff03a.png-e6b6d5374f96bce888a7b0c142be17b1.ctex"]
 
 [params]
 

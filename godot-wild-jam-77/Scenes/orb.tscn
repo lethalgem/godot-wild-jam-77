@@ -1,16 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=7 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
 [ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_hk7ix"]
 [ext_resource type="Script" path="res://scripts/orb_background.gd" id="3_31lrd"]
+[ext_resource type="PackedScene" uid="uid://d32tgxwtgqb5y" path="res://scenes/orb_hover.tscn" id="4_a6l35"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kb1ls"]
 
-[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_efws2"]
+
+[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "orb_hover")]
 script = ExtResource("1_h6akx")
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
+orb_hover = NodePath("OrbHover")
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
 script = ExtResource("2_hk7ix")
@@ -39,5 +43,17 @@ text = "XX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HoverArea2D" type="Area2D" parent="OrbBody"]
+
+[node name="HoverCollisionShape2D" type="CollisionShape2D" parent="OrbBody/HoverArea2D"]
+shape = SubResource("CircleShape2D_efws2")
+
+[node name="OrbHover" parent="." instance=ExtResource("4_a6l35")]
+visible = false
+
 [connection signal="body_entered" from="OrbBody" to="." method="_on_orb_body_entered"]
 [connection signal="body_exited" from="OrbBody" to="." method="_on_orb_body_exited"]
+[connection signal="mouse_entered" from="OrbBody" to="." method="_on_orb_body_mouse_entered"]
+[connection signal="mouse_exited" from="OrbBody" to="." method="_on_orb_body_mouse_exited"]
+[connection signal="mouse_entered" from="OrbBody/HoverArea2D" to="." method="_on_hover_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="OrbBody/HoverArea2D" to="." method="_on_hover_area_2d_mouse_exited"]

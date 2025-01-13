@@ -7,6 +7,7 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
 @export var can_combo_delay: int = 2 ## Delay after spawning before it can be used in a combo
+@export var orb_hover : OrbHover
 
 ## Set to see debug info
 @export var is_debug: bool = false
@@ -186,3 +187,13 @@ func debug_print(chain: ComboChain, message: String = "") -> void:
 	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
 	print("Chain IDs: " + str(chain.orb_ids))
 	print("==================\n")
+
+func _on_hover_area_2d_mouse_entered() -> void:
+	print("Mouse entered!")
+	orb_hover.visible=true
+	orb_hover.global_position=get_global_mouse_position()
+
+func _on_hover_area_2d_mouse_exited() -> void:
+	print("Mouse exited!")
+	orb_hover.visible=false
+	orb_hover.global_position=get_global_mouse_position()
