@@ -6,14 +6,12 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 @export var body: OrbBody
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
-@export var can_combo_delay: int = 2 ## Delay after spawning before it can be used in a combo
 
 ## Set to see debug info
 @export var is_debug: bool = false
 @onready var debug_weight_label = %DEBUG_WEIGHT_LABEL
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
-var can_combo = false
 
 # Properties to be set
 var color
@@ -22,6 +20,7 @@ var weight
 var allowed_combos = [{}] ## Array[{OrbType.ORB_TYPE:Count}], default is none
 var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_combo, default is none
 var type: OrbType.ORB_TYPE
+var can_combo = false
 
 var id: String = str(uuid_util.v4())
 var colliding_orbs: Array[Orb]
@@ -32,9 +31,7 @@ func _ready() -> void:
 	background.radius = radius
 	collision_shape.shape.radius = radius
 	body.mass = weight * weight_factor
-	
-	get_tree().create_timer(can_combo_delay).timeout.connect(func(): can_combo = true)
-	
+		
 	if is_debug:
 		debug_weight_label.text = str(weight)
 
@@ -79,6 +76,10 @@ func check_next_orb(starting_orb: Orb) -> void:
 	while not remaining_orbs.is_empty():
 		var curr_orb = remaining_orbs.pop_front()
 		
+		if not curr_orb.can_combo:
+			debug_print(chain, "Skipping disabled orb: " + str(curr_orb.id))
+			continue
+			
 		if visited.has(curr_orb.id):
 			debug_print(chain, "Skipping visited orb: " + str(curr_orb.id))
 			continue

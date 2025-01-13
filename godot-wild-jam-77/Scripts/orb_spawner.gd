@@ -49,6 +49,7 @@ func drop_orb():
 	# TODO: When smooth following is in, keep track of velocity and add it when dropped
 	# This will have the ball move left and right, not just down and the player can shoot diagonally
 	holding_orb.body.freeze = false
+	holding_orb.can_combo = true
 	holding_orb = null
 	orb_dropped.emit()
 
