@@ -49,9 +49,9 @@ scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":f
 script = ExtResource("1_v4xdu")
 orb_manager = NodePath("OrbManager")
 scale = NodePath("Scale")
-turn_limit_label = NodePath("Control/TurnLimitLabel")
-weight_threshold_label = NodePath("Control/WeightLabelBackground/WeightLabel/WeightThresholdLabel")
-weight_label = NodePath("Control/WeightLabelBackground/WeightLabel")
+turn_limit_label = NodePath("Control/HBoxContainer/VBoxContainer/TurnLimitLabel")
+weight_threshold_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel/WeightThresholdLabel")
+weight_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -66,40 +66,26 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 
-[node name="TurnLimitLabel" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 1616.0
-offset_top = 139.0
-offset_right = 1832.0
-offset_bottom = 197.0
-text = "Remaining"
-label_settings = ExtResource("4_ktmsk")
-
-[node name="NextOrbLabel" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 1549.0
-offset_top = 34.0
-offset_right = 1734.0
-offset_bottom = 92.0
-text = "Next Orb"
-label_settings = ExtResource("4_ktmsk")
-
-[node name="WeightLabelBackground" type="Panel" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 710.0
-offset_top = 8.745
-offset_right = 1210.0
-offset_bottom = 158.745
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 849.0
+offset_top = 42.0
+offset_right = 1841.0
+offset_bottom = 214.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 500
+
+[node name="WeightLabelBackground" type="Panel" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_5kjpm")
 
-[node name="WeightLabel" type="Label" parent="Control/WeightLabelBackground"]
+[node name="WeightLabel" type="Label" parent="Control/HBoxContainer/WeightLabelBackground"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -118,7 +104,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
 
-[node name="WeightThresholdLabel" type="Label" parent="Control/WeightLabelBackground/WeightLabel"]
+[node name="WeightThresholdLabel" type="Label" parent="Control/HBoxContainer/WeightLabelBackground/WeightLabel"]
 layout_mode = 0
 offset_left = 127.0
 offset_top = 85.255
@@ -128,6 +114,21 @@ theme_override_font_sizes/font_size = 10
 text = "/ XXXXXXX"
 label_settings = SubResource("LabelSettings_f8l2j")
 script = ExtResource("4_b5un6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TurnLimitLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_ipai6")
+text = "Remaining:"
+label_settings = ExtResource("4_ktmsk")
+
+[node name="NextOrbLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next Orb:"
+label_settings = ExtResource("4_ktmsk")
 
 [node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
 
@@ -156,6 +157,7 @@ visible = false
 stream = ExtResource("5_so3c2")
 volume_db = -20.0
 autoplay = true
+bus = &"music"
 
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
