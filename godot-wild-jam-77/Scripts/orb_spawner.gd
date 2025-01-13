@@ -41,6 +41,7 @@ func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
 	orb_instance.allowed_combos = type.properties.allowed_combos
 	orb_instance.combo_results = type.properties.combo_results
 	orb_instance.type = type.properties.type
+	orb_instance.label_text = type.properties.label_text
 	orb_instance.body.global_position = location
 	call_deferred("add_child", orb_instance)
 	return orb_instance

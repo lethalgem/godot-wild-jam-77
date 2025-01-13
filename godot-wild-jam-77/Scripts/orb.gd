@@ -6,10 +6,10 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 @export var body: OrbBody
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
+@export var label: Label
 
 ## Set to see debug info
 @export var is_debug: bool = false
-@onready var debug_weight_label = %DEBUG_WEIGHT_LABEL
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
 
@@ -20,6 +20,7 @@ var weight
 var allowed_combos = [{}] ## Array[{OrbType.ORB_TYPE:Count}], default is none
 var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_combo, default is none
 var type: OrbType.ORB_TYPE
+var label_text: String
 var can_combo = false
 
 var id: String = str(uuid_util.v4())
@@ -31,9 +32,11 @@ func _ready() -> void:
 	background.radius = radius
 	collision_shape.shape.radius = radius
 	body.mass = weight * weight_factor
-		
+	label.text = label_text
+	label.add_theme_font_size_override("font_size", radius - 1.0)
+	
 	if is_debug:
-		debug_weight_label.text = str(weight)
+		label.text = str(weight)
 
 func _on_orb_body_entered(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:

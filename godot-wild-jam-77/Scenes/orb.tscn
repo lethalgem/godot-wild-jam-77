@@ -1,16 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=6 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
 [ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_hk7ix"]
 [ext_resource type="Script" path="res://scripts/orb_background.gd" id="3_31lrd"]
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_g6jao"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_kb1ls"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kq8il"]
+resource_local_to_scene = true
 
-[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape")]
+[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label")]
 script = ExtResource("1_h6akx")
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
+label = NodePath("OrbBody/Label")
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
 script = ExtResource("2_hk7ix")
@@ -20,9 +23,9 @@ orb = NodePath("..")
 script = ExtResource("3_31lrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody"]
-shape = SubResource("CircleShape2D_kb1ls")
+shape = SubResource("CircleShape2D_kq8il")
 
-[node name="DEBUG_WEIGHT_LABEL" type="Label" parent="OrbBody"]
+[node name="Label" type="Label" parent="OrbBody"]
 unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -35,6 +38,9 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_g6jao")
+theme_override_font_sizes/font_size = 16
 text = "XX"
 horizontal_alignment = 1
 vertical_alignment = 1
