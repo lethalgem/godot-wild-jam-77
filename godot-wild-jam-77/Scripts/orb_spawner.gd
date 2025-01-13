@@ -21,9 +21,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if holding_orb != null:
-		# TODO: Overshoot a bit
-		holding_orb.body.position = Vector2(lerpf(holding_orb.body.position.x, get_global_mouse_position().x, 10 * delta), \
-		 lerpf(holding_orb.body.position.y, get_global_mouse_position().y, 10 * delta))
+		# lag behind the mouse a bit
+		var speed = 0.005 # Unintuitively, the lower the value, the faster it catches the mouse
+		var weight = 1.0 - (speed ** delta)
+		holding_orb.body.position = Vector2(lerpf(holding_orb.body.position.x, get_desired_position_from_mouse().x, weight), \
+		 lerpf(holding_orb.body.position.y, get_desired_position_from_mouse().y, weight))
 
 func spawn_next_orb_in_queue():
 	var orb_type: OrbType = orb_manager.get_next_orb_type()

@@ -1,6 +1,6 @@
 class_name GameCamera extends Camera2D
 
-@export var starting_strength: float = 30.0
+@export var shake_range: float = 30.0
 @export var shake_fade_rate: float = 5.0
 
 var rng = RandomNumberGenerator.new()
@@ -8,7 +8,7 @@ var shake_strength: float = 0.0
 @onready var original_position: Vector2 = offset
 
 func apply_shake():
-	shake_strength = starting_strength
+	shake_strength = shake_range
 	
 	var tween = create_tween()
 	tween.tween_property(self, "zoom", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)

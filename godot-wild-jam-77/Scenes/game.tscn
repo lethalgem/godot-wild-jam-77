@@ -121,23 +121,24 @@ script = ExtResource("1_v4xdu")
 orb_manager = NodePath("OrbManager")
 scale = NodePath("Scale")
 turn_limit_label = NodePath("Control/HBoxContainer/VBoxContainer/TurnLimitLabel")
-weight_threshold_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel/WeightThresholdLabel")
+weight_threshold_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightThresholdLabel")
 weight_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel")
 shockwave_rect = NodePath("ShockwaveCanvasLayer/ShockwaveRect")
 game_camera = NodePath("GameCamera")
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ykvf7")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="Background" type="ColorRect" parent="Control"]
-material = SubResource("ShaderMaterial_ykvf7")
-layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
-mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
@@ -150,12 +151,14 @@ offset_right = 1841.0
 offset_bottom = 214.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 500
 
 [node name="WeightLabelBackground" type="Panel" parent="Control/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5kjpm")
 
 [node name="WeightLabel" type="Label" parent="Control/HBoxContainer/WeightLabelBackground"]
@@ -177,12 +180,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
 
-[node name="WeightThresholdLabel" type="Label" parent="Control/HBoxContainer/WeightLabelBackground/WeightLabel"]
+[node name="WeightThresholdLabel" type="Label" parent="Control/HBoxContainer/WeightLabelBackground"]
 layout_mode = 0
-offset_left = 127.0
-offset_top = 85.255
-offset_right = 486.0
-offset_bottom = 143.255
+offset_left = 4.0
+offset_top = 17.255
+offset_right = 363.0
+offset_bottom = 75.255
 theme_override_font_sizes/font_size = 10
 text = "/ XXXXXXX"
 label_settings = SubResource("LabelSettings_f8l2j")
@@ -191,6 +194,7 @@ script = ExtResource("4_b5un6")
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 
 [node name="TurnLimitLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -202,8 +206,6 @@ label_settings = ExtResource("4_ktmsk")
 layout_mode = 2
 text = "Next Orb:"
 label_settings = ExtResource("4_ktmsk")
-
-[node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
 
 [node name="Scale" parent="." instance=ExtResource("3_jl26m")]
 visible = false
