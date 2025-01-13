@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 		time_animating = 0
 	elif is_animating:
 		var animating_text = static_text
-		for char in range(number_of_animating_chars):
+		for i in range(number_of_animating_chars):
 			animating_text += digits.pick_random()
 		text = animating_text
 
