@@ -5,7 +5,7 @@
 [ext_resource type="LabelSettings" uid="uid://c6oa04g8d21mj" path="res://themes/audio_menu_labels.tres" id="2_dcec0"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_73elo"]
 [ext_resource type="PackedScene" uid="uid://g2p5wijck5q4" path="res://scenes/volume_slider.tscn" id="3_jm2q5"]
-[ext_resource type="LabelSettings" uid="uid://d36hhjurk8hth" path="res://scenes/MenuLabel.tres" id="4_7wlqq"]
+[ext_resource type="LabelSettings" uid="uid://d36hhjurk8hth" path="res://themes/MenuLabel.tres" id="4_7wlqq"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slw4q"]
 texture = ExtResource("1_uqs6n")
