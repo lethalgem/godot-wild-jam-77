@@ -1,6 +1,7 @@
 class_name OrbManager extends Node2D
 
 signal orb_dropped
+signal combo_at(loc: Vector2)
 
 @export var is_debug_mode: bool = false
 @export var debug_marker: Marker2D
@@ -42,6 +43,7 @@ func handle_combo(ids: Array[String], result: OrbType):
 		
 		if index == int(ids.size() / 2):
 			merge_position = combo_orb.body.global_position
+			combo_at.emit(merge_position)
 			if is_debug_mode and debug_marker != null:
 				debug_marker.visible = true
 				debug_marker.global_position = merge_position

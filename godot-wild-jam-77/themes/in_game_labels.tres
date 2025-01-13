@@ -5,3 +5,4 @@
 [resource]
 font = ExtResource("1_cps6n")
 font_size = 90
+font_color = Color(0, 0, 0, 1)
