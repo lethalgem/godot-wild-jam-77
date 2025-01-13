@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://d36hhjurk8hth"]
+
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="1_377sd"]
+
+[resource]
+font = ExtResource("1_377sd")
+font_size = 55

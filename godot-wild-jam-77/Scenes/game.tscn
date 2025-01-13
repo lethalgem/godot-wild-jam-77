@@ -141,8 +141,9 @@ offset_top = 30.0
 offset_right = 212.0
 offset_bottom = 74.0
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_f1dkq")
-theme_override_font_sizes/font_size = 45
+theme_override_font_sizes/font_size = 55
 text = "Settings"
 flat = true
 
@@ -153,7 +154,7 @@ visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")
-volume_db = -15.0
+volume_db = -20.0
 autoplay = true
 
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
