@@ -99,19 +99,22 @@ offset_right = 1424.0
 offset_bottom = 897.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 400
 alignment = 1
 
 [node name="Resume" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_73elo")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 55
 text = "Resume"
+flat = true
 
-[node name="Save" type="Button" parent="HBoxContainer"]
+[node name="Restart" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_73elo")
-theme_override_font_sizes/font_size = 30
-text = "Save"
+theme_override_font_sizes/font_size = 55
+text = "Restart"
+flat = true
 
 [connection signal="pressed" from="HBoxContainer/Resume" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="HBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="HBoxContainer/Restart" to="." method="_on_restart_pressed"]

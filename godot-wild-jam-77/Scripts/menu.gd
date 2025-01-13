@@ -10,8 +10,8 @@ func _process(delta):
 	pass
 
 
-func _on_save_pressed():
-	pass # Replace with function body.
+func _on_restart_pressed():
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_back_pressed() -> void:
