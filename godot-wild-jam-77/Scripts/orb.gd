@@ -7,6 +7,7 @@ signal combo_made_with(ids: Array[String], result: OrbType)
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
 @export var label: Label
+@export var orb_shader_background: ColorRect
 
 ## Set to see debug info
 @export var is_debug: bool = false
@@ -30,6 +31,7 @@ var colliding_orbs: Array[Orb]
 func _ready() -> void:
 	background.background_color = color
 	background.radius = radius
+	orb_shader_background.radius = radius
 	collision_shape.shape.radius = radius
 	body.mass = weight * weight_factor
 	label.text = label_text
