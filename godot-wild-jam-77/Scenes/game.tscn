@@ -45,6 +45,7 @@ corner_radius_bottom_left = 30
 [sub_resource type="LabelSettings" id="LabelSettings_f8l2j"]
 font = ExtResource("4_ipai6")
 font_size = 30
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ww6aj"]
 shader = ExtResource("11_cwg4v")
