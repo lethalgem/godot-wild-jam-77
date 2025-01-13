@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
 [ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="3_jl26m"]
 [ext_resource type="Shader" path="res://shaders/connected_dots.gdshader" id="3_o3fmh"]
-[ext_resource type="Script" path="res://scripts/weight_label.gd" id="4_b5un6"]
+[ext_resource type="Script" path="res://scripts/animated_label.gd" id="4_b5un6"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_ipai6"]
 [ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
@@ -127,6 +127,7 @@ offset_bottom = 143.255
 theme_override_font_sizes/font_size = 10
 text = "/ XXXXXXX"
 label_settings = SubResource("LabelSettings_f8l2j")
+script = ExtResource("4_b5un6")
 
 [node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
 
