@@ -19,10 +19,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		await get_tree().create_timer(spawn_delay).timeout
 		spawn_next_orb_in_queue()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if holding_orb != null:
-		# TODO: Add a smooth interpolation lag so it feels nice
-		holding_orb.body.position = get_desired_position_from_mouse()
+		# TODO: Overshoot a bit
+		holding_orb.body.position = Vector2(lerpf(holding_orb.body.position.x, get_global_mouse_position().x, 10 * delta), \
+		 lerpf(holding_orb.body.position.y, get_global_mouse_position().y, 10 * delta))
 
 func spawn_next_orb_in_queue():
 	var orb_type: OrbType = orb_manager.get_next_orb_type()
