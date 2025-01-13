@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=22 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
 [ext_resource type="AudioStream" uid="uid://d2bj21tuher73" path="res://assets/music/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
 [ext_resource type="FontFile" uid="uid://cdlqsjawviuc7" path="res://assets/correction_brush/CorrectionBrush.ttf" id="8_f1dkq"]
+[ext_resource type="Shader" path="res://shaders/shockwave.gdshader" id="11_cwg4v"]
+[ext_resource type="Script" path="res://scripts/shockwave_rect.gd" id="12_316s6"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_66ilf"]
 frequency = 0.122
@@ -43,7 +45,74 @@ corner_radius_bottom_left = 30
 font = ExtResource("4_ipai6")
 font_size = 30
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ww6aj"]
+shader = ExtResource("11_cwg4v")
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/force = 0.625
+shader_parameter/size = 0.0
+shader_parameter/thickness = 0.0
+
+[sub_resource type="Animation" id="Animation_ae8u7"]
+resource_name = "shockwave"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.39]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.625]
+}
+
+[sub_resource type="Animation" id="Animation_3fylg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.625]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mstdr"]
+_data = {
+"RESET": SubResource("Animation_3fylg"),
+"shockwave": SubResource("Animation_ae8u7")
+}
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "shockwave_rect")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":false,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -52,6 +121,7 @@ scale = NodePath("Scale")
 turn_limit_label = NodePath("Control/TurnLimitLabel")
 weight_threshold_label = NodePath("Control/WeightLabelBackground/WeightLabel/WeightThresholdLabel")
 weight_label = NodePath("Control/WeightLabelBackground/WeightLabel")
+shockwave_rect = NodePath("CanvasLayer/ShockwaveRect")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -157,6 +227,23 @@ stream = ExtResource("5_so3c2")
 volume_db = -20.0
 autoplay = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ShockwaveRect" type="ColorRect" parent="CanvasLayer" node_paths=PackedStringArray("animation_player")]
+material = SubResource("ShaderMaterial_ww6aj")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("12_316s6")
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+root_node = NodePath("../ShockwaveRect")
+libraries = {
+"": SubResource("AnimationLibrary_mstdr")
+}
+
+[connection signal="combo_at" from="OrbManager" to="." method="_on_orb_manager_combo_at"]
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
 [connection signal="updated_weight" from="Scale" to="." method="_on_scale_updated_weight"]
