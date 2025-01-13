@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=16 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -9,6 +9,7 @@
 [ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
 [ext_resource type="AudioStream" uid="uid://d2bj21tuher73" path="res://assets/music/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
+[ext_resource type="FontFile" uid="uid://cdlqsjawviuc7" path="res://assets/correction_brush/CorrectionBrush.ttf" id="8_f1dkq"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_66ilf"]
 frequency = 0.122
@@ -140,9 +141,10 @@ offset_top = 30.0
 offset_right = 212.0
 offset_bottom = 74.0
 size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("4_ipai6")
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("8_f1dkq")
+theme_override_font_sizes/font_size = 45
 text = "Settings"
+flat = true
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
@@ -151,6 +153,7 @@ visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")
+volume_db = -15.0
 autoplay = true
 
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
