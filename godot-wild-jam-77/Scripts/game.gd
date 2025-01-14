@@ -15,6 +15,8 @@ class_name Game extends Node
 @export var shockwave_rect: ShockwaveRect
 @export var game_camera: GameCamera
 
+const end_game = preload("res://scenes/endgame.tscn")
+
 var turn_limit: int:
 	get:
 		return turn_limit
@@ -52,9 +54,12 @@ func _on_scale_goal_weight_achieved() -> void:
 	turn_limit = turn_limit_increase
 
 func _on_orb_manager_orb_dropped() -> void:
+	#var game_over = end_game.instantiate()
 	if turn_limit == 0:
-		print("Game Over")
+		#add_child(game_over)
+		print(turn_limit)
 	else:
+		print(turn_limit)
 		turn_limit -= 1
 
 func _on_scale_updated_weight(weight: float) -> void:

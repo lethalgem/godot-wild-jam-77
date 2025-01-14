@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=24 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -41,6 +41,11 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_h11qd"]
+font = ExtResource("4_ipai6")
+font_size = 90
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_f8l2j"]
 font = ExtResource("4_ipai6")
@@ -145,7 +150,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 849.0
+offset_left = 812.0
 offset_top = 42.0
 offset_right = 1841.0
 offset_bottom = 214.0
@@ -175,7 +180,7 @@ offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "XXXXX"
-label_settings = ExtResource("4_ktmsk")
+label_settings = SubResource("LabelSettings_h11qd")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
@@ -224,6 +229,7 @@ text = "Settings"
 flat = true
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
 visible = false
@@ -232,6 +238,7 @@ visible = false
 stream = ExtResource("5_so3c2")
 volume_db = -20.0
 autoplay = true
+bus = &"music"
 
 [node name="ShockwaveCanvasLayer" type="CanvasLayer" parent="."]
 
