@@ -1,0 +1,95 @@
+[gd_scene load_steps=8 format=3 uid="uid://dh7aj6wdgowuq"]
+
+[ext_resource type="Shader" path="res://shaders/shockwave.gdshader" id="1_iwyrp"]
+[ext_resource type="Script" path="res://scripts/shockwave.gd" id="1_y2yur"]
+[ext_resource type="Script" path="res://scripts/shockwave_rect.gd" id="2_a6gq6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ww6aj"]
+shader = ExtResource("1_iwyrp")
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/force = 0.625
+shader_parameter/size = 0.0
+shader_parameter/thickness = 0.0
+
+[sub_resource type="Animation" id="Animation_3fylg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.625]
+}
+
+[sub_resource type="Animation" id="Animation_ae8u7"]
+resource_name = "shockwave"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.766667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.766667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.625]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mstdr"]
+_data = {
+"RESET": SubResource("Animation_3fylg"),
+"shockwave": SubResource("Animation_ae8u7")
+}
+
+[node name="Shockwave" type="CanvasLayer" node_paths=PackedStringArray("shockwave_rect", "animation_player")]
+script = ExtResource("1_y2yur")
+shockwave_rect = NodePath("ShockwaveRect")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="ShockwaveRect" type="ColorRect" parent="." node_paths=PackedStringArray("animation_player")]
+material = SubResource("ShaderMaterial_ww6aj")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("2_a6gq6")
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../ShockwaveRect")
+libraries = {
+"": SubResource("AnimationLibrary_mstdr")
+}
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

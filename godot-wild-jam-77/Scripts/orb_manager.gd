@@ -20,7 +20,7 @@ func add_new_orb_to_queue() -> void:
 
 func get_next_orb_type() -> OrbType:
 	add_new_orb_to_queue()
-	if spawn_limit > 0:
+	if spawn_limit >= 0:
 		return orb_type_queue.pop_back()
 	else:
 		return null

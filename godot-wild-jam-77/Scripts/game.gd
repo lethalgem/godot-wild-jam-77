@@ -12,16 +12,17 @@ class_name Game extends Node
 @export var turn_limit_label: Label
 @export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
-@export var shockwave_rect: ShockwaveRect
 @export var game_camera: GameCamera
+var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 
 var turn_limit: int:
 	get:
 		return turn_limit
 	set(new_val):
-		turn_limit_label.text = "Remaining: " + str(new_val)
+		turn_limit_label.text = "Remaining: " + str(new_val if (new_val > 0) else 0)
 		orb_manager.spawn_limit = new_val
 		turn_limit = new_val
+		print(new_val)
 
 var weight_threshold: float:
 	get:
@@ -54,13 +55,14 @@ func _on_scale_goal_weight_achieved() -> void:
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
 		print("Game Over")
-	else:
-		turn_limit -= 1
+	turn_limit -= 1
 
 func _on_scale_updated_weight(weight: float) -> void:
 	current_weight = weight
 
 
 func _on_orb_manager_combo_at(loc: Vector2) -> void:
-	shockwave_rect.play_shockwave_at(loc)
+	var shockwave_instance: Shockwave = shockwave_scene.instantiate()
+	add_child(shockwave_instance)
+	shockwave_instance.play_shockwave_at(loc)
 	game_camera.apply_shake()
