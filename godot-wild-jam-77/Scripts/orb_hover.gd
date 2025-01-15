@@ -1,12 +1,21 @@
 class_name OrbHover extends Node2D 
 
-var AllowedCombos : Array[String] = ["test","deez","nuts"]
+@export var hover_label: Label
+@export var type_label : Label
 
-# Called when the node enters the scene tree for the first time.
+# Initialize the hover display
 func _ready() -> void:
-	pass # Replace with function body.
+	# Start with the label hidden and empty
+	hover_label.text = ""
+	type_label.text = ""
+	visible = false
 
+# Function that gets called when we want to show text
+func show_hover(orb:String, combo: String) -> void:
+	type_label.text = orb
+	hover_label.text = combo
+	visible = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+# Function to hide the hover display
+func hide_hover() -> void:
+	visible = false

@@ -191,11 +191,15 @@ func debug_print(chain: ComboChain, message: String = "") -> void:
 	print("==================\n")
 
 func _on_hover_area_2d_mouse_entered() -> void:
-	print("Mouse entered!")
-	orb_hover.visible=true
-	orb_hover.global_position=get_global_mouse_position()
+	var props = OrbType.OrbProperties.new()
+	props.allowed_combos = allowed_combos
+	props.combo_results = combo_results
+	var orb_type = "ORB TYPE: " + OrbType.ORB_TYPE.keys()[type]
+	var combo_text = props.format_combos()[0]
+	if orb_hover:
+		orb_hover.global_position = get_global_mouse_position()
+		orb_hover.show_hover(orb_type, combo_text)
 
 func _on_hover_area_2d_mouse_exited() -> void:
-	print("Mouse exited!")
-	orb_hover.visible=false
-	orb_hover.global_position=get_global_mouse_position()
+	if orb_hover:
+		orb_hover.hide_hover()

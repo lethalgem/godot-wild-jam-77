@@ -1,9 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d32tgxwtgqb5y"]
+[gd_scene load_steps=4 format=3 uid="uid://d32tgxwtgqb5y"]
 
 [ext_resource type="Script" path="res://scripts/orb_hover.gd" id="1_dylsu"]
+[ext_resource type="LabelSettings" uid="uid://b4obo73jvvobe" path="res://themes/orb_hover_label.tres" id="2_aih0k"]
 
-[node name="OrbHover" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brgtf"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="OrbHover" type="Node2D" node_paths=PackedStringArray("hover_label", "type_label")]
 script = ExtResource("1_dylsu")
+hover_label = NodePath("Control/PanelContainer/VBoxContainer/CombinationLabel")
+type_label = NodePath("Control/PanelContainer/VBoxContainer/TypeLabel")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -11,30 +20,21 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Panel" type="Panel" parent="Control"]
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_brgtf")
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-layout_mode = 0
-offset_right = 20.0
-offset_bottom = 12.0
-color = Color(0, 0, 0, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect"]
-layout_mode = 0
-offset_right = 116.0
-offset_bottom = 77.0
-
-[node name="Label 1" type="Label" parent="Control/ColorRect/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer"]
 layout_mode = 2
-text = "2x Red + 1x Green = Blue"
 
-[node name="Label 2" type="Label" parent="Control/ColorRect/VBoxContainer"]
+[node name="TypeLabel" type="Label" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "2x Red + 1x Green = Blue"
+text = "Fire Orb"
+label_settings = ExtResource("2_aih0k")
 
-[node name="Label 3" type="Label" parent="Control/ColorRect/VBoxContainer"]
+[node name="CombinationLabel" type="Label" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "2x Red + 1x Green = Blue"
+text = "I love Godot I love Godot I love Godot"
+label_settings = ExtResource("2_aih0k")
