@@ -15,6 +15,8 @@ class_name Game extends Node
 @export var game_camera: GameCamera
 @export var fps_label: Label
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
+@export var game_over_timer: Timer
+@export var game_over_screen: Control
 
 var turn_limit: int:
 	get:
@@ -23,7 +25,6 @@ var turn_limit: int:
 		turn_limit_label.text = "Remaining: " + str(new_val if (new_val > 0) else 0)
 		orb_manager.spawn_limit = new_val
 		turn_limit = new_val
-		print(new_val)
 
 var weight_threshold: float:
 	get:
@@ -58,15 +59,20 @@ func _on_scale_goal_weight_achieved() -> void:
 
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
-		print("Game Over")
+		game_over_timer.start()
 	turn_limit -= 1
 
 func _on_scale_updated_weight(weight: float) -> void:
 	current_weight = weight
-
 
 func _on_orb_manager_combo_at(loc: Vector2) -> void:
 	var shockwave_instance: Shockwave = shockwave_scene.instantiate()
 	add_child(shockwave_instance)
 	shockwave_instance.play_shockwave_at(loc)
 	game_camera.apply_shake()
+	if turn_limit < 0:
+		game_over_timer.start()
+
+func _on_game_over_countdown_timer_timeout():
+	if turn_limit == -1:
+		game_over_screen.visible = true

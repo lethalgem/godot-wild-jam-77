@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=25 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
 [ext_resource type="AudioStream" uid="uid://d2bj21tuher73" path="res://assets/music/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
 [ext_resource type="FontFile" uid="uid://cdlqsjawviuc7" path="res://assets/correction_brush/CorrectionBrush.ttf" id="8_f1dkq"]
+[ext_resource type="PackedScene" uid="uid://7qclu3dxvvi5" path="res://scenes/endgame.tscn" id="10_r1tc8"]
+[ext_resource type="Shader" path="res://shaders/shockwave.gdshader" id="11_cwg4v"]
+[ext_resource type="Script" path="res://scripts/shockwave_rect.gd" id="12_316s6"]
 [ext_resource type="Script" path="res://scripts/game_camera.gd" id="13_d1osd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_66ilf"]
@@ -40,6 +43,11 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
+[sub_resource type="LabelSettings" id="LabelSettings_h11qd"]
+font = ExtResource("4_ipai6")
+font_size = 90
+font_color = Color(0, 0, 0, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_f8l2j"]
 font = ExtResource("4_ipai6")
 font_size = 30
@@ -49,7 +57,67 @@ font_color = Color(0, 0, 0, 1)
 font = ExtResource("4_ipai6")
 font_color = Color(0.501407, 0.501406, 0.501406, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label")]
+[sub_resource type="Animation" id="Animation_3fylg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.625]
+}
+
+[sub_resource type="Animation" id="Animation_ae8u7"]
+resource_name = "shockwave"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.625]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mstdr"]
+_data = {
+"RESET": SubResource("Animation_3fylg"),
+"shockwave": SubResource("Animation_ae8u7")
+}
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "shockwave_rect", "game_camera", "game_over_timer", "game_over_screen")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":false,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -59,7 +127,8 @@ turn_limit_label = NodePath("Control/HBoxContainer/VBoxContainer/TurnLimitLabel"
 weight_threshold_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightThresholdLabel")
 weight_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel")
 game_camera = NodePath("GameCamera")
-fps_label = NodePath("Control/FPSLabel")
+game_over_timer = NodePath("GameOverCountdownTimer")
+game_over_screen = NodePath("MenuLayer/EndGame")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ykvf7")
@@ -80,7 +149,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 849.0
+offset_left = 812.0
 offset_top = 42.0
 offset_right = 1841.0
 offset_bottom = 214.0
@@ -110,7 +179,7 @@ offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "XXXXX"
-label_settings = ExtResource("4_ktmsk")
+label_settings = SubResource("LabelSettings_h11qd")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
@@ -164,22 +233,32 @@ theme_override_font_sizes/font_size = 55
 text = "Settings"
 flat = true
 
-[node name="MenuLayer" type="CanvasLayer" parent="."]
-
-[node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
-visible = false
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")
 volume_db = -20.0
 autoplay = true
+bus = &"music"
 
 [node name="GameCamera" type="Camera2D" parent="."]
 offset = Vector2(960, 540)
 script = ExtResource("13_d1osd")
+
+[node name="GameOverCountdownTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
+visible = false
+
+[node name="EndGame" parent="MenuLayer" instance=ExtResource("10_r1tc8")]
+visible = false
 
 [connection signal="combo_at" from="OrbManager" to="." method="_on_orb_manager_combo_at"]
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]
 [connection signal="goal_weight_achieved" from="Scale" to="." method="_on_scale_goal_weight_achieved"]
 [connection signal="updated_weight" from="Scale" to="." method="_on_scale_updated_weight"]
 [connection signal="pressed" from="Settings" to="MenuLayer/Menu" method="_on_settings_pressed"]
+[connection signal="timeout" from="GameOverCountdownTimer" to="." method="_on_game_over_countdown_timer_timeout"]
