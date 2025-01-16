@@ -269,7 +269,6 @@ visible = false
 
 [node name="EndGame" parent="MenuLayer" instance=ExtResource("10_r1tc8")]
 visible = false
-script = null
 
 [connection signal="combo_at" from="OrbManager" to="." method="_on_orb_manager_combo_at"]
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]

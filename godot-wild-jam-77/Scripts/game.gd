@@ -47,7 +47,6 @@ func _ready() -> void:
 	turn_limit = initial_turn_limit
 	current_weight = 0
 	weight_threshold_label.set_static_text("/ ")
-	game_over_screen.visible = true
 
 func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
