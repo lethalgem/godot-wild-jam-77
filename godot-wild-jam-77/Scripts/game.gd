@@ -41,7 +41,6 @@ var turn_limit: int:
 			next_orb.body.global_position = \
 			 Vector2(next_orb_label.global_position.x + next_orb_label.size.x + next_orb.radius + next_orb_padding_px,\
 			 next_orb_label.global_position.y + next_orb_label.size.y / 2)
-			add_child(next_orb)
 
 var weight_threshold: float:
 	get:
