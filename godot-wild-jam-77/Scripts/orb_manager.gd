@@ -13,6 +13,10 @@ var orb_type_queue: Array[OrbType] = [OrbType.Water.new(), OrbType.Water.new(), 
 var spawned_orbs = {} # {id, orb} for easy lookup
 var in_progress_combos = {} # {id, true} to prevent duplicating combos with easy comparison
 
+func show_next_orb() -> Orb:
+	if peek_next_orb_type() != null:
+		var next_orb_instance = orb_spawner.spawn_orb_from_combo_at(Vector2(0,0), peek_next_orb_type())
+
 func add_new_orb_to_queue() -> void:
 	var possible_types = [OrbType.Fire, OrbType.Water]
 	var picked_type = possible_types.pick_random()
@@ -22,6 +26,12 @@ func get_next_orb_type() -> OrbType:
 	add_new_orb_to_queue()
 	if spawn_limit >= 0:
 		return orb_type_queue.pop_back()
+	else:
+		return null
+
+func peek_next_orb_type() -> OrbType:
+	if orb_type_queue.size() > 0:
+		return orb_type_queue[orb_type_queue.size()-1]
 	else:
 		return null
 

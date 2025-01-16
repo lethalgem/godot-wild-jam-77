@@ -76,6 +76,7 @@ offset_bottom = 1080.0
 mouse_filter = 2
 
 [node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
+is_debug_mode = null
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -135,10 +136,10 @@ label_settings = SubResource("LabelSettings_d2ysg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 2
-offset_left = 1471.0
-offset_top = 2.0
-offset_right = 1776.0
-offset_bottom = 214.0
+offset_left = 61.0
+offset_top = 279.0
+offset_right = 366.0
+offset_bottom = 491.0
 size_flags_horizontal = 4
 mouse_filter = 2
 
@@ -148,7 +149,10 @@ theme_override_fonts/font = ExtResource("4_ipai6")
 text = "Remaining:"
 label_settings = ExtResource("4_ktmsk")
 
-[node name="NextOrbLabel" type="Label" parent="Control/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="NextOrbLabel" type="Label" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Next Orb:"
 label_settings = ExtResource("4_ktmsk")
