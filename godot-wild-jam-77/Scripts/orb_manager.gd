@@ -15,7 +15,10 @@ var in_progress_combos = {} # {id, true} to prevent duplicating combos with easy
 
 func show_next_orb() -> Orb:
 	if peek_next_orb_type() != null:
-		return orb_spawner.spawn_orb_from_combo_at(Vector2(0,0), peek_next_orb_type())
+		var next_orb_instance = orb_spawner.spawn_orb_from_combo_at(Vector2(0,0), peek_next_orb_type())
+		next_orb_instance.can_combo = false
+		next_orb_instance.body.freeze = true
+		return next_orb_instance
 	else:
 		return null
 

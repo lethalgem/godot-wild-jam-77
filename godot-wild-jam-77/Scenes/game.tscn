@@ -55,7 +55,7 @@ font_color = Color(0, 0, 0, 1)
 font = ExtResource("4_ipai6")
 font_color = Color(0.501407, 0.501406, 0.501406, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen", "next_orb_vbox_container", "next_orb_label")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -68,6 +68,8 @@ game_camera = NodePath("GameCamera")
 fps_label = NodePath("Control/FPSLabel")
 game_over_timer = NodePath("GameOverCountdownTimer")
 game_over_screen = NodePath("MenuLayer/EndGame")
+next_orb_vbox_container = NodePath("Control/VBoxContainer")
+next_orb_label = NodePath("Control/VBoxContainer/HBoxContainer/NextOrbLabel")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ykvf7")
@@ -135,18 +137,13 @@ label_settings = SubResource("LabelSettings_d2ysg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 2
-offset_left = 61.0
-offset_top = 279.0
-offset_right = 366.0
-offset_bottom = 491.0
+offset_left = 1553.0
+offset_top = 30.0
+offset_right = 1858.0
+offset_bottom = 199.0
 size_flags_horizontal = 4
 mouse_filter = 2
-
-[node name="TurnLimitLabel" type="Label" parent="Control/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_ipai6")
-text = "Remaining:"
-label_settings = ExtResource("4_ktmsk")
+theme_override_constants/separation = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
@@ -154,6 +151,12 @@ layout_mode = 2
 [node name="NextOrbLabel" type="Label" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Next Orb:"
+label_settings = ExtResource("4_ktmsk")
+
+[node name="TurnLimitLabel" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_ipai6")
+text = "Remaining:"
 label_settings = ExtResource("4_ktmsk")
 
 [node name="Scale" parent="." instance=ExtResource("3_jl26m")]
@@ -167,7 +170,7 @@ offset_bottom = 74.0
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("8_f1dkq")
-theme_override_font_sizes/font_size = 42
+theme_override_font_sizes/font_size = 40
 text = "Settings"
 flat = true
 

@@ -34,7 +34,7 @@ class Water extends OrbType:
 	
 	func _init() -> void:
 		properties.type = ORB_TYPE.WATER
-		properties.color = Color.BLUE
+		properties.color = Color.AQUA
 		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 1}]
 		properties.combo_results = [GRASS]
 		properties.label_text = "W"

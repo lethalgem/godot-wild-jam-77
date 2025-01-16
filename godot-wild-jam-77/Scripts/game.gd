@@ -16,7 +16,11 @@ class_name Game extends Node
 @export var fps_label: Label
 @export var game_over_timer: Timer
 @export var game_over_screen: Control
+@export var next_orb_vbox_container: VBoxContainer
+@export var next_orb_label: Label
+
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
+var next_orb: Orb
 
 var turn_limit: int:
 	get:
@@ -25,6 +29,19 @@ var turn_limit: int:
 		turn_limit_label.text = "Remaining: " + str(new_val if (new_val > 0) else 0)
 		orb_manager.spawn_limit = new_val
 		turn_limit = new_val
+		
+		# Handle next orb preview
+		if next_orb != null:
+			next_orb.queue_free()
+		
+		if new_val > 0:
+			next_orb = orb_manager.show_next_orb()
+			next_orb.radius /= 2
+			var next_orb_padding_px = 5
+			next_orb.body.global_position = \
+			 Vector2(next_orb_label.global_position.x + next_orb_label.size.x + next_orb.radius + next_orb_padding_px,\
+			 next_orb_label.global_position.y + next_orb_label.size.y / 2)
+			add_child(next_orb)
 
 var weight_threshold: float:
 	get:
