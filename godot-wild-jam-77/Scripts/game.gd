@@ -47,7 +47,7 @@ func _ready() -> void:
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit
 	current_weight = 0
-	weight_threshold_label.set_static_text("/ ")
+	weight_threshold_label.set_static_text("Next round at: ")
 
 func _physics_process(_delta: float) -> void:
 	fps_label.text = "FPS: " + str(Engine.get_frames_per_second())
@@ -63,7 +63,6 @@ func _on_scale_goal_weight_achieved() -> void:
 	turn_limit = turn_limit_increase
 
 	if should_give_new_orb:
-		print("wtf")
 		orb_manager.orb_spawner.spawn_next_orb_in_queue()
 	
 
