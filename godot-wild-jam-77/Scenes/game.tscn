@@ -60,7 +60,6 @@ scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":f
 
 script = ExtResource("1_v4xdu")
 initial_turn_limit = 20
-turn_limit_increase = 30
 orb_manager = NodePath("OrbManager")
 scale = NodePath("Scale")
 turn_limit_label = NodePath("Control/VBoxContainer/TurnLimitLabel")

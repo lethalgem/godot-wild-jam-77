@@ -76,7 +76,7 @@ func _on_scale_goal_weight_achieved() -> void:
 	
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
 	weight_threshold = scale.goal_weight
-	turn_limit = turn_limit_increase
+	turn_limit += turn_limit_increase
 
 	if should_give_new_orb:
 		orb_manager.orb_spawner.spawn_next_orb_in_queue()
