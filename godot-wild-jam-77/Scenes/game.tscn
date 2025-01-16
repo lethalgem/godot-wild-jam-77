@@ -76,7 +76,6 @@ offset_bottom = 1080.0
 mouse_filter = 2
 
 [node name="OrbManager" parent="." instance=ExtResource("2_pv0p5")]
-is_debug_mode = null
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

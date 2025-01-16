@@ -40,6 +40,7 @@ var colliding_orbs: Array[Orb]
 func _ready() -> void:
 	background.background_color = color
 	background.radius = radius
+	orb_shader_background.orb_color = color
 	orb_shader_background.radius = radius
 	collision_shape.shape.radius = radius
 	impulse_collision_shape.shape.radius = radius + radius_offset

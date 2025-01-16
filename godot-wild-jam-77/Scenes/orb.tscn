@@ -1,25 +1,47 @@
-[gd_scene load_steps=11 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=15 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
+[ext_resource type="Shader" path="res://shaders/mana_orb.gdshader" id="2_dp68v"]
 [ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_hk7ix"]
 [ext_resource type="Script" path="res://scripts/orb_background.gd" id="3_31lrd"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_g6jao"]
-[ext_resource type="Shader" path="res://shaders/org_with_liquid.gdshader" id="5_0hnlu"]
 [ext_resource type="Script" path="res://scripts/orb_shader_background.gd" id="6_pa8uo"]
 [ext_resource type="Script" path="res://scripts/impulse_area.gd" id="7_n6s4a"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l8bvh"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ce7j7"]
+width = 50
+height = 50
+seamless = true
+noise = SubResource("FastNoiseLite_l8bvh")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4q0si"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2otha"]
+width = 8
+height = 8
+seamless = true
+noise = SubResource("FastNoiseLite_4q0si")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p34oc"]
-shader = ExtResource("5_0hnlu")
-shader_parameter/backFillColour = Color(0.62, 1, 1, 1)
-shader_parameter/frontFillInnerColour = Color(0.35, 1, 1, 1)
-shader_parameter/frontFillOuterColour = Color(0, 0.35, 1, 1)
-shader_parameter/ringColour = Color(0, 0, 0, 1)
-shader_parameter/fresnelColour = Color(0, 0.88, 1, 1)
-shader_parameter/innerRingGlowColour = Color(0, 1, 1, 1)
-shader_parameter/fillcolour = Color(1, 1, 1, 1)
-shader_parameter/ringWidth = 0.15
-shader_parameter/innerCircleRadiusOffset = 0.0
-shader_parameter/fill_value = 0.132
+resource_local_to_scene = true
+shader = ExtResource("2_dp68v")
+shader_parameter/current_mana = 1.0
+shader_parameter/max_mana = 1.0
+shader_parameter/rank_advance_mana = 1.0
+shader_parameter/inset = 0.85
+shader_parameter/groove_opacity = 0.0
+shader_parameter/groove_speed = 0.05
+shader_parameter/groove_width = 0.015
+shader_parameter/groove_distance = 0.3
+shader_parameter/border_color = Color(1, 1, 1, 0)
+shader_parameter/border_width = 0.1
+shader_parameter/border_speed = 0.16
+shader_parameter/noise = SubResource("NoiseTexture2D_2otha")
+shader_parameter/groovy_noise = SubResource("NoiseTexture2D_ce7j7")
+shader_parameter/glow_strength = 0.5
+shader_parameter/mana_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kq8il"]
 resource_local_to_scene = true
@@ -36,33 +58,33 @@ body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
 label = NodePath("OrbBody/Label")
-orb_shader_background = NodePath("OrbShaderBackground")
+orb_shader_background = NodePath("OrbBody/OrbShaderBackground")
 impulse_area = NodePath("OrbBody/ImpulseArea")
 impulse_collision_shape = NodePath("OrbBody/ImpulseArea/CollisionShape2D")
 
-[node name="OrbShaderBackground" type="ColorRect" parent="." node_paths=PackedStringArray("orb_body")]
-visible = false
+[node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
+script = ExtResource("2_hk7ix")
+orb = NodePath("..")
+
+[node name="OrbShaderBackground" type="ColorRect" parent="OrbBody" node_paths=PackedStringArray("orb_body")]
 material = SubResource("ShaderMaterial_p34oc")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_pa8uo")
-orb_body = NodePath("../OrbBody")
-
-[node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
-script = ExtResource("2_hk7ix")
-orb = NodePath("..")
+orb_body = NodePath("..")
 
 [node name="OrbBackground" type="Node2D" parent="OrbBody"]
+visible = false
 script = ExtResource("3_31lrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody"]
