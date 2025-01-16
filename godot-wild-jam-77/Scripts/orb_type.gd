@@ -25,7 +25,6 @@ class Fire extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.FIRE
 		properties.color = Color.RED
-		properties.weight = 5.0
 		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}]
 		properties.combo_results = [GRASS]
 		properties.label_text = "F"

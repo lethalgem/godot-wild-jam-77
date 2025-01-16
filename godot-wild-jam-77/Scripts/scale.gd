@@ -3,12 +3,16 @@ class_name Scale extends StaticBody2D
 signal goal_weight_achieved
 signal updated_weight(weight: float)
 
+@export_category("Parameters")
+@export var goal_weight: float = 100
+
+@export_category("obj references")
 @onready var polygon_2d = $Polygon2D
 @onready var bowl_collision_polygon_2d = $BowlCollisionPolygon2D
 @onready var area_2d = $InsideArea2D
 @onready var path_2d = $Path2D
 
-@export var goal_weight: float = 100
+var point_popup_scene = preload("res://scenes/point_popup.tscn")
 var type_count = {}
 var type_weights = {}
 
@@ -44,6 +48,12 @@ func _on_inside_area_2d_body_entered(body: Node2D):
 			type_count[orb.type] = 1
 			type_weights[orb.type] = orb.weight
 			calculate_weight()
+		
+		var point_popup_instance: PointPopup = point_popup_scene.instantiate()
+		# The entire scale scene is offset by screen_size/2 (currently 1920/2)
+		point_popup_instance.global_position = Vector2(body.global_position.x - 960, body.global_position.y)
+		point_popup_instance.point_value = body.orb.weight
+		add_child(point_popup_instance)
 
 func _on_inside_area_2d_body_exited(body: Node2D):
 	if body is OrbBody:

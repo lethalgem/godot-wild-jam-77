@@ -22,7 +22,7 @@ position = Vector2(-598.6, -595.6)
 polygon = PackedVector2Array(-137.4, 340.6, -137.4, 899.6, 1362.6, 910.6, 1333.6, 354.6)
 
 [node name="InsideArea2D" type="Area2D" parent="."]
-position = Vector2(0, 469)
+position = Vector2(0, 617)
 script = ExtResource("2_txny6")
 
 [node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="InsideArea2D"]

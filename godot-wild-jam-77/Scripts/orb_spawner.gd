@@ -65,4 +65,4 @@ func drop_orb():
 
 func get_desired_position_from_mouse() -> Vector2:
 	var mouse_position = get_global_mouse_position()
-	return Vector2(mouse_position.x, clamp(mouse_position.y, 0, 300))
+	return Vector2(clamp(mouse_position.x, 130, 1790), clamp(mouse_position.y, 0, 300))
