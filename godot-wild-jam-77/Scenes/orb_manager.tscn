@@ -6,8 +6,8 @@
 [node name="OrbManager" type="Node2D" node_paths=PackedStringArray("debug_marker", "orb_spawner")]
 script = ExtResource("1_o36x8")
 debug_marker = NodePath("DEBUG_MARKER_2D")
-spawn_limit = 500
 orb_spawner = NodePath("OrbSpawner")
+spawn_limit = 500
 
 [node name="OrbSpawner" type="Node2D" parent="." node_paths=PackedStringArray("orb_manager")]
 script = ExtResource("2_j703p")

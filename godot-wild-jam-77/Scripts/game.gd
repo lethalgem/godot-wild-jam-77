@@ -14,9 +14,9 @@ class_name Game extends Node
 @export var weight_label: AnimatedLabel
 @export var game_camera: GameCamera
 @export var fps_label: Label
-var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 @export var game_over_timer: Timer
 @export var game_over_screen: Control
+var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 
 var turn_limit: int:
 	get:
@@ -53,9 +53,19 @@ func _physics_process(_delta: float) -> void:
 	fps_label.text = "FPS: " + str(Engine.get_frames_per_second())
 
 func _on_scale_goal_weight_achieved() -> void:
+	# force another orb into the player's hand if they ran out of orbs
+	var should_give_new_orb = false
+	if turn_limit < 0:
+		should_give_new_orb = true
+	
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
 	weight_threshold = scale.goal_weight
 	turn_limit = turn_limit_increase
+
+	if should_give_new_orb:
+		print("wtf")
+		orb_manager.orb_spawner.spawn_next_orb_in_queue()
+	
 
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:

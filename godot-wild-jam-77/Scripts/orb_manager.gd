@@ -6,8 +6,8 @@ signal combo_at(loc: Vector2)
 @export var is_debug_mode: bool = false
 @export var debug_marker: Marker2D
 
-@export var spawn_limit: int = 50
 @export var orb_spawner: OrbSpawner
+@export var spawn_limit: int = 50
 
 var orb_type_queue: Array[OrbType] = [OrbType.Water.new(), OrbType.Water.new(), OrbType.Fire.new()]
 var spawned_orbs = {} # {id, orb} for easy lookup
