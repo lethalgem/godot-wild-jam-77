@@ -7,6 +7,8 @@ enum ORB_TYPE {
 	FIRE,
 	WATER,
 	GRASS,
+	GOLD,
+	DIAMOND,
 }
 
 class OrbProperties:
@@ -25,8 +27,8 @@ class Fire extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.FIRE
 		properties.color = Color.RED
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}]
-		properties.combo_results = [GRASS]
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}, {ORB_TYPE.GRASS: 1, ORB_TYPE.FIRE: 2}, {ORB_TYPE.WATER: 1,ORB_TYPE.FIRE:1, ORB_TYPE.GRASS:1}]
+		properties.combo_results = [GRASS, GOLD, DIAMOND]
 		properties.label_text = "F"
 		
 class Water extends OrbType:
@@ -35,8 +37,8 @@ class Water extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.WATER
 		properties.color = Color.AQUA
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 1}]
-		properties.combo_results = [GRASS]
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 1}, {ORB_TYPE.WATER: 1,ORB_TYPE.FIRE:1, ORB_TYPE.GRASS:1}]
+		properties.combo_results = [GRASS, DIAMOND]
 		properties.label_text = "W"
 
 class GRASS extends OrbType:
@@ -46,5 +48,29 @@ class GRASS extends OrbType:
 		properties.type = ORB_TYPE.GRASS
 		properties.weight = 40
 		properties.color = Color.GREEN
-		properties.radius = 40.0
+		properties.radius = 60.0
+		properties.allowed_combos = [{ORB_TYPE.GRASS: 1, ORB_TYPE.FIRE: 2}, {ORB_TYPE.WATER: 1,ORB_TYPE.FIRE:1, ORB_TYPE.GRASS:1}]
+		properties.combo_results = [GOLD, DIAMOND]
 		properties.label_text = "G"
+
+class GOLD extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.GOLD
+		properties.weight = 100
+		properties.color = Color.GOLD
+		properties.radius = 60.0
+		properties.allowed_combos = [{ORB_TYPE.WATER: 1,ORB_TYPE.FIRE:1, ORB_TYPE.GRASS:1}]
+		properties.combo_results = [DIAMOND]
+		properties.label_text = "A"
+
+class DIAMOND extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.DIAMOND
+		properties.weight = 300
+		properties.color = Color.LIGHT_BLUE
+		properties.radius = 50.0
+		properties.label_text = "D"

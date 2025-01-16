@@ -59,6 +59,8 @@ font_color = Color(0.501407, 0.501406, 0.501406, 1)
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
+initial_turn_limit = 20
+turn_limit_increase = 30
 orb_manager = NodePath("OrbManager")
 scale = NodePath("Scale")
 turn_limit_label = NodePath("Control/VBoxContainer/TurnLimitLabel")
@@ -130,7 +132,8 @@ script = ExtResource("4_b5un6")
 
 [node name="FPSLabel" type="Label" parent="Control"]
 layout_mode = 0
-offset_right = 40.0
+offset_left = 67.0
+offset_right = 107.0
 offset_bottom = 23.0
 text = "FPS: "
 label_settings = SubResource("LabelSettings_d2ysg")

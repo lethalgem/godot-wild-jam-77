@@ -72,7 +72,8 @@ func handle_combo(ids: Array[String], result: OrbType):
 			for id in cleanup_id_list:
 				in_progress_combos.erase(id)).bind(ids))
 		
-	orb_spawner.spawn_orb_from_combo_at(merge_position, result)
+	var orb_from_combo: Orb = orb_spawner.spawn_orb_from_combo_at(merge_position, result)
+	spawned_orbs[orb_from_combo.id] = orb_from_combo
 
 
 func _on_orb_spawner_orb_dropped() -> void:
