@@ -120,7 +120,7 @@ _data = {
 "shockwave": SubResource("Animation_ae8u7")
 }
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "shockwave_rect", "game_camera", "game_over_timer")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "shockwave_rect", "game_camera", "game_over_timer", "game_over_screen")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":false,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -132,6 +132,7 @@ weight_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel
 shockwave_rect = NodePath("ShockwaveCanvasLayer/ShockwaveRect")
 game_camera = NodePath("GameCamera")
 game_over_timer = NodePath("GameOverCountdownTimer")
+game_over_screen = NodePath("MenuLayer/EndGame")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ykvf7")
@@ -230,15 +231,6 @@ theme_override_font_sizes/font_size = 55
 text = "Settings"
 flat = true
 
-[node name="MenuLayer" type="CanvasLayer" parent="."]
-process_mode = 3
-
-[node name="EndGame" parent="MenuLayer" instance=ExtResource("10_r1tc8")]
-visible = false
-
-[node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
-visible = false
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")
 volume_db = -20.0
@@ -268,6 +260,16 @@ script = ExtResource("13_d1osd")
 [node name="GameOverCountdownTimer" type="Timer" parent="."]
 wait_time = 6.0
 one_shot = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Menu" parent="MenuLayer" instance=ExtResource("5_rkbhr")]
+visible = false
+
+[node name="EndGame" parent="MenuLayer" instance=ExtResource("10_r1tc8")]
+visible = false
+script = null
 
 [connection signal="combo_at" from="OrbManager" to="." method="_on_orb_manager_combo_at"]
 [connection signal="orb_dropped" from="OrbManager" to="." method="_on_orb_manager_orb_dropped"]

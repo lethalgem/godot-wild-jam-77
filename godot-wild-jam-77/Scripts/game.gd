@@ -15,8 +15,7 @@ class_name Game extends Node
 @export var shockwave_rect: ShockwaveRect
 @export var game_camera: GameCamera
 @export var game_over_timer: Timer
-
-const end_game = preload("res://scenes/endgame.tscn")
+@export var game_over_screen: Control
 
 var turn_limit: int:
 	get:
@@ -48,6 +47,7 @@ func _ready() -> void:
 	turn_limit = initial_turn_limit
 	current_weight = 0
 	weight_threshold_label.set_static_text("/ ")
+	game_over_screen.visible = true
 
 func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
@@ -62,7 +62,6 @@ func _on_orb_manager_orb_dropped() -> void:
 func _on_scale_updated_weight(weight: float) -> void:
 	current_weight = weight
 
-
 func _on_orb_manager_combo_at(loc: Vector2) -> void:
 	shockwave_rect.play_shockwave_at(loc)
 	game_camera.apply_shake()
@@ -71,5 +70,4 @@ func _on_orb_manager_combo_at(loc: Vector2) -> void:
 
 func _on_game_over_countdown_timer_timeout():
 	if turn_limit == -1:
-		var game_over = end_game.instantiate()
-		add_child(game_over)
+		game_over_screen.visible = true

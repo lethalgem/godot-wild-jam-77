@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://7qclu3dxvvi5"]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_m0jbd"]
+[ext_resource type="Script" path="res://scripts/gameover.gd" id="1_fhcrr"]
 [ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="2_7bq1n"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_per46"]
 [ext_resource type="LabelSettings" uid="uid://bcajl43rhib1o" path="res://themes/end_game_label_settings.tres" id="4_tgqqd"]
@@ -23,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.984995, 0.996582)
-script = ExtResource("1_m0jbd")
+script = ExtResource("1_fhcrr")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -73,4 +73,5 @@ theme_override_font_sizes/font_size = 45
 text = "Restart"
 flat = true
 
+[connection signal="button_down" from="VBoxContainer/Restart" to="." method="_on_restart_button_down"]
 [connection signal="pressed" from="VBoxContainer/Restart" to="." method="_on_restart_pressed"]
