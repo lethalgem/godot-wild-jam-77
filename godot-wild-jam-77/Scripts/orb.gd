@@ -2,14 +2,22 @@ class_name Orb extends Node2D
 
 signal combo_made_with(ids: Array[String], result: OrbType)
 
+@export_category("orb parameters")
 @export var weight_factor: float = 1.0
+@export var impulse_speed: float = 10.0
+@export var radius_offset: float = 100.0
+
+@export_category("obj references")
 @export var body: OrbBody
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
 @export var label: Label
 @export var orb_shader_background: ColorRect
+@export var impulse_area: ImpulseArea
+@export var impulse_collision_shape: CollisionShape2D
 
 ## Set to see debug info
+@export_category("debug")
 @export var is_debug: bool = false
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
@@ -23,6 +31,7 @@ var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_com
 var type: OrbType.ORB_TYPE
 var label_text: String
 var can_combo = false
+var should_impulse = false
 
 var id: String = str(uuid_util.v4())
 var colliding_orbs: Array[Orb]
@@ -33,9 +42,13 @@ func _ready() -> void:
 	background.radius = radius
 	orb_shader_background.radius = radius
 	collision_shape.shape.radius = radius
+	impulse_collision_shape.shape.radius = radius + radius_offset
 	body.mass = weight * weight_factor
 	label.text = label_text
 	label.add_theme_font_size_override("font_size", radius - 1.0)
+	
+	if should_impulse:
+		impulse_area.apply_impulse(impulse_speed)
 	
 	if is_debug:
 		label.text = str(weight)

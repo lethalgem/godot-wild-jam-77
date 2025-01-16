@@ -36,6 +36,12 @@ func spawn_next_orb_in_queue():
 	holding_orb.body.freeze = true
 	orb_manager.add_spawned(holding_orb)
 
+func spawn_orb_from_combo_at(location: Vector2, type: OrbType) -> Orb:
+	var spawned_orb = spawn_orb_at(location, type)
+	spawned_orb.can_combo = true
+	spawned_orb.should_impulse = true
+	return spawned_orb
+
 func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
 	var orb_instance: Orb = orb_scene.instantiate()
 	orb_instance.radius = type.properties.radius

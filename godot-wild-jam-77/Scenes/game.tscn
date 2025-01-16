@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=18 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -45,7 +45,11 @@ font = ExtResource("4_ipai6")
 font_size = 30
 font_color = Color(0, 0, 0, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera")]
+[sub_resource type="LabelSettings" id="LabelSettings_d2ysg"]
+font = ExtResource("4_ipai6")
+font_color = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":false,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -55,6 +59,7 @@ turn_limit_label = NodePath("Control/HBoxContainer/VBoxContainer/TurnLimitLabel"
 weight_threshold_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightThresholdLabel")
 weight_label = NodePath("Control/HBoxContainer/WeightLabelBackground/WeightLabel")
 game_camera = NodePath("GameCamera")
+fps_label = NodePath("Control/FPSLabel")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ykvf7")
@@ -136,6 +141,12 @@ label_settings = ExtResource("4_ktmsk")
 layout_mode = 2
 text = "Next Orb:"
 label_settings = ExtResource("4_ktmsk")
+
+[node name="FPSLabel" type="Label" parent="Control"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: "
+label_settings = SubResource("LabelSettings_d2ysg")
 
 [node name="Scale" parent="." instance=ExtResource("3_jl26m")]
 visible = false

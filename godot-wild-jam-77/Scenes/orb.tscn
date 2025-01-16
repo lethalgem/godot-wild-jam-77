@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=11 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
 [ext_resource type="Script" path="res://scripts/orb_body.gd" id="2_hk7ix"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_g6jao"]
 [ext_resource type="Shader" path="res://scripts/org_with_liquid.gdshader" id="5_0hnlu"]
 [ext_resource type="Script" path="res://scripts/orb_shader_background.gd" id="6_pa8uo"]
+[ext_resource type="Script" path="res://scripts/impulse_area.gd" id="7_n6s4a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p34oc"]
 shader = ExtResource("5_0hnlu")
@@ -23,15 +24,24 @@ shader_parameter/fill_value = 0.132
 [sub_resource type="CircleShape2D" id="CircleShape2D_kq8il"]
 resource_local_to_scene = true
 
-[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label", "orb_shader_background")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_4alf7"]
+resource_local_to_scene = true
+
+[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label", "orb_shader_background", "impulse_area", "impulse_collision_shape")]
 script = ExtResource("1_h6akx")
+weight_factor = 0.2
+impulse_speed = 1000.0
+radius_offset = 150.0
 body = NodePath("OrbBody")
 background = NodePath("OrbBody/OrbBackground")
 collision_shape = NodePath("OrbBody/CollisionShape2D")
 label = NodePath("OrbBody/Label")
 orb_shader_background = NodePath("OrbShaderBackground")
+impulse_area = NodePath("OrbBody/ImpulseArea")
+impulse_collision_shape = NodePath("OrbBody/ImpulseArea/CollisionShape2D")
 
 [node name="OrbShaderBackground" type="ColorRect" parent="." node_paths=PackedStringArray("orb_body")]
+visible = false
 material = SubResource("ShaderMaterial_p34oc")
 anchors_preset = 8
 anchor_left = 0.5
@@ -53,7 +63,6 @@ script = ExtResource("2_hk7ix")
 orb = NodePath("..")
 
 [node name="OrbBackground" type="Node2D" parent="OrbBody"]
-visible = false
 script = ExtResource("3_31lrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody"]
@@ -79,5 +88,14 @@ text = "XX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ImpulseArea" type="Area2D" parent="OrbBody" node_paths=PackedStringArray("orb")]
+script = ExtResource("7_n6s4a")
+orb = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody/ImpulseArea"]
+shape = SubResource("CircleShape2D_4alf7")
+
 [connection signal="body_entered" from="OrbBody" to="." method="_on_orb_body_entered"]
 [connection signal="body_exited" from="OrbBody" to="." method="_on_orb_body_exited"]
+[connection signal="body_entered" from="OrbBody/ImpulseArea" to="OrbBody/ImpulseArea" method="_on_body_entered"]
+[connection signal="body_exited" from="OrbBody/ImpulseArea" to="OrbBody/ImpulseArea" method="_on_body_exited"]

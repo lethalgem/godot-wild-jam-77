@@ -13,6 +13,7 @@ class_name Game extends Node
 @export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
 @export var game_camera: GameCamera
+@export var fps_label: Label
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 
 var turn_limit: int:
@@ -46,6 +47,9 @@ func _ready() -> void:
 	turn_limit = initial_turn_limit
 	current_weight = 0
 	weight_threshold_label.set_static_text("/ ")
+
+func _physics_process(_delta: float) -> void:
+	fps_label.text = "FPS: " + str(Engine.get_frames_per_second())
 
 func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
