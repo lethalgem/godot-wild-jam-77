@@ -58,7 +58,7 @@ font_color = Color(0, 0, 0, 1)
 font = ExtResource("4_ipai6")
 font_color = Color(0.501407, 0.501406, 0.501406, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen", "next_orb_vbox_container", "next_orb_label", "shockwave_audio_player", "drop_audio_player")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "round_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen", "next_orb_vbox_container", "next_orb_label", "shockwave_audio_player", "drop_audio_player")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -66,8 +66,9 @@ initial_turn_limit = 20
 orb_manager = NodePath("OrbManager")
 scale = NodePath("Scale")
 turn_limit_label = NodePath("Control/VBoxContainer/TurnLimitLabel")
-weight_threshold_label = NodePath("Control/WeightLabelBackground/WeightThresholdLabel")
+weight_threshold_label = NodePath("Control/WeightLabelBackground/HBoxContainer/WeightThresholdLabel")
 weight_label = NodePath("Control/WeightLabelBackground/WeightLabel")
+round_label = NodePath("Control/WeightLabelBackground/HBoxContainer/RoundLabel")
 game_camera = NodePath("GameCamera")
 fps_label = NodePath("Control/FPSLabel")
 game_over_timer = NodePath("GameOverCountdownTimer")
@@ -122,23 +123,41 @@ vertical_alignment = 1
 script = ExtResource("4_b5un6")
 sfx_player = NodePath("../ScoreIncreasingAudioPlayer")
 
-[node name="WeightThresholdLabel" type="Label" parent="Control/WeightLabelBackground"]
-layout_mode = 0
-offset_left = -158.0
-offset_top = 30.0
-offset_right = 158.0
-offset_bottom = 88.0
-theme_override_font_sizes/font_size = 10
-text = "Next round at XXXXXXX"
-label_settings = SubResource("LabelSettings_f8l2j")
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("4_b5un6")
-
 [node name="ScoreIncreasingAudioPlayer" type="AudioStreamPlayer" parent="Control/WeightLabelBackground"]
 stream = ExtResource("6_ap6lw")
 volume_db = -9.505
 bus = &"sfx"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/WeightLabelBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.0
+offset_top = 39.0
+offset_right = 145.0
+offset_bottom = 79.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="RoundLabel" type="Label" parent="Control/WeightLabelBackground/HBoxContainer"]
+layout_mode = 2
+text = "Round x,"
+label_settings = SubResource("LabelSettings_f8l2j")
+script = ExtResource("4_b5un6")
+
+[node name="WeightThresholdLabel" type="Label" parent="Control/WeightLabelBackground/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Next at XXXXXXX"
+label_settings = SubResource("LabelSettings_f8l2j")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_b5un6")
 
 [node name="FPSLabel" type="Label" parent="Control"]
 layout_mode = 0

@@ -12,6 +12,7 @@ class_name Game extends Node
 @export var turn_limit_label: Label
 @export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
+@export var round_label: AnimatedLabel
 @export var game_camera: GameCamera
 @export var fps_label: Label
 @export var game_over_timer: Timer
@@ -24,9 +25,13 @@ class_name Game extends Node
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 var next_orb: Orb
 
+var round_counter: int = 1:
+	set(new_val):
+		round_label.update_text(str(new_val))
+		round_counter = new_val
+		
+
 var turn_limit: int:
-	get:
-		return turn_limit
 	set(new_val):
 		turn_limit_label.text = "Remaining: " + str(new_val if (new_val > 0) else 0)
 		orb_manager.spawn_limit = new_val
@@ -45,15 +50,11 @@ var turn_limit: int:
 			 next_orb_label.global_position.y + next_orb_label.size.y / 2)
 
 var weight_threshold: float:
-	get:
-		return weight_threshold
 	set(new_val):
 		weight_threshold_label.update_text(str(int(scale.goal_weight)))
 		weight_threshold = new_val
 
 var current_weight: float:
-	get:
-		return current_weight
 	set(new_val):
 		weight_label.update_text(str(int(new_val)))
 		current_weight = new_val
@@ -65,7 +66,8 @@ func _ready() -> void:
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit
 	current_weight = 0
-	weight_threshold_label.set_static_text("Next round at: ")
+	weight_threshold_label.set_static_text("Next at ")
+	round_label.set_static_text("Round ")
 
 func _physics_process(_delta: float) -> void:
 	fps_label.text = "FPS: " + str(Engine.get_frames_per_second())
@@ -79,6 +81,7 @@ func _on_scale_goal_weight_achieved() -> void:
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
 	weight_threshold = scale.goal_weight
 	turn_limit += turn_limit_increase
+	round_counter += 1
 
 	if should_give_new_orb:
 		orb_manager.orb_spawner.spawn_next_orb_in_queue()

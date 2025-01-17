@@ -12,7 +12,6 @@ var digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 var repeat_sound_delay: float = 0.06 ##sec
 var sound_last_played_at: float = 0.0 ##sec
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if is_animating:
 		time_animating += delta
