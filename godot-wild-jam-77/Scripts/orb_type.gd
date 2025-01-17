@@ -55,8 +55,8 @@ class Fire extends OrbType:
 		properties.type = ORB_TYPE.FIRE
 		properties.color = Color.RED
 		properties.weight = 5.0
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}]
-		properties.combo_results = [GRASS]
+		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1},{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1}]
+		properties.combo_results = [GRASS,GRASS]
 		
 class Water extends OrbType:
 	var properties = OrbProperties.new()

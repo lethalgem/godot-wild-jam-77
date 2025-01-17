@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://d32tgxwtgqb5y"]
+[gd_scene load_steps=4 format=3 uid="uid://evm22oq5xl5d"]
 
 [ext_resource type="Script" path="res://scripts/orb_hover.gd" id="1_dylsu"]
 [ext_resource type="LabelSettings" uid="uid://b4obo73jvvobe" path="res://themes/orb_hover_label.tres" id="2_aih0k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brgtf"]
+bg_color = Color(0.267873, 0.610408, 0.97934, 1)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4

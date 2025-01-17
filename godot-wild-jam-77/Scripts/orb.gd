@@ -176,7 +176,6 @@ func _on_orb_body_exited(colliding_body: Node) -> void:
 func debug_print(chain: ComboChain, message: String = "") -> void:
 	if not is_debug:
 		return
-		
 	var type_summary = ""
 	for orb_type in chain.type_counts.keys():
 		# Convert the enum value to its name for readability
@@ -195,10 +194,13 @@ func _on_hover_area_2d_mouse_entered() -> void:
 	props.allowed_combos = allowed_combos
 	props.combo_results = combo_results
 	var orb_type = "ORB TYPE: " + OrbType.ORB_TYPE.keys()[type]
-	var combo_text = props.format_combos()[0]
+	var combo_arr = props.format_combos()
+	var combo_txt = ""
+	for combo in combo_arr:
+		combo_txt += combo+"\n"
 	if orb_hover:
 		orb_hover.global_position = get_global_mouse_position()
-		orb_hover.show_hover(orb_type, combo_text)
+		orb_hover.show_hover(orb_type, combo_txt)
 
 func _on_hover_area_2d_mouse_exited() -> void:
 	if orb_hover:
