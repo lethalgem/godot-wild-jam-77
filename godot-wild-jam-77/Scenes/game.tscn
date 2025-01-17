@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dqyot22n56rwe"]
+[gd_scene load_steps=23 format=3 uid="uid://dqyot22n56rwe"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_v4xdu"]
 [ext_resource type="PackedScene" uid="uid://c6kyyji3nquhi" path="res://scenes/orb_manager.tscn" id="2_pv0p5"]
@@ -9,8 +9,11 @@
 [ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
 [ext_resource type="AudioStream" uid="uid://d2bj21tuher73" path="res://assets/music/music_zapsplat_game_music_action_uplifting_electro_house_anthem_retro_melody_026.mp3" id="5_so3c2"]
+[ext_resource type="AudioStream" uid="uid://be1ya0beaiiqh" path="res://assets/audio/coins-sound-effect-1-241818.mp3" id="6_ap6lw"]
 [ext_resource type="FontFile" uid="uid://cdlqsjawviuc7" path="res://assets/correction_brush/CorrectionBrush.ttf" id="8_f1dkq"]
+[ext_resource type="AudioStream" uid="uid://mgpr6el7exl2" path="res://assets/audio/abstract-magic-whoosh-03-204485.mp3" id="9_esvba"]
 [ext_resource type="PackedScene" uid="uid://7qclu3dxvvi5" path="res://scenes/endgame.tscn" id="10_r1tc8"]
+[ext_resource type="AudioStream" uid="uid://dluh302k8p4bq" path="res://assets/audio/horror-body-drop-on-hay-01-152094.mp3" id="12_sjmr0"]
 [ext_resource type="Script" path="res://scripts/game_camera.gd" id="13_d1osd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_66ilf"]
@@ -55,7 +58,7 @@ font_color = Color(0, 0, 0, 1)
 font = ExtResource("4_ipai6")
 font_color = Color(0.501407, 0.501406, 0.501406, 1)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen", "next_orb_vbox_container", "next_orb_label")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("orb_manager", "scale", "turn_limit_label", "weight_threshold_label", "weight_label", "game_camera", "fps_label", "game_over_timer", "game_over_screen", "next_orb_vbox_container", "next_orb_label", "shockwave_audio_player", "drop_audio_player")]
 scale = Object(StaticBody2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(960, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"disable_mode":0,"collision_layer":1,"collision_mask":1,"collision_priority":1.0,"input_pickable":false,"physics_material_override":null,"constant_linear_velocity":Vector2(0, 0),"constant_angular_velocity":0.0,"script":Resource("res://scripts/scale.gd"),"goal_weight":100.0)
 
 script = ExtResource("1_v4xdu")
@@ -71,6 +74,8 @@ game_over_timer = NodePath("GameOverCountdownTimer")
 game_over_screen = NodePath("MenuLayer/EndGame")
 next_orb_vbox_container = NodePath("Control/VBoxContainer")
 next_orb_label = NodePath("Control/VBoxContainer/HBoxContainer/NextOrbLabel")
+shockwave_audio_player = NodePath("ShockwaveAudioPlayer")
+drop_audio_player = NodePath("DropAudioPlayer")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ykvf7")
@@ -97,7 +102,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5kjpm")
 
-[node name="WeightLabel" type="Label" parent="Control/WeightLabelBackground"]
+[node name="WeightLabel" type="Label" parent="Control/WeightLabelBackground" node_paths=PackedStringArray("sfx_player")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -115,6 +120,7 @@ label_settings = SubResource("LabelSettings_h11qd")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
+sfx_player = NodePath("../ScoreIncreasingAudioPlayer")
 
 [node name="WeightThresholdLabel" type="Label" parent="Control/WeightLabelBackground"]
 layout_mode = 0
@@ -128,6 +134,11 @@ label_settings = SubResource("LabelSettings_f8l2j")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_b5un6")
+
+[node name="ScoreIncreasingAudioPlayer" type="AudioStreamPlayer" parent="Control/WeightLabelBackground"]
+stream = ExtResource("6_ap6lw")
+volume_db = -9.505
+bus = &"sfx"
 
 [node name="FPSLabel" type="Label" parent="Control"]
 layout_mode = 0
@@ -176,11 +187,21 @@ theme_override_font_sizes/font_size = 40
 text = "Settings"
 flat = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="ShockwaveAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_esvba")
+volume_db = -14.131
+bus = &"sfx"
+
+[node name="MusicAudioPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_so3c2")
 volume_db = -20.0
 autoplay = true
 bus = &"music"
+
+[node name="DropAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_sjmr0")
+volume_db = -17.275
+bus = &"sfx"
 
 [node name="GameCamera" type="Camera2D" parent="."]
 offset = Vector2(960, 540)

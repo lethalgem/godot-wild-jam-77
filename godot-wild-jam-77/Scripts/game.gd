@@ -18,6 +18,8 @@ class_name Game extends Node
 @export var game_over_screen: Control
 @export var next_orb_vbox_container: VBoxContainer
 @export var next_orb_label: Label
+@export var shockwave_audio_player: AudioStreamPlayer
+@export var drop_audio_player: AudioStreamPlayer
 
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 var next_orb: Orb
@@ -86,6 +88,8 @@ func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
 		game_over_timer.start()
 	turn_limit -= 1
+	drop_audio_player.play()
+	
 
 func _on_scale_updated_weight(weight: float) -> void:
 	current_weight = weight
@@ -95,6 +99,7 @@ func _on_orb_manager_combo_at(loc: Vector2) -> void:
 	add_child(shockwave_instance)
 	shockwave_instance.play_shockwave_at(loc)
 	game_camera.apply_shake()
+	shockwave_audio_player.play(0.5)
 	if turn_limit < 0:
 		game_over_timer.start()
 

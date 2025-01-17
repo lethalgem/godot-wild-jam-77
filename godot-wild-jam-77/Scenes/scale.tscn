@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/scale_area.gd" id="2_txny6"]
 
 [sub_resource type="Curve2D" id="Curve2D_d26ut"]
-bake_interval = 1.0
+bake_interval = 0.01
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 1020, 0, 0, 0, 0, 0, 900, 0, 0, -200, 0, 200, 900, 800, 350, 0, -350, 0, 0, 1020, 0, 200, 0, -200, -900, 800, 0, 0, 0, 0, -900, 0, 0, 0, 0, 0, -1020, 0, 0, 0, 0, 0, -1020, 1140, 0, 0, 0, 0, 1020, 1140, 0, 0, 0, 0, 1020, 0)
 }
