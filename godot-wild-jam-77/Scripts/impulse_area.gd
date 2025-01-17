@@ -1,5 +1,7 @@
 class_name ImpulseArea extends Area2D
 
+signal impulse_finished
+
 @export var orb: Orb
 
 var should_impulse: bool = false
@@ -18,6 +20,7 @@ func impulse_neighbors():
 			var direction = global_position.direction_to(body.position)
 			body.apply_impulse(direction * impulse_speed)
 	should_impulse = false
+	impulse_finished.emit()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is OrbBody:

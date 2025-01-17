@@ -48,6 +48,9 @@ func _ready() -> void:
 	label.text = label_text
 	label.add_theme_font_size_override("font_size", radius - 1.0)
 	
+	if type == OrbType.ORB_TYPE.WATER or type == OrbType.ORB_TYPE.FIRE:
+		impulse_area.queue_free()
+	
 	if should_impulse:
 		impulse_area.apply_impulse(impulse_speed)
 	
@@ -206,3 +209,7 @@ func debug_print(chain: ComboChain, message: String = "") -> void:
 	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
 	print("Chain IDs: " + str(chain.orb_ids))
 	print("==================\n")
+
+
+func _on_impulse_area_impulse_finished():
+	impulse_area.queue_free()
