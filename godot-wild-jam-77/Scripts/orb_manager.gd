@@ -2,6 +2,8 @@ class_name OrbManager extends Node2D
 
 signal orb_dropped
 signal combo_at(loc: Vector2)
+signal orb_is_hovered(orb_type : String, combos : String)
+signal orb_is_not_hovered
 
 @export var is_debug_mode: bool = false
 @export var debug_marker: Marker2D
@@ -43,6 +45,15 @@ func peek_next_orb_type() -> OrbType:
 func add_spawned(orb: Orb) -> void:
 	spawned_orbs[str(orb.id)] = orb
 	orb.combo_made_with.connect(handle_combo)
+	if orb.has_node("OrbBody/HoverArea2D"):
+		orb.is_hovered.connect(show_hover)
+		orb.is_not_hovered.connect(hide_hover)
+
+func show_hover(orb_type : String, combos : String):
+	orb_is_hovered.emit(orb_type, combos)
+
+func hide_hover():
+	orb_is_not_hovered.emit()
 
 # TODO: Animation showing the orbs merge -- JUICE it up, screen shake, particle effects, big numbers!
 func handle_combo(ids: Array[String], result: OrbType):

@@ -40,6 +40,7 @@ func spawn_orb_from_combo_at(location: Vector2, type: OrbType) -> Orb:
 	var spawned_orb = spawn_orb_at(location, type)
 	spawned_orb.can_combo = true
 	spawned_orb.should_impulse = true
+	orb_manager.add_spawned(spawned_orb)  
 	return spawned_orb
 
 func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:

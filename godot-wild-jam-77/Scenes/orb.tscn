@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=16 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
 [ext_resource type="Shader" path="res://shaders/mana_orb.gdshader" id="2_dp68v"]
@@ -7,7 +7,6 @@
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_g6jao"]
 [ext_resource type="Script" path="res://scripts/orb_shader_background.gd" id="6_pa8uo"]
 [ext_resource type="Script" path="res://scripts/impulse_area.gd" id="7_n6s4a"]
-[ext_resource type="PackedScene" uid="uid://evm22oq5xl5d" path="res://scenes/orb_hover.tscn" id="8_nv76e"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l8bvh"]
 
@@ -53,7 +52,7 @@ resource_local_to_scene = true
 [sub_resource type="CircleShape2D" id="CircleShape2D_w1320"]
 resource_local_to_scene = true
 
-[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label", "orb_shader_background", "impulse_area", "impulse_collision_shape", "orb_hover")]
+[node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label", "orb_shader_background", "impulse_area", "impulse_collision_shape")]
 script = ExtResource("1_h6akx")
 weight_factor = 0.2
 impulse_speed = 5000.0
@@ -65,7 +64,6 @@ label = NodePath("OrbBody/Label")
 orb_shader_background = NodePath("OrbBody/OrbShaderBackground")
 impulse_area = NodePath("OrbBody/ImpulseArea")
 impulse_collision_shape = NodePath("OrbBody/ImpulseArea/CollisionShape2D")
-orb_hover = NodePath("HoverArea2D/OrbHover")
 
 [node name="OrbBody" type="RigidBody2D" parent="." node_paths=PackedStringArray("orb")]
 script = ExtResource("2_hk7ix")
@@ -122,18 +120,15 @@ orb = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OrbBody/ImpulseArea"]
 shape = SubResource("CircleShape2D_4alf7")
 
-[node name="HoverArea2D" type="Area2D" parent="."]
+[node name="HoverArea2D" type="Area2D" parent="OrbBody"]
 
-[node name="HoverShape2D" type="CollisionShape2D" parent="HoverArea2D"]
+[node name="HoverShape2D" type="CollisionShape2D" parent="OrbBody/HoverArea2D"]
 shape = SubResource("CircleShape2D_w1320")
-
-[node name="OrbHover" parent="HoverArea2D" instance=ExtResource("8_nv76e")]
-position = Vector2(0, -1)
 
 [connection signal="body_entered" from="OrbBody" to="." method="_on_orb_body_entered"]
 [connection signal="body_exited" from="OrbBody" to="." method="_on_orb_body_exited"]
 [connection signal="body_entered" from="OrbBody/ImpulseArea" to="OrbBody/ImpulseArea" method="_on_body_entered"]
 [connection signal="body_exited" from="OrbBody/ImpulseArea" to="OrbBody/ImpulseArea" method="_on_body_exited"]
 [connection signal="impulse_finished" from="OrbBody/ImpulseArea" to="." method="_on_impulse_area_impulse_finished"]
-[connection signal="mouse_entered" from="HoverArea2D" to="." method="_on_hover_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="HoverArea2D" to="." method="_on_hover_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="OrbBody/HoverArea2D" to="." method="_on_hover_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="OrbBody/HoverArea2D" to="." method="_on_hover_area_2d_mouse_exited"]

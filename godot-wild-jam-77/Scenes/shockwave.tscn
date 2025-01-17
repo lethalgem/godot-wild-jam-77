@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dh7aj6wdgowuq"]
+[gd_scene load_steps=8 format=3 uid="uid://byixnwa8847dw"]
 
 [ext_resource type="Shader" path="res://shaders/shockwave.gdshader" id="1_iwyrp"]
 [ext_resource type="Script" path="res://scripts/shockwave.gd" id="1_y2yur"]

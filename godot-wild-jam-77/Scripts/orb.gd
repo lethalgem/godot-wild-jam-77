@@ -1,6 +1,8 @@
 class_name Orb extends Node2D
 
 signal combo_made_with(ids: Array[String], result: OrbType)
+signal is_hovered(orb_type : String, combos : String)
+signal is_not_hovered
 
 @export_category("orb parameters")
 @export var weight_factor: float = 1.0
@@ -48,6 +50,10 @@ func _ready() -> void:
 	body.mass = weight * weight_factor
 	label.text = label_text
 	label.add_theme_font_size_override("font_size", radius - 1.0)
+	
+	if orb_hover:
+		orb_hover.mouse_entered.connect(_on_hover_area_2d_mouse_entered)
+		orb_hover.mouse_exited.connect(_on_hover_area_2d_mouse_exited)
 	
 	if type == OrbType.ORB_TYPE.WATER or type == OrbType.ORB_TYPE.FIRE:
 		impulse_area.queue_free()
@@ -219,13 +225,14 @@ func _on_hover_area_2d_mouse_entered() -> void:
 	props.combo_results = combo_results
 	var orb_type = "ORB TYPE: " + OrbType.ORB_TYPE.keys()[type]
 	var combo_arr = props.format_combos()
-	var combo_txt = ""
+	var combo_text = ""
 	for combo in combo_arr:
-		combo_txt += combo+"\n"
-	if orb_hover:
-		orb_hover.global_position = get_global_mouse_position()
-		orb_hover.show_hover(orb_type, combo_txt)
+		combo_text += combo+"\n"
+	print("Hovering over: ", orb_type, "Combos: ", combo_arr)
+	if combo_arr == []:
+		combo_text = "THIS ORB IS IN ITS FINAL FORM" 
+	print("Signal -> orb_type ", orb_type, "Combos: ", combo_text)
+	is_hovered.emit(orb_type, combo_text)
 
 func _on_hover_area_2d_mouse_exited() -> void:
-	if orb_hover:
-		orb_hover.hide_hover()
+	is_not_hovered.emit()

@@ -1,6 +1,8 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://b4obo73jvvobe"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b4obo73jvvobe"]
+
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="1_f0yrp"]
 
 [resource]
-font_size = 30
+font = ExtResource("1_f0yrp")
+font_size = 24
 font_color = Color(0, 0, 0, 1)
-outline_color = Color(0.0788241, 0.464437, 0.797253, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ymbpwsr1ktn0"]
+[gd_scene load_steps=6 format=3 uid="uid://cnhc78dgvpt5t"]
 
 [ext_resource type="Script" path="res://scripts/point_popup.gd" id="1_dlnjv"]
 [ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="2_12enr"]

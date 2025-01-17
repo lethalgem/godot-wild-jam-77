@@ -20,6 +20,7 @@ class_name Game extends Node
 @export var next_orb_label: Label
 @export var shockwave_audio_player: AudioStreamPlayer
 @export var drop_audio_player: AudioStreamPlayer
+@export var orb_hover : OrbHover
 
 var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
 var next_orb: Orb
@@ -106,3 +107,11 @@ func _on_orb_manager_combo_at(loc: Vector2) -> void:
 func _on_game_over_countdown_timer_timeout():
 	if turn_limit == -1:
 		game_over_screen.visible = true
+
+
+func _on_orb_manager_orb_is_hovered(orb_type: String, combos: String) -> void:
+	orb_hover.show_hover(orb_type, combos)
+
+
+func _on_orb_manager_orb_is_not_hovered() -> void:
+	orb_hover.hide_hover()
