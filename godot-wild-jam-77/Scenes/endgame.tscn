@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://7qclu3dxvvi5"]
+
+[ext_resource type="Script" path="res://scripts/gameover.gd" id="1_fhcrr"]
+[ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="2_7bq1n"]
+[ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_per46"]
+[ext_resource type="LabelSettings" uid="uid://bcajl43rhib1o" path="res://themes/end_game_label_settings.tres" id="4_tgqqd"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slw4q"]
+texture = ExtResource("2_7bq1n")
+texture_margin_left = 7.48173
+texture_margin_top = 7.30238
+texture_margin_right = 6.58026
+texture_margin_bottom = 6.85764
+region_rect = Rect2(81, 97, 30, 30)
+
+[sub_resource type="Theme" id="Theme_b27sg"]
+
+[node name="EndGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.984995, 0.996582)
+script = ExtResource("1_fhcrr")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -391.0
+offset_top = -219.0
+offset_right = 388.0
+offset_bottom = 231.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_slw4q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -208.5
+offset_top = -113.0
+offset_right = 208.5
+offset_bottom = 113.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_b27sg")
+theme_override_constants/separation = 50
+
+[node name="GameOverLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_per46")
+text = "Gameover"
+label_settings = ExtResource("4_tgqqd")
+
+[node name="Restart" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_per46")
+theme_override_font_sizes/font_size = 45
+text = "Restart"
+flat = true
+
+[connection signal="button_down" from="VBoxContainer/Restart" to="." method="_on_restart_button_down"]
+[connection signal="pressed" from="VBoxContainer/Restart" to="." method="_on_restart_pressed"]

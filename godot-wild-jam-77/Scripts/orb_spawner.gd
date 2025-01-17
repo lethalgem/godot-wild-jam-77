@@ -19,10 +19,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		await get_tree().create_timer(spawn_delay).timeout
 		spawn_next_orb_in_queue()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if holding_orb != null:
-		# TODO: Add a smooth interpolation lag so it feels nice
-		holding_orb.body.position = get_desired_position_from_mouse()
+		# lag behind the mouse a bit
+		var speed = 0.005 # Unintuitively, the lower the value, the faster it catches the mouse
+		var weight = 1.0 - (speed ** delta)
+		holding_orb.body.position = Vector2(lerpf(holding_orb.body.position.x, get_desired_position_from_mouse().x, weight), \
+		 lerpf(holding_orb.body.position.y, get_desired_position_from_mouse().y, weight))
 
 func spawn_next_orb_in_queue():
 	var orb_type: OrbType = orb_manager.get_next_orb_type()
@@ -33,6 +36,12 @@ func spawn_next_orb_in_queue():
 	holding_orb.body.freeze = true
 	orb_manager.add_spawned(holding_orb)
 
+func spawn_orb_from_combo_at(location: Vector2, type: OrbType) -> Orb:
+	var spawned_orb = spawn_orb_at(location, type)
+	spawned_orb.can_combo = true
+	spawned_orb.should_impulse = true
+	return spawned_orb
+
 func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
 	var orb_instance: Orb = orb_scene.instantiate()
 	orb_instance.radius = type.properties.radius
@@ -41,6 +50,7 @@ func spawn_orb_at(location: Vector2, type: OrbType) -> Orb:
 	orb_instance.allowed_combos = type.properties.allowed_combos
 	orb_instance.combo_results = type.properties.combo_results
 	orb_instance.type = type.properties.type
+	orb_instance.label_text = type.properties.label_text
 	orb_instance.body.global_position = location
 	call_deferred("add_child", orb_instance)
 	return orb_instance
@@ -55,4 +65,4 @@ func drop_orb():
 
 func get_desired_position_from_mouse() -> Vector2:
 	var mouse_position = get_global_mouse_position()
-	return Vector2(mouse_position.x, clamp(mouse_position.y, 0, 300))
+	return Vector2(clamp(mouse_position.x, 130, 1790), clamp(mouse_position.y, 0, 300))

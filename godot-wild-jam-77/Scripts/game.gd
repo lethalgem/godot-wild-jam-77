@@ -12,16 +12,37 @@ class_name Game extends Node
 @export var turn_limit_label: Label
 @export var weight_threshold_label: AnimatedLabel
 @export var weight_label: AnimatedLabel
-@export var shockwave_rect: ShockwaveRect
 @export var game_camera: GameCamera
+@export var fps_label: Label
+@export var game_over_timer: Timer
+@export var game_over_screen: Control
+@export var next_orb_vbox_container: VBoxContainer
+@export var next_orb_label: Label
+@export var shockwave_audio_player: AudioStreamPlayer
+@export var drop_audio_player: AudioStreamPlayer
+
+var shockwave_scene: PackedScene = preload("res://scenes/shockwave.tscn")
+var next_orb: Orb
 
 var turn_limit: int:
 	get:
 		return turn_limit
 	set(new_val):
-		turn_limit_label.text = "Remaining: " + str(new_val)
+		turn_limit_label.text = "Remaining: " + str(new_val if (new_val > 0) else 0)
 		orb_manager.spawn_limit = new_val
 		turn_limit = new_val
+		
+		# Handle next orb preview
+		if next_orb != null:
+			next_orb.queue_free()
+		
+		if new_val > 0:
+			next_orb = orb_manager.show_next_orb()
+			next_orb.radius /= 2
+			var next_orb_padding_px = 5
+			next_orb.body.global_position = \
+			 Vector2(next_orb_label.global_position.x + next_orb_label.size.x + next_orb.radius + next_orb_padding_px,\
+			 next_orb_label.global_position.y + next_orb_label.size.y / 2)
 
 var weight_threshold: float:
 	get:
@@ -44,23 +65,44 @@ func _ready() -> void:
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit
 	current_weight = 0
-	weight_threshold_label.set_static_text("/ ")
+	weight_threshold_label.set_static_text("Next round at: ")
+
+func _physics_process(_delta: float) -> void:
+	fps_label.text = "FPS: " + str(Engine.get_frames_per_second())
 
 func _on_scale_goal_weight_achieved() -> void:
+	# force another orb into the player's hand if they ran out of orbs
+	var should_give_new_orb = false
+	if turn_limit < 0:
+		should_give_new_orb = true
+	
 	scale.goal_weight = scale.goal_weight ** goal_exp_factor
 	weight_threshold = scale.goal_weight
-	turn_limit = turn_limit_increase
+	turn_limit += turn_limit_increase
+
+	if should_give_new_orb:
+		orb_manager.orb_spawner.spawn_next_orb_in_queue()
+	
 
 func _on_orb_manager_orb_dropped() -> void:
 	if turn_limit == 0:
-		print("Game Over")
-	else:
-		turn_limit -= 1
+		game_over_timer.start()
+	turn_limit -= 1
+	drop_audio_player.play()
+	
 
 func _on_scale_updated_weight(weight: float) -> void:
 	current_weight = weight
 
-
 func _on_orb_manager_combo_at(loc: Vector2) -> void:
-	shockwave_rect.play_shockwave_at(loc)
+	var shockwave_instance: Shockwave = shockwave_scene.instantiate()
+	add_child(shockwave_instance)
+	shockwave_instance.play_shockwave_at(loc)
 	game_camera.apply_shake()
+	shockwave_audio_player.play(0.5)
+	if turn_limit < 0:
+		game_over_timer.start()
+
+func _on_game_over_countdown_timer_timeout():
+	if turn_limit == -1:
+		game_over_screen.visible = true

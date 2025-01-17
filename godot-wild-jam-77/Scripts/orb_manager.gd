@@ -6,12 +6,21 @@ signal combo_at(loc: Vector2)
 @export var is_debug_mode: bool = false
 @export var debug_marker: Marker2D
 
-@export var spawn_limit: int = 50
 @export var orb_spawner: OrbSpawner
+@export var spawn_limit: int = 50
 
 var orb_type_queue: Array[OrbType] = [OrbType.Water.new(), OrbType.Water.new(), OrbType.Fire.new()]
 var spawned_orbs = {} # {id, orb} for easy lookup
 var in_progress_combos = {} # {id, true} to prevent duplicating combos with easy comparison
+
+func show_next_orb() -> Orb:
+	if peek_next_orb_type() != null:
+		var next_orb_instance = orb_spawner.spawn_orb_from_combo_at(Vector2(0,0), peek_next_orb_type())
+		next_orb_instance.can_combo = false
+		next_orb_instance.body.freeze = true
+		return next_orb_instance
+	else:
+		return null
 
 func add_new_orb_to_queue() -> void:
 	var possible_types = [OrbType.Fire, OrbType.Water]
@@ -20,8 +29,14 @@ func add_new_orb_to_queue() -> void:
 
 func get_next_orb_type() -> OrbType:
 	add_new_orb_to_queue()
-	if spawn_limit > 0:
+	if spawn_limit >= 0:
 		return orb_type_queue.pop_back()
+	else:
+		return null
+
+func peek_next_orb_type() -> OrbType:
+	if orb_type_queue.size() > 0:
+		return orb_type_queue[orb_type_queue.size()-1]
 	else:
 		return null
 
@@ -57,7 +72,8 @@ func handle_combo(ids: Array[String], result: OrbType):
 			for id in cleanup_id_list:
 				in_progress_combos.erase(id)).bind(ids))
 		
-	orb_spawner.spawn_orb_at(merge_position, result)
+	var orb_from_combo: Orb = orb_spawner.spawn_orb_from_combo_at(merge_position, result)
+	spawned_orbs[orb_from_combo.id] = orb_from_combo
 
 
 func _on_orb_spawner_orb_dropped() -> void:

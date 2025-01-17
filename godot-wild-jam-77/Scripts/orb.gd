@@ -2,16 +2,24 @@ class_name Orb extends Node2D
 
 signal combo_made_with(ids: Array[String], result: OrbType)
 
+@export_category("orb parameters")
 @export var weight_factor: float = 1.0
+@export var impulse_speed: float = 10.0
+@export var radius_offset: float = 100.0
+
+@export_category("obj references")
 @export var body: OrbBody
 @export var background: OrbBackground
 @export var collision_shape: CollisionShape2D
-@export var can_combo_delay: int = 2 ## Delay after spawning before it can be used in a combo
+@export var label: Label
+@export var orb_shader_background: ColorRect
+@export var impulse_area: ImpulseArea
+@export var impulse_collision_shape: CollisionShape2D
 @export var orb_hover : OrbHover
 
 ## Set to see debug info
+@export_category("debug")
 @export var is_debug: bool = false
-@onready var debug_weight_label = %DEBUG_WEIGHT_LABEL
 
 const uuid_util = preload("res://addons/uuid/uuid.gd")
 
@@ -22,7 +30,9 @@ var weight
 var allowed_combos = [{}] ## Array[{OrbType.ORB_TYPE:Count}], default is none
 var combo_results = [] ## Array[OrbType.ORB_TYPE] - matches index of allowed_combo, default is none
 var type: OrbType.ORB_TYPE
+var label_text: String
 var can_combo = false
+var should_impulse = false
 
 var id: String = str(uuid_util.v4())
 var colliding_orbs: Array[Orb]
@@ -31,11 +41,22 @@ var colliding_orbs: Array[Orb]
 func _ready() -> void:
 	background.background_color = color
 	background.radius = radius
+	orb_shader_background.orb_color = color
+	orb_shader_background.radius = radius
 	collision_shape.shape.radius = radius
+	impulse_collision_shape.shape.radius = radius + radius_offset
 	body.mass = weight * weight_factor
-		
+	label.text = label_text
+	label.add_theme_font_size_override("font_size", radius - 1.0)
+	
+	if type == OrbType.ORB_TYPE.WATER or type == OrbType.ORB_TYPE.FIRE:
+		impulse_area.queue_free()
+	
+	if should_impulse:
+		impulse_area.apply_impulse(impulse_speed)
+	
 	if is_debug:
-		debug_weight_label.text = str(weight)
+		label.text = str(weight)
 
 func _on_orb_body_entered(colliding_body: Node) -> void:
 	if colliding_body is OrbBody:
@@ -188,6 +209,9 @@ func debug_print(chain: ComboChain, message: String = "") -> void:
 	print("Chain Types:" + (type_summary if type_summary else "\n    Empty chain"))
 	print("Chain IDs: " + str(chain.orb_ids))
 	print("==================\n")
+
+func _on_impulse_area_impulse_finished():
+	impulse_area.queue_free()
 
 func _on_hover_area_2d_mouse_entered() -> void:
 	var props = OrbType.OrbProperties.new()

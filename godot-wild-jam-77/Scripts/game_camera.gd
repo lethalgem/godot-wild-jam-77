@@ -1,6 +1,6 @@
 class_name GameCamera extends Camera2D
 
-@export var starting_strength: float = 30.0
+@export var shake_range: float = 30.0
 @export var shake_fade_rate: float = 5.0
 
 var rng = RandomNumberGenerator.new()
@@ -8,8 +8,12 @@ var shake_strength: float = 0.0
 @onready var original_position: Vector2 = offset
 
 func apply_shake():
-	print(original_position)
-	shake_strength = starting_strength
+	shake_strength = shake_range
+	
+	var tween = create_tween()
+	tween.tween_property(self, "zoom", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_interval(0.1)
+	tween.tween_property(self, "zoom", Vector2(1.0, 1.0), 0.1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
