@@ -8,6 +8,7 @@ signal is_not_hovered
 @export var weight_factor: float = 1.0
 @export var impulse_speed: float = 10.0
 @export var radius_offset: float = 100.0
+@export var hover_radius_offset : float = 10.0
 
 @export_category("obj references")
 @export var body: OrbBody
@@ -18,6 +19,8 @@ signal is_not_hovered
 @export var impulse_area: ImpulseArea
 @export var impulse_collision_shape: CollisionShape2D
 @export var orb_hover : OrbHover
+@export var hover_shape : CollisionShape2D
+
 
 ## Set to see debug info
 @export_category("debug")
@@ -47,6 +50,7 @@ func _ready() -> void:
 	orb_shader_background.radius = radius
 	collision_shape.shape.radius = radius
 	impulse_collision_shape.shape.radius = radius + radius_offset
+	hover_shape.shape.radius = radius + hover_radius_offset
 	body.mass = weight * weight_factor
 	label.text = label_text
 	label.add_theme_font_size_override("font_size", radius - 1.0)
