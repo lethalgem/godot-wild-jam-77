@@ -45,6 +45,7 @@ shader_parameter/mana_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kq8il"]
 resource_local_to_scene = true
+radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4alf7"]
 resource_local_to_scene = true

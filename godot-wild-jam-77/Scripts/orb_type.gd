@@ -10,6 +10,8 @@ enum ORB_TYPE {
 	GOLD,
 	DIAMOND,
 	LIGHTNING,
+	THUNDER,
+	FIN
 }
 
 class OrbProperties:
@@ -45,7 +47,7 @@ class OrbProperties:
 				
 			# Join the requirements with commas and add the result
 			combo_text = ", ".join(requirements)
-			combo_text += " -> %s" % OrbType.ORB_TYPE.keys()[2]
+			combo_text += " -> %s" % OrbType.ORB_TYPE.keys()[i]
 			
 			formatted_combos.append(combo_text)
 		
@@ -57,13 +59,39 @@ class Fire extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.FIRE
 		properties.color = Color.RED
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2,ORB_TYPE.FIRE:1},
-		{ORB_TYPE.GRASS: 1, ORB_TYPE.FIRE: 2},
-		{ORB_TYPE.GOLD: 1, ORB_TYPE.FIRE: 2,ORB_TYPE.WATER: 1},
-		{ORB_TYPE.LIGHTNING: 1,ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 1},
-		{ORB_TYPE.DIAMOND: 1, ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 2}]
-		properties.combo_results = [GRASS, GOLD, LIGHTNING,GRASS,LIGHTNING]
 		properties.label_text = "F"
+		properties.allowed_combos = [
+		#GRASS
+		{
+			ORB_TYPE.FIRE: 1,
+			ORB_TYPE.WATER:2
+			},
+		{
+			ORB_TYPE.FIRE: 2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.FIN: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:1
+			},
+		#GOLD
+		{
+			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.FIRE: 2
+			},
+		{
+			ORB_TYPE.GOLD:1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.DIAMOND:1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:2
+			}
+		]
+		properties.combo_results = [GRASS,GRASS,GRASS,GOLD,LIGHTNING,LIGHTNING]
 		
 class Water extends OrbType:
 	var properties = OrbProperties.new()
@@ -71,13 +99,40 @@ class Water extends OrbType:
 	func _init() -> void:
 		properties.type = ORB_TYPE.WATER
 		properties.color = Color.AQUA
-		properties.allowed_combos = [{ORB_TYPE.WATER: 2, ORB_TYPE.FIRE: 1},
-		{ORB_TYPE.WATER: 2,ORB_TYPE.GRASS:1},
-		{ORB_TYPE.GOLD: 1, ORB_TYPE.FIRE: 2, ORB_TYPE.WATER: 1},
-		{ORB_TYPE.LIGHTNING: 1,ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 1},
-		{ORB_TYPE.DIAMOND: 1, ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 2}]
-		properties.combo_results = [GRASS, DIAMOND, LIGHTNING,GRASS,LIGHTNING]
 		properties.label_text = "W"
+		properties.allowed_combos = [
+		#GRASS
+		{
+			ORB_TYPE.FIRE: 1,
+			ORB_TYPE.WATER:2
+			},
+		{
+			ORB_TYPE.FIRE: 2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.FIN: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:1
+			},
+		#DIAMOND
+		{
+			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.WATER: 2
+			},
+		#LIGHTNING
+		{
+			ORB_TYPE.GOLD:1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.DIAMOND:1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:2
+			}
+		]
+		properties.combo_results = [GRASS,GRASS,GRASS,DIAMOND,LIGHTNING,LIGHTNING]
 
 class GRASS extends OrbType:
 	var properties = OrbProperties.new()
@@ -87,22 +142,46 @@ class GRASS extends OrbType:
 		properties.weight = 40
 		properties.color = Color.GREEN
 		properties.radius = 60.0
-		properties.allowed_combos = [{ORB_TYPE.GRASS: 1, ORB_TYPE.FIRE: 2},
-		{ORB_TYPE.WATER: 2,ORB_TYPE.GRASS:1}]
-		properties.combo_results = [GOLD, DIAMOND]
 		properties.label_text = "G"
+		properties.allowed_combos = [
+		#GOLD
+		{
+			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.FIRE: 2
+			},
+		#DIAMOND
+		{
+			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.WATER: 2
+			},
+		#LIGHTNING
+		{
+			ORB_TYPE.GRASS: 3
+			}
+		]
+		properties.combo_results = [GOLD,DIAMOND,LIGHTNING]
 
 class GOLD extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
 		properties.type = ORB_TYPE.GOLD
-		properties.weight = 100
+		properties.weight = 300
 		properties.color = Color.GOLD
 		properties.radius = 70.0
-		properties.allowed_combos = [{ORB_TYPE.GOLD: 1, ORB_TYPE.FIRE: 2, ORB_TYPE.WATER: 1}]
-		properties.combo_results = [LIGHTNING]
 		properties.label_text = "Au"
+		properties.allowed_combos = [
+			#LIGHTNING
+			{
+				ORB_TYPE.GOLD:2
+				},
+			{
+				ORB_TYPE.GOLD:1,
+				ORB_TYPE.FIRE:2,
+				ORB_TYPE.WATER:1
+				}
+			]
+		properties.combo_results = [LIGHTNING,LIGHTNING]
 
 class DIAMOND extends OrbType:
 	var properties = OrbProperties.new()
@@ -112,18 +191,77 @@ class DIAMOND extends OrbType:
 		properties.weight = 300
 		properties.color = Color.LIGHT_BLUE
 		properties.radius = 80.0
-		properties.allowed_combos = [{ORB_TYPE.DIAMOND: 1, ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 2}]
-		properties.combo_results = [LIGHTNING]
 		properties.label_text = "D"
+		properties.allowed_combos = [
+			#LIGHTNING
+			{
+				ORB_TYPE.DIAMOND:2
+				},
+			{
+				ORB_TYPE.DIAMOND:1,
+				ORB_TYPE.FIRE:1,
+				ORB_TYPE.WATER:2
+				}
+			]
+		properties.combo_results = [THUNDER,THUNDER]
 
 class LIGHTNING extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
 		properties.type = ORB_TYPE.LIGHTNING
-		properties.weight = 300
+		properties.weight = 1000
 		properties.color = Color.GHOST_WHITE
 		properties.radius = 120.0
-		properties.allowed_combos = [{ORB_TYPE.LIGHTNING: 1,ORB_TYPE.FIRE: 1, ORB_TYPE.WATER: 1}]
-		properties.combo_results = [GRASS]
 		properties.label_text = "L"
+		properties.allowed_combos = [
+		#FIN
+		{
+			ORB_TYPE.LIGHTNING: 2
+			},
+		{
+			ORB_TYPE.LIGHTNING: 1,
+			ORB_TYPE.THUNDER:1
+			}
+		]
+		properties.combo_results = [FIN,FIN]
+
+class THUNDER extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.THUNDER
+		properties.weight = 1000
+		properties.color = Color.BLUE_VIOLET
+		properties.radius = 120.0
+		properties.label_text = "Th"
+		properties.allowed_combos = [
+		#FIN
+		{
+			ORB_TYPE.THUNDER: 2
+			},
+		{
+			ORB_TYPE.LIGHTNING: 1,
+			ORB_TYPE.THUNDER:1
+			}
+		]
+		properties.combo_results = [FIN,FIN]
+
+class FIN extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.FIN
+		properties.weight = 5000
+		properties.color = Color.BLACK
+		properties.radius = 160.0
+		properties.label_text = "Th"
+		properties.allowed_combos = [
+		#GRASS
+		{
+			ORB_TYPE.FIN: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:1
+			}
+		]
+		properties.combo_results = [GRASS]
