@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bqxsfeowsqdtg"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_fhcrr"]
-[ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/GUI/GUI.png" id="2_7bq1n"]
+[ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="2_7bq1n"]
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_per46"]
 [ext_resource type="LabelSettings" uid="uid://bcajl43rhib1o" path="res://themes/end_game_label_settings.tres" id="4_tgqqd"]
 
