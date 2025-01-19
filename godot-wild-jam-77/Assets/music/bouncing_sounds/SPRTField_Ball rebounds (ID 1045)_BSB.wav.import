@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://s1ibtkv88l1e"
+path="res://.godot/imported/SPRTField_Ball rebounds (ID 1045)_BSB.wav-0e1f112366932f10d56d999b5e0fdd39.sample"
+
+[deps]
+
+source_file="res://assets/music/bouncing_sounds/SPRTField_Ball rebounds (ID 1045)_BSB.wav"
+dest_files=["res://.godot/imported/SPRTField_Ball rebounds (ID 1045)_BSB.wav-0e1f112366932f10d56d999b5e0fdd39.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

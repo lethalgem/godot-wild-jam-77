@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cdqs7mc711ujp"
+path="res://.godot/imported/SPRTField_Balloon against wall 2 (ID 1826)_BSB.wav-515eec9c14a7c85aa4234624b9cacaa8.sample"
+
+[deps]
+
+source_file="res://assets/music/bouncing_sounds/SPRTField_Balloon against wall 2 (ID 1826)_BSB.wav"
+dest_files=["res://.godot/imported/SPRTField_Balloon against wall 2 (ID 1826)_BSB.wav-515eec9c14a7c85aa4234624b9cacaa8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

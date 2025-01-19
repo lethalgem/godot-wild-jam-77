@@ -20,6 +20,7 @@ signal is_not_hovered
 @export var impulse_collision_shape: CollisionShape2D
 @export var orb_hover : OrbHover
 @export var hover_shape : CollisionShape2D
+@export var bounce_audio_player: AudioStreamPlayer
 
 
 ## Set to see debug info
@@ -73,6 +74,7 @@ func _on_orb_body_entered(colliding_body: Node) -> void:
 		colliding_orbs.append(colliding_body.get_orb())
 		if allowed_combos != null:
 			check_for_combo()
+	bounce_audio_player.play()
 
 func check_for_combo() -> void:
 	if can_combo:
