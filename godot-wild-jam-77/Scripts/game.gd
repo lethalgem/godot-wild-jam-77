@@ -1,10 +1,10 @@
 class_name Game extends Node
 
 @export_group("Game Settings")
-@export var initial_goal_weight: float = 10 ## weight BEFORE global weight multiplier applied
+@export var initial_goal_weight: float = 100 ## weight BEFORE global weight multiplier applied
 @export var goal_exp_factor: float = 1.1 ## Exponent for how rapidly the score required grows
 @export var initial_turn_limit: int = 10
-@export var turn_limit_increase: int = 5
+@export var turn_limit_increase: int = 10
 
 @export_group("Obj references")
 @export var orb_manager: OrbManager
@@ -74,16 +74,15 @@ func _physics_process(_delta: float) -> void:
 func _on_scale_goal_weight_achieved() -> void:
 	# force another orb into the player's hand if they ran out of orbs
 	var should_give_new_orb = false
+	var weight_goal_exponent = int(log(weight_threshold)/log(10))
 	if turn_limit < 0:
 		should_give_new_orb = true
-	
-	if weight_threshold >10000000:
-			goal_exp_factor = 0.5
-	scale.goal_weight = scale.goal_weight + scale.goal_weight ** goal_exp_factor
+
+	scale.goal_weight = 2*scale.goal_weight + scale.goal_weight ** goal_exp_factor/2
+	if weight_goal_exponent > 6:
+		turn_limit_increase = 20
 	weight_threshold = scale.goal_weight
-	if weight_threshold > 1500000:
-		turn_limit_increase = 12
-		
+	turn_limit_increase += turn_limit_increase*(weight_goal_exponent/7)
 	turn_limit += turn_limit_increase
 
 	if should_give_new_orb:

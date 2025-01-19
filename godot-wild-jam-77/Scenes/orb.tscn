@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://8ntxma51n5sr"]
+[gd_scene load_steps=22 format=3 uid="uid://8ntxma51n5sr"]
 
 [ext_resource type="Script" path="res://scripts/orb.gd" id="1_h6akx"]
 [ext_resource type="Shader" path="res://shaders/mana_orb.gdshader" id="2_dp68v"]
@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://s1ibtkv88l1e" path="res://assets/music/bouncing_sounds/SPRTField_Ball rebounds (ID 1045)_BSB.wav" id="8_85njl"]
 [ext_resource type="AudioStream" uid="uid://sqt175ut8clb" path="res://assets/music/bouncing_sounds/SPRTField_Balloon against wall 1 (ID 1825)_BSB.wav" id="9_yhwek"]
 [ext_resource type="AudioStream" uid="uid://cdqs7mc711ujp" path="res://assets/music/bouncing_sounds/SPRTField_Balloon against wall 2 (ID 1826)_BSB.wav" id="10_fpjt5"]
+[ext_resource type="AudioStream" uid="uid://ck4dv62myef8g" path="res://assets/music/bouncing_sounds/42364__mccarthybedmascom__pool-ball-bounce-off-rail.wav" id="11_wbieq"]
+[ext_resource type="AudioStream" uid="uid://bbsccsup23g4b" path="res://assets/music/bouncing_sounds/319783__zmobie__basketball-8.wav" id="12_d8bok"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l8bvh"]
 
@@ -48,7 +50,6 @@ shader_parameter/mana_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kq8il"]
 resource_local_to_scene = true
-radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4alf7"]
 resource_local_to_scene = true
@@ -58,10 +59,12 @@ resource_local_to_scene = true
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o2tj2"]
 playback_mode = 1
-streams_count = 3
+streams_count = 5
 stream_0/stream = ExtResource("8_85njl")
 stream_1/stream = ExtResource("9_yhwek")
 stream_2/stream = ExtResource("10_fpjt5")
+stream_3/stream = ExtResource("11_wbieq")
+stream_4/stream = ExtResource("12_d8bok")
 
 [node name="Orb" type="Node2D" node_paths=PackedStringArray("body", "background", "collision_shape", "label", "orb_shader_background", "impulse_area", "impulse_collision_shape", "hover_shape", "bounce_audio_player")]
 script = ExtResource("1_h6akx")
@@ -143,7 +146,6 @@ stream = SubResource("AudioStreamRandomizer_o2tj2")
 volume_db = -25.0
 pitch_scale = 0.8
 bus = &"sfx"
-playback_type = 2
 
 [connection signal="body_entered" from="OrbBody" to="." method="_on_orb_body_entered"]
 [connection signal="body_exited" from="OrbBody" to="." method="_on_orb_body_exited"]

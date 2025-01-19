@@ -33,4 +33,3 @@ polygon = PackedVector2Array(0, 100, 0, 900, 1920, 900, 1920, 100)
 curve = SubResource("Curve2D_d26ut")
 
 [connection signal="body_entered" from="InsideArea2D" to="." method="_on_inside_area_2d_body_entered"]
-[connection signal="body_exited" from="InsideArea2D" to="." method="_on_inside_area_2d_body_exited"]

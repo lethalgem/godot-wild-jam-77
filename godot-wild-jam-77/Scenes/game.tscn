@@ -8,11 +8,11 @@
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="4_ipai6"]
 [ext_resource type="LabelSettings" uid="uid://con0iwkiabjyo" path="res://themes/in_game_labels.tres" id="4_ktmsk"]
 [ext_resource type="PackedScene" uid="uid://brblb43hf0puj" path="res://scenes/menu.tscn" id="5_rkbhr"]
-[ext_resource type="AudioStream" uid="uid://be1ya0beaiiqh" path="res://assets/audio/coins-sound-effect-1-241818.mp3" id="6_ap6lw"]
+[ext_resource type="AudioStream" uid="uid://bkg8ipt8qxefl" path="res://assets/music/336577__anthousai__coins-in-cloth-07.wav" id="6_m11ia"]
 [ext_resource type="FontFile" uid="uid://cdlqsjawviuc7" path="res://assets/correction_brush/CorrectionBrush.ttf" id="8_f1dkq"]
 [ext_resource type="AudioStream" uid="uid://mgpr6el7exl2" path="res://assets/audio/abstract-magic-whoosh-03-204485.mp3" id="9_esvba"]
 [ext_resource type="PackedScene" uid="uid://bqxsfeowsqdtg" path="res://scenes/endgame.tscn" id="10_r1tc8"]
-[ext_resource type="AudioStream" uid="uid://cvv3q3kdtsh3k" path="res://assets/music/good-night-lofi-cozy-chill-music-160166.mp3" id="11_x3s0b"]
+[ext_resource type="AudioStream" uid="uid://bptyjph1v0me8" path="res://assets/music/game-music-7408.mp3" id="11_s1u01"]
 [ext_resource type="AudioStream" uid="uid://dluh302k8p4bq" path="res://assets/audio/horror-body-drop-on-hay-01-152094.mp3" id="12_sjmr0"]
 [ext_resource type="Script" path="res://scripts/game_camera.gd" id="13_d1osd"]
 [ext_resource type="PackedScene" uid="uid://evm22oq5xl5d" path="res://scenes/orb_hover.tscn" id="16_mief8"]
@@ -139,8 +139,8 @@ vertical_alignment = 1
 script = ExtResource("4_b5un6")
 
 [node name="ScoreIncreasingAudioPlayer" type="AudioStreamPlayer" parent="Control/WeightLabelBackground"]
-stream = ExtResource("6_ap6lw")
-volume_db = -9.505
+stream = ExtResource("6_m11ia")
+volume_db = -15.0
 bus = &"sfx"
 
 [node name="FPSLabel" type="Label" parent="Control"]
@@ -196,10 +196,11 @@ volume_db = -25.0
 bus = &"sfx"
 
 [node name="MusicAudioPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_x3s0b")
+stream = ExtResource("11_s1u01")
 volume_db = -20.0
 autoplay = true
 bus = &"music"
+parameters/looping = true
 
 [node name="DropAudioPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_sjmr0")

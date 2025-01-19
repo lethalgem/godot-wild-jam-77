@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://brblb43hf0puj"]
+[gd_scene load_steps=10 format=3 uid="uid://brblb43hf0puj"]
 
 [ext_resource type="Texture2D" uid="uid://d37qt8dmnrylr" path="res://assets/gui/GUI.png" id="1_uqs6n"]
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_urwrh"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://b52opryrfyka6" path="res://assets/correction_brush/CorrectionBrush.otf" id="3_73elo"]
 [ext_resource type="PackedScene" uid="uid://g2p5wijck5q4" path="res://scenes/volume_slider.tscn" id="3_jm2q5"]
 [ext_resource type="LabelSettings" uid="uid://d36hhjurk8hth" path="res://themes/MenuLabel.tres" id="4_7wlqq"]
+[ext_resource type="AudioStream" uid="uid://b1njf0xbnpn2h" path="res://assets/music/565903__crazybeatsinc__wet-button-sound-effect.wav" id="7_cnuqg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slw4q"]
 texture = ExtResource("1_uqs6n")
@@ -128,6 +129,11 @@ theme_override_fonts/font = ExtResource("3_73elo")
 theme_override_font_sizes/font_size = 45
 text = "Restart"
 flat = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GridContainer/HBoxContainer"]
+stream = ExtResource("7_cnuqg")
+volume_db = -10.0
+bus = &"sfx"
 
 [connection signal="pressed" from="GridContainer/HBoxContainer/Resume" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="GridContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]

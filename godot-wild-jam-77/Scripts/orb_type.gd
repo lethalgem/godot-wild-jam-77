@@ -6,12 +6,15 @@ class_name OrbType
 enum ORB_TYPE {
 	FIRE,
 	WATER,
-	GRASS,
+	EARTH,
 	GOLD,
 	DIAMOND,
 	LIGHTNING,
 	THUNDER,
-	FIN
+	STEEL,
+	PLASMA,
+	OBSIDIAN,
+	VOID
 }
 
 class OrbProperties:
@@ -47,7 +50,7 @@ class OrbProperties:
 				
 			# Join the requirements with commas and add the result
 			combo_text = ", ".join(requirements)
-			combo_text += " -> %s" % OrbType.ORB_TYPE.keys()[i]
+			#combo_text += " -> %s" % 
 			
 			formatted_combos.append(combo_text)
 		
@@ -61,7 +64,7 @@ class Fire extends OrbType:
 		properties.color = Color.RED
 		properties.label_text = "F"
 		properties.allowed_combos = [
-		#GRASS
+		#EARTH
 		{
 			ORB_TYPE.FIRE: 1,
 			ORB_TYPE.WATER:2
@@ -71,14 +74,33 @@ class Fire extends OrbType:
 			ORB_TYPE.WATER:1
 			},
 		{
-			ORB_TYPE.FIN: 1,
+			ORB_TYPE.VOID: 1,
 			ORB_TYPE.FIRE:1,
 			ORB_TYPE.WATER:1
 			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:2
+			},
+			{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			},
 		#GOLD
 		{
-			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.EARTH: 1,
 			ORB_TYPE.FIRE: 2
+			},
+		{
+			ORB_TYPE.EARTH: 1,
+			ORB_TYPE.FIRE: 3
 			},
 		{
 			ORB_TYPE.GOLD:1,
@@ -89,10 +111,32 @@ class Fire extends OrbType:
 			ORB_TYPE.DIAMOND:1,
 			ORB_TYPE.FIRE:1,
 			ORB_TYPE.WATER:2
+			},
+		#PLASMA
+		{
+			ORB_TYPE.LIGHTNING: 1,
+			ORB_TYPE.FIRE: 2,
+			},
+		#VOID
+		{
+			ORB_TYPE.PLASMA: 1,
+			ORB_TYPE.FIRE: 2,
+			ORB_TYPE.WATER: 1
+			},
+		{
+			ORB_TYPE.OBSIDIAN: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			},
+		{
+			ORB_TYPE.STEEL: 1,
+			ORB_TYPE.FIRE: 1,
+			ORB_TYPE.WATER: 2
 			}
 		]
-		properties.combo_results = [GRASS,GRASS,GRASS,GOLD,LIGHTNING,LIGHTNING]
-		
+		properties.combo_results = [EARTH,EARTH,EARTH,EARTH,EARTH,EARTH,GOLD,GOLD,LIGHTNING,LIGHTNING,PLASMA,VOID,VOID,VOID]
+
+	
 class Water extends OrbType:
 	var properties = OrbProperties.new()
 	
@@ -101,7 +145,7 @@ class Water extends OrbType:
 		properties.color = Color.AQUA
 		properties.label_text = "W"
 		properties.allowed_combos = [
-		#GRASS
+		#EARTH
 		{
 			ORB_TYPE.FIRE: 1,
 			ORB_TYPE.WATER:2
@@ -111,14 +155,33 @@ class Water extends OrbType:
 			ORB_TYPE.WATER:1
 			},
 		{
-			ORB_TYPE.FIN: 1,
+			ORB_TYPE.VOID: 1,
 			ORB_TYPE.FIRE:1,
 			ORB_TYPE.WATER:1
 			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:2
+			},
+			{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			},
 		#DIAMOND
 		{
-			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.EARTH: 1,
 			ORB_TYPE.WATER: 2
+			},
+		{
+			ORB_TYPE.EARTH: 1,
+			ORB_TYPE.WATER: 3
 			},
 		#LIGHTNING
 		{
@@ -130,37 +193,68 @@ class Water extends OrbType:
 			ORB_TYPE.DIAMOND:1,
 			ORB_TYPE.FIRE:1,
 			ORB_TYPE.WATER:2
+			},
+		#STEEL
+		{
+			ORB_TYPE.THUNDER: 1,
+			ORB_TYPE.WATER: 2
+			},
+		#VOID
+		{
+			ORB_TYPE.PLASMA: 1,
+			ORB_TYPE.FIRE: 2,
+			ORB_TYPE.WATER: 1
+			},
+		{
+			ORB_TYPE.OBSIDIAN: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			},
+		{
+			ORB_TYPE.STEEL: 1,
+			ORB_TYPE.FIRE: 1,
+			ORB_TYPE.WATER: 2
 			}
 		]
-		properties.combo_results = [GRASS,GRASS,GRASS,DIAMOND,LIGHTNING,LIGHTNING]
+		properties.combo_results = [EARTH,EARTH,EARTH,EARTH,EARTH,EARTH,DIAMOND,DIAMOND,LIGHTNING,LIGHTNING,STEEL,VOID,VOID,VOID]
 
-class GRASS extends OrbType:
+	
+class EARTH extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
-		properties.type = ORB_TYPE.GRASS
+		properties.type = ORB_TYPE.EARTH
 		properties.weight = 40
 		properties.color = Color.GREEN
 		properties.radius = 60.0
-		properties.label_text = "G"
+		properties.label_text = "E"
 		properties.allowed_combos = [
 		#GOLD
 		{
-			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.EARTH: 1,
 			ORB_TYPE.FIRE: 2
+			},
+		{
+			ORB_TYPE.EARTH: 1,
+			ORB_TYPE.FIRE: 3
 			},
 		#DIAMOND
 		{
-			ORB_TYPE.GRASS: 1,
+			ORB_TYPE.EARTH: 1,
 			ORB_TYPE.WATER: 2
+			},
+		{
+			ORB_TYPE.EARTH: 1,
+			ORB_TYPE.WATER: 3
 			},
 		#LIGHTNING
 		{
-			ORB_TYPE.GRASS: 3
+			ORB_TYPE.EARTH: 3
 			}
 		]
-		properties.combo_results = [GOLD,DIAMOND,LIGHTNING]
+		properties.combo_results = [GOLD,GOLD,DIAMOND,DIAMOND,LIGHTNING]
 
+	
 class GOLD extends OrbType:
 	var properties = OrbProperties.new()
 	
@@ -183,6 +277,7 @@ class GOLD extends OrbType:
 			]
 		properties.combo_results = [LIGHTNING,LIGHTNING]
 
+	
 class DIAMOND extends OrbType:
 	var properties = OrbProperties.new()
 	
@@ -205,63 +300,156 @@ class DIAMOND extends OrbType:
 			]
 		properties.combo_results = [THUNDER,THUNDER]
 
+	
 class LIGHTNING extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
 		properties.type = ORB_TYPE.LIGHTNING
-		properties.weight = 1000
-		properties.color = Color.GHOST_WHITE
+		properties.weight = 600
+		properties.color = Color.KHAKI
 		properties.radius = 120.0
 		properties.label_text = "L"
 		properties.allowed_combos = [
-		#FIN
+		#PLASMA
 		{
 			ORB_TYPE.LIGHTNING: 2
 			},
 		{
 			ORB_TYPE.LIGHTNING: 1,
+			ORB_TYPE.FIRE: 2,
+			},
+		#OBSIDIAN
+		{
+			ORB_TYPE.LIGHTNING: 1,
 			ORB_TYPE.THUNDER:1
-			}
+			},
 		]
-		properties.combo_results = [FIN,FIN]
+		properties.combo_results = [PLASMA,PLASMA,OBSIDIAN]
 
+		
 class THUNDER extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
 		properties.type = ORB_TYPE.THUNDER
-		properties.weight = 1000
-		properties.color = Color.BLUE_VIOLET
+		properties.weight = 600
+		properties.color = Color.DARK_MAGENTA
 		properties.radius = 120.0
 		properties.label_text = "Th"
 		properties.allowed_combos = [
-		#FIN
+		#STEEL
 		{
 			ORB_TYPE.THUNDER: 2
 			},
+		{
+			ORB_TYPE.THUNDER: 1,
+			ORB_TYPE.WATER: 2
+			},
+		#OBSIDIAN
 		{
 			ORB_TYPE.LIGHTNING: 1,
 			ORB_TYPE.THUNDER:1
 			}
 		]
-		properties.combo_results = [FIN,FIN]
-
-class FIN extends OrbType:
+		properties.combo_results = [STEEL,STEEL,OBSIDIAN]
+		
+class STEEL extends OrbType:
 	var properties = OrbProperties.new()
 	
 	func _init() -> void:
-		properties.type = ORB_TYPE.FIN
-		properties.weight = 5000
-		properties.color = Color.BLACK
-		properties.radius = 160.0
-		properties.label_text = "Th"
+		properties.type = ORB_TYPE.STEEL
+		properties.weight = 1000
+		properties.color = Color.DARK_CYAN
+		properties.radius = 150.0
+		properties.label_text = "FE"
 		properties.allowed_combos = [
-		#GRASS
+		#VOID
 		{
-			ORB_TYPE.FIN: 1,
-			ORB_TYPE.FIRE:1,
-			ORB_TYPE.WATER:1
+			ORB_TYPE.STEEL: 2
+			},
+		{
+			ORB_TYPE.STEEL: 1,
+			ORB_TYPE.FIRE: 1,
+			ORB_TYPE.WATER: 2
 			}
 		]
-		properties.combo_results = [GRASS]
+		properties.combo_results = [VOID,VOID]
+
+class PLASMA extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.PLASMA
+		properties.weight = 1000
+		properties.color = Color.MEDIUM_SPRING_GREEN
+		properties.radius = 150.0
+		properties.label_text = "PL"
+		properties.allowed_combos = [
+		#VOID
+		{
+			ORB_TYPE.PLASMA: 2
+			},
+		{
+			ORB_TYPE.PLASMA: 1,
+			ORB_TYPE.FIRE: 2,
+			ORB_TYPE.WATER: 1
+			}
+		]
+		properties.combo_results = [VOID,VOID]
+		
+class OBSIDIAN extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.OBSIDIAN
+		properties.weight = 2000
+		properties.color = Color.INDIGO
+		properties.radius = 170.0
+		properties.label_text = "OB"
+		properties.allowed_combos = [
+		#VOID
+		{
+			ORB_TYPE.OBSIDIAN: 2
+			},
+		{
+			ORB_TYPE.OBSIDIAN: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			},
+		]
+		properties.combo_results = [VOID,VOID]
+	
+class VOID extends OrbType:
+	var properties = OrbProperties.new()
+	
+	func _init() -> void:
+		properties.type = ORB_TYPE.VOID
+		properties.weight = 5000
+		properties.color = Color.BLACK
+		properties.radius = 200.0
+		properties.label_text = "V"
+		properties.allowed_combos = [
+		#EARTH
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:1
+			},
+		{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:1,
+			ORB_TYPE.WATER:2
+			},
+			{
+			ORB_TYPE.VOID: 1,
+			ORB_TYPE.FIRE:2,
+			ORB_TYPE.WATER:2
+			}
+		]
+		properties.combo_results = [EARTH,EARTH,EARTH,EARTH]
