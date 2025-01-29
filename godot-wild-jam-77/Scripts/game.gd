@@ -49,7 +49,7 @@ var weight_threshold: float:
 	get:
 		return weight_threshold
 	set(new_val):
-		weight_threshold_label.update_text(str(int(scale.goal_weight)))
+		#weight_threshold_label.update_text(str(int(scale.goal_weight)))
 		weight_threshold = new_val
 
 var current_weight: float:
@@ -61,7 +61,7 @@ var current_weight: float:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	scale.goal_weight = initial_goal_weight * Globals.weight_score_multiplier
+	#scale.goal_weight = initial_goal_weight * Globals.weight_score_multiplier
 	weight_threshold = initial_goal_weight * Globals.weight_score_multiplier
 	orb_manager.spawn_limit = initial_turn_limit
 	turn_limit = initial_turn_limit

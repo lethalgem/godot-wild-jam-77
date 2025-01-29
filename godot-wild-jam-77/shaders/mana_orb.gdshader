@@ -58,37 +58,37 @@ float smoothcircle(float d, float radius, float circlewidth, float smoothing){
 
 void fragment() {
 	vec2 st = (UV - .5) * 2.0;
-	
+
 	//polar coordinate from center
 	float d = length(st);
 	float angle = atan( st.x, st.y) / TAU;
-	
+
 	//border mask
 	float ratio = min( 1.0, max_mana / rank_advance_mana);
 	ratio *= inset;
 	float noise_value1 = texture( noise,
 			vec2( fract( TIME * border_speed), fract(angle - TIME * border_speed))).r - .5;
 	noise_value1 /= 10.0;
-	float noise_value2 = texture( noise, 
-			vec2( fract( angle + TIME * border_speed * 5.0), fract(TIME * border_speed))).r - .5; 
+	float noise_value2 = texture( noise,
+			vec2( fract( angle + TIME * border_speed * 5.0), fract(TIME * border_speed))).r - .5;
 	noise_value2 /= 12.0;
 	float noise_value = noise_value1 + noise_value2;
 	float max_mana_mask = circle( d, ratio + noise_value, border_width);
 	float lerp = ( inverse_lerp(ratio + noise_value, ratio + noise_value + border_width, d) );
 	max_mana_mask *= lerp * lerp;
-	
+
 	//groove mask
 	float groovy_mask = circle( d, 0.0, ratio + noise_value + border_width);
 	float groovy_noise_value = texture( groovy_noise, fract(UV+TIME * groove_speed)).x;
-	groovy_noise_value = lines( rotate2d(groovy_noise_value * 3.0) 
+	groovy_noise_value = lines( rotate2d(groovy_noise_value * 3.0)
 			* (st + vec2( 0.0, sin(TIME * groove_speed))), groove_distance, groove_width);
 	groovy_mask *= groovy_noise_value;
-	
+
 	//mana mask
 	float mana_ratio = (current_mana / max_mana) * ratio * 1.05;
-	float mana_mask = smoothcircle( d - noise_value1 * d * 2.0, -0.05, mana_ratio + .1, 0.05) 
+	float mana_mask = smoothcircle( d - noise_value1 * d * 2.0, -0.05, mana_ratio + .1, 0.05)
 		* float(d < ratio + noise_value + border_width  / 1.5) ;
-	
+
 	//blending colors
 	vec4 color = vec4(0.0);
 	if(max_mana_mask > 0.0){

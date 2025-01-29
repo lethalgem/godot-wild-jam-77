@@ -234,10 +234,8 @@ func _on_hover_area_2d_mouse_entered() -> void:
 	var combo_text = ""
 	for combo in combo_arr:
 		combo_text += combo+"\n"
-	print("Hovering over: ", orb_type, "Combos: ", combo_arr)
 	if combo_arr == []:
 		combo_text = "THIS ORB IS IN ITS FINAL FORM" 
-	print("Signal -> orb_type ", orb_type, "Combos: ", combo_text)
 	is_hovered.emit(orb_type, combo_text)
 
 func _on_hover_area_2d_mouse_exited() -> void:

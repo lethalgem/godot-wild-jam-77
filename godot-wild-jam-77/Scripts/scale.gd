@@ -7,10 +7,10 @@ signal updated_weight(weight: float)
 @export var goal_weight: float = 100
 
 @export_category("obj references")
-@onready var polygon_2d = $Polygon2D
-@onready var bowl_collision_polygon_2d = $BowlCollisionPolygon2D
-@onready var area_2d = $InsideArea2D
-@onready var path_2d = $Path2D
+@export var polygon_2d: Polygon2D
+@export var bowl_collision_polygon_2d: CollisionPolygon2D
+@export var area_2d: Area2D
+@export var path_2d: Path2D
 
 var point_popup_scene = preload("res://scenes/point_popup.tscn")
 var type_count = {}
@@ -36,7 +36,6 @@ func calculate_weight():
 	if total_weight >= goal_weight:
 		goal_weight_achieved.emit()
 		if total_weight / goal_weight < 0.2:
-			print("working when new weight smaller than .2 of nwe gold weight")
 			for type in type_count.keys():
 				total_weight += type_count[type] * type_weights[type] * Globals.weight_score_multiplier*(10*(goal_weight/total_weight))
 
@@ -58,12 +57,3 @@ func _on_inside_area_2d_body_entered(body: Node2D):
 		point_popup_instance.global_position = Vector2(body.global_position.x - 960, body.global_position.y)
 		point_popup_instance.point_value = body.orb.weight
 		add_child(point_popup_instance)
-
-#func _on_inside_area_2d_body_exited(body: Node2D):
-	#if body is OrbBody:
-		#var orb = body.get_orb()
-		#if type_count.has(orb.type):
-			#var count = type_count[orb.type]
-			#count -= 1
-			#type_count[orb.type] = count
-			#calculate_weight()
