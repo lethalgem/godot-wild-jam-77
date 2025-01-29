@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ck27qvjw8pj75"]
 
-[ext_resource type="PackedScene" uid="uid://cq6aoqlr6hf7" path="res://scenes/scale.tscn" id="1_bk8qg"]
+[ext_resource type="PackedScene" uid="uid://bks6bwd6fvcpc" path="res://scenes/scale.tscn" id="1_bk8qg"]
 [ext_resource type="PackedScene" uid="uid://bppkaa3q3dejx" path="res://scenes/combo_test.tscn" id="2_7gvx7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b37um"]
@@ -22,7 +22,7 @@ position = Vector2(959, 995)
 shape = SubResource("RectangleShape2D_t5mpy")
 
 [node name="Scale" parent="." instance=ExtResource("1_bk8qg")]
-position = Vector2(597, 625)
+position = Vector2(159, -170)
 scale = Vector2(0.807525, 1.08305)
 
 [node name="ComboTest" parent="." instance=ExtResource("2_7gvx7")]

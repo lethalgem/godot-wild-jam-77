@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq6aoqlr6hf7"]
+[gd_scene load_steps=4 format=3 uid="uid://bks6bwd6fvcpc"]
 
 [ext_resource type="Script" path="res://scripts/scale.gd" id="1_3yq2i"]
-[ext_resource type="Script" path="res://scripts/scale_area.gd" id="2_txny6"]
 
 [sub_resource type="Curve2D" id="Curve2D_d26ut"]
 bake_interval = 0.01
@@ -10,26 +9,30 @@ _data = {
 }
 point_count = 10
 
-[node name="Scale" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6otuh"]
+size = Vector2(2184, 914)
+
+[node name="Scale" type="StaticBody2D" node_paths=PackedStringArray("polygon_2d", "bowl_collision_polygon_2d", "area_2d", "path_2d")]
 script = ExtResource("1_3yq2i")
+polygon_2d = NodePath("Polygon2D")
+bowl_collision_polygon_2d = NodePath("CollisionPolygon2D")
+area_2d = NodePath("Area2D")
+path_2d = NodePath("Path2D")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(0.14902, 0.168627, 0.266667, 1)
-polygon = PackedVector2Array(524.988, -128.313, 486.064, -118.826, 467.971, -89.4865, 457.702, -45.9658, 442.543, 7.82396, 433.252, 45.9658, 417.604, 69.9267, 381.418, 93.3985, 314.914, 100.733, 207.824, 105.134, 133.496, 106.112, 46.9438, 102.689, -34.7188, 94.8655, -80.1956, 74.3276, -97.3105, 34.2298, -111.002, -5.86797, -113.936, -52.8117, -113.936, -86.0636, -135.941, -111.002, -167.726, -124.694, -200.685, -128.313, -200.685, 149.927, 145.526, 153.839, 530.856, 148.46)
 
-[node name="BowlCollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2(-598.6, -595.6)
-polygon = PackedVector2Array(-137.4, 340.6, -137.4, 899.6, 1362.6, 910.6, 1333.6, 354.6)
-
-[node name="InsideArea2D" type="Area2D" parent="."]
-position = Vector2(0, 617)
-script = ExtResource("2_txny6")
-
-[node name="InsideAreaCollisionPolygon2D" type="CollisionPolygon2D" parent="InsideArea2D"]
-position = Vector2(-960, -250)
-polygon = PackedVector2Array(0, 100, 0, 900, 1920, 900, 1920, 100)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 
 [node name="Path2D" type="Path2D" parent="."]
+position = Vector2(960, 0)
 curve = SubResource("Curve2D_d26ut")
 
-[connection signal="body_entered" from="InsideArea2D" to="." method="_on_inside_area_2d_body_entered"]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(972, 819)
+shape = SubResource("RectangleShape2D_6otuh")
+debug_color = Color(0.941233, 0.177572, 0.424315, 0.42)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_inside_area_2d_body_entered"]

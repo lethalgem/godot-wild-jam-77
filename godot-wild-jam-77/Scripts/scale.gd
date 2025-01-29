@@ -53,7 +53,6 @@ func _on_inside_area_2d_body_entered(body: Node2D):
 			calculate_weight()
 		
 		var point_popup_instance: PointPopup = point_popup_scene.instantiate()
-		# The entire scale scene is offset by screen_size/2 (currently 1920/2)
-		point_popup_instance.global_position = Vector2(body.global_position.x - 960, body.global_position.y)
+		point_popup_instance.global_position = Vector2(body.global_position.x, body.global_position.y)
 		point_popup_instance.point_value = body.orb.weight
 		add_child(point_popup_instance)
